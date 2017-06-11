@@ -1,0 +1,8 @@
+# Vim
+tags
+*[._]s[a-w][a-z]
+.netrwhist
+Session.vim
+
+# Neovim
+rplugin.vim
