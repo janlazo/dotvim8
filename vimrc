@@ -1,7 +1,8 @@
-call default#init()
-
-if has('autocmd') && has('syntax')
+if has('autocmd')
+  call default#init()
   filetype plugin indent on
 endif
 
-colorscheme torte
+if has('syntax')
+  colorscheme torte
+endif
