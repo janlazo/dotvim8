@@ -27,12 +27,11 @@ function! s:ui() abort
   set showcmd noshowmode    " display last command, not current mode
 
   if has('statusline')
-    set statusline=                                 " reset
-    set statusline+=%t                              " tail of filename
-    set statusline+=\ %y                            " file type
-    set statusline+=[%{strlen(&fenc)?&fenc:'none'}  " file encoding
+    set statusline=%t                               " tail of filename
+    set statusline+=\ [%{strlen(&ft)?&ft:'none'}    " file type
+    set statusline+=,%{strlen(&fenc)?&fenc:'none'}  " file encoding
     set statusline+=,%{&ff}]                        " file format
-    set statusline+=[%H%W%R%M]                      " file status flags
+    set statusline+=[%R%M]                          " file status flags
     set statusline+=%=                              " right align
     set statusline+=[B:%n\|L:%l/%L\|C:%c]           " [buffer|line|column]
   endif
