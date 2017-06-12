@@ -15,10 +15,10 @@ function! s:ui() abort
   set display=lastline            " don't mangle last line of buffer
 
   " Left
-  set number numberwidth=4    " show all line nums (max = 999)
+  set numberwidth=4     " show all line nums (max = 999)
 
   if !has('win32unix')
-    set relativenumber        " slow in cygwin
+    set relativenumber  " slow in cygwin
   endif
 
   " Bottom
@@ -47,25 +47,27 @@ function! default#format_opts() abort
 endfunction
 
 
+" Call this function after sourcing tiny.vim
 function! default#init() abort
-  " 4-space Indent
-  set tabstop=4 shiftwidth=4 expandtab nosmarttab
-  set autoindent nosmartindent shiftround
-
   " Line Wrap
-  set wrap textwidth=76
+  set textwidth=76
 
   if has('syntax') && exists('+colorcolumn')
-    set colorcolumn=76
+    let &colorcolumn = &textwidth
   endif
 
   " Fixes
-  set nolazyredraw                      " lazyredraw is still broken
-  set tabpagemax=50
-  set synmaxcol=500                     " optimize for minified files
-  set backspace=2 whichwrap+=<,>,b,s whichwrap-=h,l
-  set visualbell noerrorbells
-  set fileformats=unix,dos,mac
+  if has('smartindent')
+    set nosmartindent
+  endif
+
+  if has('cindent')
+    set nocindent
+  endif
+
+  if has('syntax')
+    set synmaxcol=500           " optimize for minified files
+  endif
 
   if !has('nvim')
     set autoread
@@ -74,8 +76,15 @@ function! default#init() abort
 
   " Enhancments
   call s:ui()
-  set hlsearch incsearch                    " highlight, quick jump searches
-  set wildmenu wildmode=longest:full,full   " display matches, tab complete
+
+  if has('extra_search')
+    set hlsearch incsearch    " highlight matches, quick-jump to nearest
+  endif
+
+  " Display hints, complete with selection via tab
+  if has('wildmenu')
+    set wildmenu wildmode=longest:full,full
+  endif
 
   if has('win32')
     set shellslash    " '/' is closer to home row than '\\'
