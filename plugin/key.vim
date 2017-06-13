@@ -31,7 +31,9 @@ if has('nvim')
 
   inoremap <silent> <M-l> <Esc>ll
   vnoremap <silent> <M-l> <Esc>ll
-elseif (has('win32') || has('gui_running')) && &encoding ==# 'utf-8'
+elseif has('multi_byte') &&
+        \ has('multi_byte_encoding') &&
+        \ (has('win32') || has('gui_running'))
   scriptencoding utf-8
   inoremap <silent> è <Esc>hl
   vnoremap <silent> è <Esc>hl

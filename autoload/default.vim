@@ -17,8 +17,10 @@ function! s:ui() abort
   " Left
   set numberwidth=4     " show all line nums (max = 999)
 
-  if !has('win32unix')
-    set relativenumber  " slow in cygwin
+  if has('win32unix')
+    set norelativenumber
+  else
+    set relativenumber
   endif
 
   " Bottom
@@ -90,8 +92,10 @@ function! default#init() abort
     set shellslash    " '/' is closer to home row than '\\'
   endif
 
-  if &encoding ==# 'latin1' && has('gui_running')
-    set encoding=utf-8
+  if has('multi_byte')
+    if &encoding ==# 'latin1' && has('gui_running')
+      set encoding=utf-8
+    endif
   endif
 
   " Filetype
