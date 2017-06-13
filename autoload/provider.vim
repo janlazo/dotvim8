@@ -4,7 +4,7 @@ endif
 let g:loaded_autoload_provider = 1
 
 let s:pythons = {
-\ '2': ['python2', 'python']
+\ '2': ['python2', 'python'],
 \ '3': ['python3', 'python']
 \ }
 
@@ -31,7 +31,7 @@ function! s:get_python_path(version) abort
   let pythons_exe = copy(s:pythons[a:version])
 
   if len(dir)
-    if s:is_win && !&shellslash
+    if has('win32') && !&shellslash
       let dir = escape(dir, '\')
     endif
 

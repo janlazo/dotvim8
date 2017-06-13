@@ -5,17 +5,15 @@ let g:loaded_autoload_default = 1
 
 
 function! s:ui() abort
-  " General
-  set splitbelow splitright
-
   " Center
-  set nocursorline                " don't block-highlight current row
-  set nostartofline noshowmatch   " don't randomly move the cursor
-  set scrolloff=1 sidescroll=5    " always show 1 line, 5 cols
-  set display=lastline            " don't mangle last line of buffer
+  if has('syntax')
+    set nocursorline      " don't block-highlight current row
+  endif
 
   " Left
-  set numberwidth=4     " show all line nums (max = 999)
+  if has('linebreak')
+    set numberwidth=4     " show all line nums (max = 999)
+  endif
 
   if has('win32unix')
     set norelativenumber
@@ -24,9 +22,9 @@ function! s:ui() abort
   endif
 
   " Bottom
-  set laststatus=2          " always show status line
-  set cmdheight=2           " extra line for multi-line error messages
-  set showcmd noshowmode    " display last command, not current mode
+  if has('cmdline_info')
+    set showcmd           " display last command
+  endif
 
   if has('statusline')
     set statusline=%t                               " tail of filename
@@ -69,11 +67,6 @@ function! default#init() abort
 
   if has('syntax')
     set synmaxcol=500           " optimize for minified files
-  endif
-
-  if !has('nvim')
-    set autoread
-    set nrformats-=octal
   endif
 
   " Enhancments
