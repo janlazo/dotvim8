@@ -42,14 +42,15 @@ function! s:ui() abort
 
   " emulate basic statusline of lightline.vim
   if has('statusline')
-    set statusline=\ %{default#mode_map[mode()]}        " current mode
-    set statusline+=\ \|\ %t                            " tail of filename
-    set statusline+=\ %r%m                              " file status flags
-    set statusline+=%=                                  " right align
-    set statusline+=\ \|\ %{strlen(&ft)?&ft:'none'}     " file type
-    set statusline+=\ \|\ %{strlen(&fenc)?&fenc:'none'} " file encoding
-    set statusline+=\ \|\ %{&ff}                        " file format
-    set statusline+=\ \|\ %l:%c\                        " line, column
+    let statusline =  '%{default#mode_map[mode()]}'       " current mode
+    let statusline .= ' | %t'                             " tail of filename
+    let statusline .= ' [%R%M]'                           " file status flags
+    let statusline .= '%='                                " right align
+    let statusline .= '%{strlen(&ft)?&ft:"none"}'         " file type
+    let statusline .= ' | %{strlen(&fenc)?&fenc:"none"}'  " file encoding
+    let statusline .= ' | %{&ff}'                         " file format
+    let statusline .= ' | %7(%l:%c%)'                     " line, column
+    let &statusline = ' ' . statusline . ' '
   endif
 endfunction
 
