@@ -5,10 +5,16 @@ let g:loaded_plugin_key = 1
 
 nnoremap <silent> <Space>st :call util#space_to_tab()<CR>
 nnoremap <silent> <Space>ts :call util#tab_to_space()<CR>
+
+" Clear trailing whitespace
 nnoremap <silent> <Space>rs :%s/\s\+$//g<CR>
 
 " open vimrc or init.vim in new tab
 nnoremap <silent> <Space>v :tabedit $MYVIMRC<CR>
+
+" open directory via netrw
+nnoremap <silent> - :Explore<CR>
+nnoremap <silent> <Space>o :exec ':Explore' getcwd()<CR>
 
 " use <Space>[hjkl] to move across buffers in same tab
 nnoremap <Space>j <C-W><C-J>
