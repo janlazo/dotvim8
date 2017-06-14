@@ -3,6 +3,20 @@ if exists('g:loaded_autoload_default')
 endif
 let g:loaded_autoload_default = 1
 
+" Copied from github.com/itchyny/lightline.vim
+let default#mode_map = {
+  \ 'n': 'NORMAL',
+  \ 'i': 'INSERT',
+  \ 'R': 'REPLACE',
+  \ 'v': 'VISUAL',
+  \ 'V': 'V-LINE',
+  \ "\<C-v>": 'V-BLOCK',
+  \ 'c': 'COMMAND',
+  \ 's': 'SELECT',
+  \ 'S': 'S-LINE',
+  \ "\<C-s>": 'S-BLOCK',
+  \ 't': 'TERMINAL'
+  \ }
 
 function! s:ui() abort
   " Center
@@ -26,14 +40,16 @@ function! s:ui() abort
     set showcmd           " display last command
   endif
 
+  " emulate basic statusline of lightline.vim
   if has('statusline')
-    set statusline=%t                               " tail of filename
-    set statusline+=\ [%{strlen(&ft)?&ft:'none'}    " file type
-    set statusline+=,%{strlen(&fenc)?&fenc:'none'}  " file encoding
-    set statusline+=,%{&ff}]                        " file format
-    set statusline+=[%R%M]                          " file status flags
-    set statusline+=%=                              " right align
-    set statusline+=[B:%n\|L:%l/%L\|C:%c]           " [buffer|line|column]
+    set statusline=\ %{default#mode_map[mode()]}        " current mode
+    set statusline+=\ \|\ %t                            " tail of filename
+    set statusline+=\ %r%m                              " file status flags
+    set statusline+=%=                                  " right align
+    set statusline+=\ \|\ %{strlen(&ft)?&ft:'none'}     " file type
+    set statusline+=\ \|\ %{strlen(&fenc)?&fenc:'none'} " file encoding
+    set statusline+=\ \|\ %{&ff}                        " file format
+    set statusline+=\ \|\ %l:%c\                        " line, column
   endif
 endfunction
 
