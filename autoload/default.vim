@@ -29,9 +29,8 @@ function! s:ui() abort
     set numberwidth=4     " show all line nums (max = 999)
   endif
 
-  if has('win32unix')
-    set norelativenumber
-  else
+  " relativenumber is slow and can break buffer redrawing
+  if !has('win32unix') && $TERM !=# 'cygwin' && len($TMUX) == 0
     set relativenumber
   endif
 

@@ -15,7 +15,7 @@ set scrolloff=1 sidescroll=5        " always show 1 line, 5 cols
 set display=lastline                " don't mangle last line of buffer
 
 "" Left
-set number relativenumber
+set number norelativenumber
 
 "" Bottom
 set laststatus=2 cmdheight=2 noshowmode
