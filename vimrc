@@ -1,4 +1,5 @@
 runtime tiny.vim
+runtime huge.vim
 
 if has('autocmd')
   call default#init()

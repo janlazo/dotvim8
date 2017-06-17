@@ -18,7 +18,7 @@ set display=lastline                " don't mangle last line of buffer
 set number norelativenumber
 
 "" Bottom
-set laststatus=2 cmdheight=2 noshowmode
+set laststatus=2 cmdheight=2 showmode
 
 " Fixes
 set autoread
