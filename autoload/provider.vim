@@ -49,7 +49,7 @@ function! s:get_python_path(version) abort
       let dir = escape(dir, '\')
     endif
 
-    call map(pythons_exe, '"' . dir . '" . / . v:val')
+    call map(pythons_exe, '"' . dir . '" . "/" . v:val')
   endif
 
   for python in pythons_exe
