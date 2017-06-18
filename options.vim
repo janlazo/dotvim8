@@ -95,7 +95,7 @@ if has('statusline')
 
   if has('autocmd')
     set noshowmode
-    let s:statusline .=  ' %{default#mode_map[mode()]} |' " current mode
+    let s:statusline .=  ' %{util#mode_map[mode()]} |' " current mode
   endif
 
   let s:statusline .= ' %t'                               " tail of filename

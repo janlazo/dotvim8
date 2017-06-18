@@ -17,21 +17,6 @@ if exists('g:loaded_autoload_default')
 endif
 let g:loaded_autoload_default = 1
 
-" Copied from github.com/itchyny/lightline.vim
-let default#mode_map = {
-  \ 'n': 'NORMAL',
-  \ 'i': 'INSERT',
-  \ 'R': 'REPLACE',
-  \ 'v': 'VISUAL',
-  \ 'V': 'V-LINE',
-  \ "\<C-v>": 'V-BLOCK',
-  \ 'c': 'COMMAND',
-  \ 's': 'SELECT',
-  \ 'S': 'S-LINE',
-  \ "\<C-s>": 'S-BLOCK',
-  \ 't': 'TERMINAL'
-  \ }
-
 
 function! default#format_opts() abort
   set formatoptions=crl
