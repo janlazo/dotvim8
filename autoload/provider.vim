@@ -13,7 +13,7 @@
 " limitations under the License.
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 if exists('g:loaded_autoload_provider')
-    finish
+  finish
 endif
 let g:loaded_autoload_provider = 1
 
@@ -35,9 +35,9 @@ endif
 " Return empty string otherwise
 function! s:get_python_path(version) abort
   if a:version == 2
-    let dir = glob('$PYTHON2/')
+    let dir = glob('$PYTHON2')
   elseif a:version == 3
-    let dir = glob('$PYTHON3/')
+    let dir = glob('$PYTHON3')
   else
     return ''
   endif
@@ -49,7 +49,7 @@ function! s:get_python_path(version) abort
       let dir = escape(dir, '\')
     endif
 
-    call map(pythons_exe, '"' . dir . '" . v:val')
+    call map(pythons_exe, '"' . dir . '" . / . v:val')
   endif
 
   for python in pythons_exe
