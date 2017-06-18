@@ -12,8 +12,7 @@
 " See the License for the specific language governing permissions and
 " limitations under the License.
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-runtime tiny.vim
-runtime huge.vim
-call default#init()
+runtime options.vim
 call provider#resolve()
+call default#init()
 colorscheme torte
