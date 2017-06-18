@@ -44,20 +44,6 @@ endfunction
 
 " Call this function after sourcing options.vim
 function! default#init() abort
-  " emulate basic statusline from lightline.vim
-  if has('statusline')
-    set noshowmode
-    let statusline =  ' %{default#mode_map[mode()]}'      " current mode
-    let statusline .= ' | %t'                             " tail of filename
-    let statusline .= ' [%R%M]'                           " file status flags
-    let statusline .= '%='                                " right align
-    let statusline .= '%{strlen(&ft)?&ft:"none"}'         " file type
-    let statusline .= ' | %{strlen(&fenc)?&fenc:"none"}'  " file encoding
-    let statusline .= ' | %{&ff}'                         " file format
-    let statusline .= ' |%4l:%-4c'                        " line, column
-    let &statusline = statusline
-  endif
-
   " Filetype
   let g:tex_flavor = 'latex'
 

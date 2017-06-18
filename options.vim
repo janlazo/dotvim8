@@ -89,6 +89,25 @@ if has('multi_byte')
   endif
 endif
 
+" emulate basic statusline from lightline.vim
+if has('statusline')
+  let s:statusline =  ''
+
+  if has('autocmd')
+    set noshowmode
+    let s:statusline .=  ' %{default#mode_map[mode()]} |' " current mode
+  endif
+
+  let s:statusline .= ' %t'                               " tail of filename
+  let s:statusline .= ' [%R%M]'                           " file status flags
+  let s:statusline .= '%='                                " right align
+  let s:statusline .= '%{strlen(&ft)?&ft:"none"}'         " file type
+  let s:statusline .= ' | %{strlen(&fenc)?&fenc:"none"}'  " file encoding
+  let s:statusline .= ' | %{&ff}'                         " file format
+  let s:statusline .= ' |%4l:%-4c'                        " line, column
+  let &statusline = s:statusline
+endif
+
 if has('syntax')
   set nocursorline synmaxcol=500     " optimize for minified files
 
