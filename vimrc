@@ -16,13 +16,8 @@ runtime options.vim
 
 if has('autocmd')
   call default#init()
-  filetype plugin indent on
 endif
 
 if has('syntax')
-  if !exists('g:syntax_on')
-    syntax enable
-  endif
-
   colorscheme torte
 endif

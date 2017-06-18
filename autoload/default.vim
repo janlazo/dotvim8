@@ -62,4 +62,13 @@ function! default#init() abort
 
   " External
   runtime! macros/matchit.vim   " '%' jumps to begin/end pairs
+
+  " Initialize plugins
+  if !has('nvim')
+    filetype plugin indent on
+  endif
+
+  if has('syntax') && !exists('g:syntax_on')
+    syntax enable
+  endif
 endfunction
