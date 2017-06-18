@@ -42,7 +42,7 @@ function! default#format_opts() abort
 endfunction
 
 
-" Call this function after sourcing tiny.vim and huge.vim
+" Call this function after sourcing options.vim
 function! default#init() abort
   " emulate basic statusline from lightline.vim
   if has('statusline')
