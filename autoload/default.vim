@@ -18,7 +18,22 @@ endif
 let g:loaded_autoload_default = 1
 
 
-function! default#format_opts() abort
+function! s:gui() abort
+  " gvim
+  if !has('nvim')
+    let &columns = 80 + &numberwidth + 1
+    set guioptions=cegLRv     " guioption default: egmrLtT
+
+    if has('win32')
+      behave mswin
+    elseif has('unix') && !has('win32unix')
+      behave xterm
+    endif
+  endif
+endfunction
+
+
+function! s:format_opts() abort
   set formatoptions=crl
 
   if v:version > 703
@@ -32,11 +47,16 @@ function! default#init() abort
   " Filetype
   let g:tex_flavor = 'latex'
 
-  " Reset settings mangled by ftplugin, syntax files
   if has('autocmd')
     augroup default_config
       autocmd!
-      autocmd BufWinEnter,BufNewFile * call default#format_opts()
+
+      " Reset settings mangled by ftplugin, syntax files
+      autocmd BufWinEnter,BufNewFile * call s:format_opts()
+
+      if has('gui_running')
+        autocmd GuiEnter * call s:gui()
+      endif
     augroup END
   endif
 
