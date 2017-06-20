@@ -17,21 +17,6 @@ if exists('g:loaded_autoload_util')
 endif
 let g:loaded_autoload_util = 1
 
-" Copied from github.com/itchyny/lightline.vim
-let util#mode_map = {
-  \ 'n': 'NORMAL',
-  \ 'i': 'INSERT',
-  \ 'R': 'REPLACE',
-  \ 'v': 'VISUAL',
-  \ 'V': 'V-LINE',
-  \ "\<C-v>": 'V-BLOCK',
-  \ 'c': 'COMMAND',
-  \ 's': 'SELECT',
-  \ 'S': 'S-LINE',
-  \ "\<C-s>": 'S-BLOCK',
-  \ 't': 'TERMINAL'
-  \ }
-
 
 function! util#tab_to_space() abort
   set expandtab
