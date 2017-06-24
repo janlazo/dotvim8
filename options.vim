@@ -60,11 +60,6 @@ if has('linebreak')
   set numberwidth=4   " left-pad 3-digit line number
 endif
 
-" relativenumber is slow and can break buffer redrawing
-if !has('win32unix') && $TERM !=# 'cygwin' && len($TMUX) == 0
-  set relativenumber
-endif
-
 if has('cmdline_info')
   set showcmd         " display last command
 endif
@@ -83,12 +78,6 @@ if has('win32')
   set shellslash    " '/' is closer to home row than '\\'
 endif
 
-if has('multi_byte')
-  if &encoding ==# 'latin1' && has('gui_running')
-    set encoding=utf-8
-  endif
-endif
-
 if has('syntax')
   set nocursorline synmaxcol=500      " optimize for minified files
 
@@ -98,22 +87,34 @@ if has('syntax')
 endif
 
 if has('eval')
+  " relativenumber is slow and can break buffer redrawing
+  if !has('win32unix') && $TERM !=# 'cygwin' && len($TMUX) == 0
+    set relativenumber
+  endif
+
+  if has('multi_byte')
+    if &encoding ==# 'latin1' && has('gui_running')
+      set encoding=utf-8
+    endif
+  endif
+
   " emulate basic statusline from github.com/itchyny/lightline.vim
   if has('statusline')
     set noshowmode
-    let g:statusline_mode_map = {
-    \ 'n': 'NORMAL',
-    \ 'i': 'INSERT',
-    \ 'R': 'REPLACE',
-    \ 'v': 'VISUAL',
-    \ 'V': 'V-LINE',
-    \ "\<C-v>": 'V-BLOCK',
-    \ 'c': 'COMMAND',
-    \ 's': 'SELECT',
-    \ 'S': 'S-LINE',
-    \ "\<C-s>": 'S-BLOCK',
-    \ 't': 'TERMINAL'
-    \ }
+
+    let g:statusline_mode_map = {}
+    let g:statusline_mode_map.n = 'NORMAL'
+    let g:statusline_mode_map.i = 'INSERT'
+    let g:statusline_mode_map.R = 'REPLACE'
+    let g:statusline_mode_map.v = 'VISUAL'
+    let g:statusline_mode_map.V = 'V-LINE'
+    let g:statusline_mode_map["\<C-v>"] = 'V-BLOCK'
+    let g:statusline_mode_map.s = 'SELECT'
+    let g:statusline_mode_map.S = 'S-LINE'
+    let g:statusline_mode_map["\<C-s>"] = 'S-BLOCK'
+    let g:statusline_mode_map.c = 'COMMAND'
+    let g:statusline_mode_map.t = 'TERMINAL'
+
     let s:statusline =  ' %{g:statusline_mode_map[mode()]}' " current mode
     let s:statusline .= ' | %t'                             " tail of filename
     let s:statusline .= ' [%R%M]'                           " file status flags
