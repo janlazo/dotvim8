@@ -25,6 +25,7 @@ nnoremap <silent> <Space>rs :%s/\s\+$//g<CR>
 
 " open vimrc or init.vim in new tab
 nnoremap <silent> <Space>v :tabedit $MYVIMRC<CR>
+nnoremap <silent> <Space>gv :tabedit $MYGVIMRC<CR>
 
 " open directory via netrw
 nnoremap <silent> - :Explore<CR>
