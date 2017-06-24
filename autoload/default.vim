@@ -19,7 +19,7 @@ let g:loaded_autoload_default = 1
 
 
 function! s:format_opts() abort
-  set formatoptions=crl
+  set formatoptions=rl
 
   if v:version > 703
     set formatoptions+=j

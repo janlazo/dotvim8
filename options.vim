@@ -19,7 +19,7 @@ set tabstop=4 shiftwidth=4 expandtab nosmarttab
 set autoindent shiftround
 
 " Line Wrap
-set wrap textwidth=72 formatoptions=crl
+set wrap textwidth=72 formatoptions=rl
 
 " Splits
 set splitbelow splitright
