@@ -18,5 +18,7 @@ let $MYGVIMRC = expand('<sfile>:p')
 if exists(':GuiFont') == 2
   if has('win32')
     GuiFont Consolas:h12
+  elseif has('unix') && !has('win32unix')
+    GuiFont Monospace:h12
   endif
 endif

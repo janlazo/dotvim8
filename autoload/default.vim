@@ -53,9 +53,7 @@ function! default#init() abort
   call s:fzf()
 
   " Initialize plugins
-  if !has('nvim')
-    filetype plugin indent on
-  endif
+  filetype plugin indent on
 
   if has('syntax') && !exists('g:syntax_on')
     syntax enable

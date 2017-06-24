@@ -17,6 +17,7 @@ if has('win32')
   set guifont=Consolas:h12:cANSI:qANTIALIASED
 elseif has('unix') && !has('win32unix')
   behave xterm
+  set guifont=Monospace\ 12
 endif
 
 set guioptions=cegLRv     " guioption default: egmrLtT
