@@ -88,7 +88,7 @@ endfunction
 
 
 function! s:resolve_ruby() abort
-  if has('win32') && !has('nvim-0.2.')
+  if has('win32') && !has('nvim-0.2')
     let g:loaded_ruby_provider = 1
   endif
 endfunction
