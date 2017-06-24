@@ -18,6 +18,22 @@ endif
 let g:loaded_autoload_default = 1
 
 
+function! s:fzf() abort
+  let fzf_dirs = glob('~/.fzf', 1, 1)
+
+  if empty(fzf_dirs)
+    return
+  endif
+
+  let &rtp .= ',' . fzf_dirs[0]
+  let fzf_docs = glob(fzf_dirs[0] . '/doc', 1, 1)
+
+  if !empty(fzf_docs)
+    execute 'helptags' fzf_docs[0]
+  endif
+endfunction
+
+
 function! s:format_opts() abort
   set formatoptions=rl
 
@@ -34,10 +50,7 @@ function! default#init() abort
 
   " External Plugins
   runtime! macros/matchit.vim   " '%' jumps to begin/end pairs
-
-  if len(glob('~/.fzf')) > 0
-    set rtp+=~/.fzf
-  endif
+  call s:fzf()
 
   " Initialize plugins
   if !has('nvim')
