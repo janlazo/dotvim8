@@ -32,17 +32,12 @@ function! default#init() abort
   " Filetype
   let g:tex_flavor = 'latex'
 
-  if has('autocmd')
-    augroup default_config
-      autocmd!
-
-      " Reset settings mangled by ftplugin, syntax files
-      autocmd BufWinEnter,BufNewFile * call s:format_opts()
-    augroup END
-  endif
-
-  " External
+  " External Plugins
   runtime! macros/matchit.vim   " '%' jumps to begin/end pairs
+
+  if len(glob('~/.fzf')) > 0
+    set rtp+=~/.fzf
+  endif
 
   " Initialize plugins
   if !has('nvim')
@@ -51,5 +46,14 @@ function! default#init() abort
 
   if has('syntax') && !exists('g:syntax_on')
     syntax enable
+  endif
+
+  if has('autocmd')
+    augroup default_config
+      autocmd!
+
+      " Reset settings mangled by ftplugin, syntax files
+      autocmd BufWinEnter,BufNewFile * call s:format_opts()
+    augroup END
   endif
 endfunction
