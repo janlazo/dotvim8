@@ -15,7 +15,7 @@
 " Tiny
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " 4-space Indent
-set tabstop=4 shiftwidth=4 expandtab nosmarttab
+set shiftwidth=4 tabstop=4 softtabstop=0 expandtab nosmarttab
 set autoindent shiftround
 
 " Line Wrap
@@ -42,7 +42,7 @@ set novisualbell noerrorbells
 set nolazyredraw                    " lazyredraw is still broken
 set backspace=2 whichwrap=<,>,b,s
 set fileformats=unix,dos,mac
-set nrformats-=octal
+set nrformats-=octal complete-=i
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Huge
@@ -62,6 +62,7 @@ endif
 
 if has('cmdline_info')
   set showcmd         " display last command
+  set noruler         " obseleted by statusline
 endif
 
 " highlight matches, quick-jump to nearest
@@ -72,6 +73,10 @@ endif
 " Display hints, complete with selection via tab
 if has('wildmenu')
   set wildmenu wildmode=longest:full,full
+endif
+
+if has('mksession')
+  set sessionoptions-=options
 endif
 
 if has('win32')
@@ -87,6 +92,10 @@ if has('syntax')
 endif
 
 if has('eval')
+  if v:version > 703
+    set formatoptions+=j
+  endif
+
   " relativenumber is slow and can break buffer redrawing
   if !has('win32unix') && $TERM !=# 'cygwin' && len($TMUX) == 0
     set relativenumber
