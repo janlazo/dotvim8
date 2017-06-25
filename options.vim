@@ -43,6 +43,7 @@ set nolazyredraw                    " lazyredraw is still broken
 set backspace=2 whichwrap=<,>,b,s
 set fileformats=unix,dos,mac
 set nrformats-=octal complete-=i
+set notimeout ttimeout ttimeoutlen=100
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Huge
@@ -102,6 +103,12 @@ if has('eval')
     endif
   endif
 
+  if has('cmdline_hist')
+    if &history < 1000
+      set history=1000
+    endif
+  endif
+
   " emulate basic statusline from github.com/itchyny/lightline.vim
   if has('statusline')
     set noshowmode
@@ -135,6 +142,12 @@ if has('eval')
 
     if exists('+colorcolumn')
       let &colorcolumn = &textwidth
+    endif
+  endif
+
+  if has('windows')
+    if &tabpagemax < 50
+      set tabpagemax=50
     endif
   endif
 
