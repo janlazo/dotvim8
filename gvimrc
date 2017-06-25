@@ -15,6 +15,10 @@
 if has('win32')
   behave mswin
   set guifont=Consolas:h12:cANSI:qANTIALIASED
+
+  if has('directx')
+    set renderoptions=
+  endif
 elseif has('unix') && !has('win32unix')
   behave xterm
   set guifont=Monospace\ 12

@@ -57,7 +57,15 @@ if has('cindent')
 endif
 
 if has('linebreak')
-  set numberwidth=4   " left-pad 3-digit line number
+  set numberwidth=4 textwidth=76  " 3-digit line number in 80 col terminals
+
+  if exists('+breakindent')
+    set nobreakindent
+  endif
+
+  if exists('+breakindentopt')
+    set breakindentopt=
+  endif
 endif
 
 if has('cmdline_info')
@@ -79,28 +87,15 @@ if has('mksession')
   set sessionoptions-=options
 endif
 
+if has('langmap')
+  set nolangremap
+endif
+
 if has('win32')
   set shellslash    " '/' is closer to home row than '\\'
 endif
 
-if has('syntax')
-  set nocursorline synmaxcol=500      " optimize for minified files
-
-  if exists('+colorcolumn')
-    set textwidth=76 colorcolumn=76   " fit in 80 column terminals
-  endif
-endif
-
 if has('eval')
-  if v:version > 703
-    set formatoptions+=j
-  endif
-
-  " relativenumber is slow and can break buffer redrawing
-  if !has('win32unix') && $TERM !=# 'cygwin' && len($TMUX) == 0
-    set relativenumber
-  endif
-
   if has('multi_byte')
     if &encoding ==# 'latin1' && has('gui_running')
       set encoding=utf-8
@@ -133,5 +128,27 @@ if has('eval')
     let s:statusline .= ' | %{&ff}'                         " file format
     let s:statusline .= ' |%4l:%-4c'                        " line, column
     let &statusline = s:statusline
+  endif
+
+  if has('syntax')
+    set nocursorline synmaxcol=500      " optimize for minified files
+
+    if exists('+colorcolumn')
+      let &colorcolumn = &textwidth
+    endif
+  endif
+
+  " relativenumber is slow and can break buffer redrawing
+  if !has('win32unix') && $TERM !=# 'cygwin' && len($TMUX) == 0
+    set relativenumber
+  endif
+
+  if v:version > 703
+    set formatoptions+=j
+  endif
+
+  if v:version >= 800 && !has('nvim')
+    set belloff=all
+    set nofixendofline
   endif
 endif
