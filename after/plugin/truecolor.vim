@@ -24,7 +24,7 @@ let s:patches = [
   \ '8.0.0142', '8.0.0147'
   \ ]
 call map(s:patches, '"patch-" . v:val')
-let s:tc_vim = has('nvim') ||
+let s:tc_vim = has('nvim-0.1.5') ||
               \ (v:version >= 800 &&
                 \ !empty(filter(copy(s:patches), 'has(v:val)')))
 
