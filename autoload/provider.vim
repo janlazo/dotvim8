@@ -87,14 +87,6 @@ function! s:resolve_python() abort
 endfunction
 
 
-function! s:resolve_ruby() abort
-  if has('win32') && !has('nvim-0.2')
-    let g:loaded_ruby_provider = 1
-  endif
-endfunction
-
-
 function! provider#resolve() abort
   call s:resolve_python()
-  call s:resolve_ruby()
 endfunction

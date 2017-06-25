@@ -17,8 +17,8 @@ let $MYGVIMRC = expand('<sfile>:p')
 " neovim-qt
 if exists(':GuiFont') == 2
   if has('win32')
-    GuiFont Consolas:h12
+    GuiFont! Consolas:h12
   elseif has('unix') && !has('win32unix')
-    GuiFont Monospace:h12
+    GuiFont! Monospace:h12
   endif
 endif
