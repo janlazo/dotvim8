@@ -24,7 +24,7 @@ if has('win32')
 endif
 
 if has('nvim-0.2')
-  set inccomand=nosplit
+  set inccommand=nosplit
 endif
 
 call provider#resolve()

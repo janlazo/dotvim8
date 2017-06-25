@@ -89,7 +89,11 @@ if has('mksession')
 endif
 
 if has('langmap')
-  set nolangremap
+  if exists('+langnoremap')
+    set langnoremap
+  elseif exists('+langremap')
+    set nolangremap
+  endif
 endif
 
 if has('win32')
