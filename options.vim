@@ -59,14 +59,7 @@ endif
 
 if has('linebreak')
   set numberwidth=4 textwidth=76  " 3-digit line number in 80 col terminals
-
-  if exists('+breakindent')
-    set nobreakindent
-  endif
-
-  if exists('+breakindentopt')
-    set breakindentopt=
-  endif
+  set nolinebreak nobreakindent   " hard wrap on inserted lines
 endif
 
 if has('cmdline_info')
@@ -167,5 +160,9 @@ if has('eval')
   if v:version >= 800 || has('nvim')
     set belloff=all
     set nofixendofline
+
+    if has('linebreak')
+      set linebreak
+    endif
   endif
 endif
