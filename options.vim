@@ -157,7 +157,7 @@ if has('eval')
     set formatoptions+=j
   endif
 
-  if v:version >= 800 || has('nvim')
+  if v:version >= 800 || has('nvim-0.1.6')
     set belloff=all
     set nofixendofline
 
