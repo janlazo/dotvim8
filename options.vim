@@ -165,4 +165,37 @@ if has('eval')
       set linebreak
     endif
   endif
+
+  " Escape Insert/Visual Mode via Alt/Meta + [hjkl]
+  " Neovim - use normal keybinds
+  " Vim    - use utf-8 characters via scriptencoding
+  if has('nvim')
+    inoremap <silent> <M-h> <Esc>hl
+    vnoremap <silent> <M-h> <Esc>hl
+
+    inoremap <silent> <M-j> <Esc>jl
+    vnoremap <silent> <M-j> <Esc>jl
+
+    inoremap <silent> <M-k> <Esc>kl
+    vnoremap <silent> <M-k> <Esc>kl
+
+    inoremap <silent> <M-l> <Esc>ll
+    vnoremap <silent> <M-l> <Esc>ll
+  elseif has('win32') || has('win32unix') || has('gui_running')
+    if has('multi_byte') && has('multi_byte_encoding')
+      scriptencoding utf-8
+      inoremap <silent> è <Esc>hl
+      vnoremap <silent> è <Esc>hl
+
+      inoremap <silent> ê <Esc>jl
+      vnoremap <silent> ê <Esc>jl
+
+      inoremap <silent> ë <Esc>kl
+      vnoremap <silent> ë <Esc>kl
+
+      inoremap <silent> ì <Esc>ll
+      vnoremap <silent> ì <Esc>ll
+      scriptencoding
+    endif
+  endif
 endif
