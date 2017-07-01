@@ -16,6 +16,8 @@ if exists('g:loaded_plugin_key')
 	finish
 endif
 let g:loaded_plugin_key = 1
+let s:cpoptions = &cpoptions
+set cpoptions&vim
 
 nnoremap <silent> <Space>st :call util#space_to_tab()<CR>
 nnoremap <silent> <Space>ts :call util#tab_to_space()<CR>
@@ -36,3 +38,5 @@ nnoremap <Space>j <C-W><C-J>
 nnoremap <Space>k <C-W><C-K>
 nnoremap <Space>l <C-W><C-L>
 nnoremap <Space>h <C-W><C-H>
+
+let &cpoptions = s:cpoptions

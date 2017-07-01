@@ -16,7 +16,8 @@ if exists('g:loaded_autoload_default')
   finish
 endif
 let g:loaded_autoload_default = 1
-
+let s:cpoptions = &cpoptions
+set cpoptions&vim
 
 function! s:fzf() abort
   let fzf_dirs = glob('~/.fzf', 1, 1)
@@ -68,3 +69,5 @@ function! default#init() abort
     augroup END
   endif
 endfunction
+
+let &cpoptions = s:cpoptions

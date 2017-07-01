@@ -27,8 +27,6 @@ Vim 8+ / Neovim 0.2+ config folder for Windows support and async jobs.
 Apache License Version 2.0 (ALv2)
 
 ## TODO
-- resolve `cpoptions` in plugins
-  - lines starting with backslash fail in Vim 7.2 (Ubuntu 12.04)
 - `default#init()` for common bundles via vim package manager (e.g. plug, dein) because submodules affect the history and require recent versions of Git to be user-friendly
 - replace netrw with dirvish
   - netrw is useless in neovim on Windows (disabled in init.vim)

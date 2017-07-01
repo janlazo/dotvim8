@@ -16,6 +16,8 @@ if exists('g:loaded_autoload_provider')
   finish
 endif
 let g:loaded_autoload_provider = 1
+let s:cpoptions = &cpoptions
+set cpoptions&vim
 
 let s:pythons = {
 \ '2': ['python2', 'python'],
@@ -90,3 +92,5 @@ endfunction
 function! provider#resolve() abort
   call s:resolve_python()
 endfunction
+
+let &cpoptions = s:cpoptions

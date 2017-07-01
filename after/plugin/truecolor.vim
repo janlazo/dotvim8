@@ -16,6 +16,8 @@ if exists('g:loaded_after_plugin_truecolor') || !has('termguicolors')
   finish
 endif
 let g:loaded_after_plugin_truecolor = 1
+let s:cpoptions = &cpoptions
+set cpoptions&vim
 
 " Neovim has reliable true color support since 0.1.x
 " Vim 8.0.147+ is required for truecolor in Windows builds
@@ -50,3 +52,5 @@ if s:tc_vim && s:tc_term && s:tc_tmux
 else
   set notermguicolors
 endif
+
+let &cpoptions = s:cpoptions
