@@ -18,7 +18,7 @@ if has('eval')
   endif
 endif
 
-runtime options.vim
+runtime tiny.vim
 
 if has('autocmd')
   call default#init()

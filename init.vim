@@ -12,7 +12,7 @@
 " See the License for the specific language governing permissions and
 " limitations under the License.
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-runtime options.vim
+runtime tiny.vim
 
 if has('win32')
   let g:loaded_netrw = 1

@@ -2,7 +2,7 @@
 
 Vim 8+ / Neovim 0.2+ config folder for Windows support and async jobs.
 
-- `options.vim` to handle shared options and mappings
+- `tiny.vim` to handle shared options and mappings
   - validate in vim 7+, mainly `vim-tiny`, in Ubuntu 16.04 and Windows 7
   - check features and options to avoid vimscript errors
   - acts as a self-contained vimrc, independent of the entire repo
