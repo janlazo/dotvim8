@@ -167,7 +167,7 @@ if has('eval')
   endif
 
   " Escape Insert/Visual Mode via Alt/Meta + [hjkl]
-  if has('nvim') || has('win32') || has('win32unix') || has('gui_running')
+  if has('nvim') || has('win32') || has('gui_running')
     inoremap <silent> <M-h> <Esc>hl
     vnoremap <silent> <M-h> <Esc>hl
 
