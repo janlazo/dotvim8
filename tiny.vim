@@ -89,10 +89,6 @@ if has('langmap')
   endif
 endif
 
-if has('win32')
-  set shellslash    " '/' is closer to home row than '\\'
-endif
-
 if has('eval')
   if has('multi_byte')
     if &encoding ==# 'latin1' && has('gui_running')
@@ -145,6 +141,23 @@ if has('eval')
   if has('windows')
     if &tabpagemax < 50
       set tabpagemax=50
+    endif
+  endif
+
+  if has('win32')
+    set shellslash    " '/' is closer to home row than '\\'
+
+    if $ConEmuANSI ==# 'ON' && !has('gui_running') && !has('nvim')
+      if has('builtin_terms')
+        set term=xterm
+        set t_Co=256
+        let &t_AB = "\e[48;5;%dm"
+        let &t_AF = "\e[38;5;%dm"
+      endif
+
+      inoremap <Char-0x07F> <BS>
+      nnoremap <Char-0x07F> <BS>
+      vnoremap <Char-0x07F> <BS>
     endif
   endif
 
