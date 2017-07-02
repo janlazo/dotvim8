@@ -90,6 +90,9 @@ if has('langmap')
 endif
 
 if has('eval')
+  let s:cpoptions = &cpoptions
+  set cpoptions&vim
+
   if has('multi_byte')
     if &encoding ==# 'latin1' && has('gui_running')
       set encoding=utf-8
@@ -119,7 +122,7 @@ if has('eval')
     let g:statusline_mode_map.c = 'COMMAND'
     let g:statusline_mode_map.t = 'TERMINAL'
 
-    let s:statusline =  ' %{g:statusline_mode_map[mode()]}' " current mode
+    let s:statusline =  ' %{get(g:statusline_mode_map, mode(), "")}'
     let s:statusline .= ' | %t'                             " tail of filename
     let s:statusline .= ' [%R%M]'                           " file status flags
     let s:statusline .= '%='                                " right align
@@ -193,4 +196,6 @@ if has('eval')
     inoremap <silent> <M-l> <Esc>ll
     vnoremap <silent> <M-l> <Esc>ll
   endif
+
+  let &cpoptions = s:cpoptions
 endif
