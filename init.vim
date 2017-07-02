@@ -19,6 +19,8 @@ if has('win32')
   let g:loaded_netrwPlugin = 1
 
   if !has('nvim-0.2')
+    let g:loaded_python_provider = 1
+    let g:loaded_python3_provider = 1
     let g:loaded_ruby_provider = 1
   endif
 endif
@@ -27,6 +29,5 @@ if has('nvim-0.2')
   set inccommand=nosplit
 endif
 
-call provider#resolve()
 call default#init()
 colorscheme torte
