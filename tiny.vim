@@ -59,7 +59,11 @@ endif
 
 if has('linebreak')
   set numberwidth=4 textwidth=76  " 3-digit line number in 80 col terminals
-  set nolinebreak nobreakindent   " hard wrap on inserted lines
+  set nolinebreak                 " hard wrap on inserted lines
+
+  if exists('+breakindent')
+    set nobreakindent
+  endif
 endif
 
 if has('cmdline_info')
