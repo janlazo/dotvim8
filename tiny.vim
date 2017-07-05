@@ -202,4 +202,5 @@ if has('eval')
   endif
 
   let &cpoptions = s:cpoptions
+  unlet s:cpoptions
 endif
