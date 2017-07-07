@@ -20,14 +20,14 @@ let s:cpoptions = &cpoptions
 set cpoptions&vim
 
 function! s:fzf() abort
-  let fzf_dirs = glob('~/.fzf', 1, 1)
+  let fzf_dirs = split(glob('~/.fzf', 1), "\n")
 
   if empty(fzf_dirs)
     return
   endif
 
   let &rtp .= ',' . fzf_dirs[0]
-  let fzf_docs = glob(fzf_dirs[0] . '/doc', 1, 1)
+  let fzf_docs = split(glob(fzf_dirs[0] . '/doc', 1), "\n")
 
   if !empty(fzf_docs)
     execute 'helptags' fzf_docs[0]
