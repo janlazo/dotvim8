@@ -135,6 +135,7 @@ if has('eval')
     let s:statusline .= ' | %{&ff}'                         " file format
     let s:statusline .= ' |%4l:%-4c'                        " line, column
     let &statusline = s:statusline
+    unlet s:statusline
   endif
 
   if has('syntax')

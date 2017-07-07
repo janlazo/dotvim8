@@ -53,5 +53,6 @@ else
   set notermguicolors
 endif
 
+unlet s:patches s:tmux_cmd s:tc_vim s:tc_term s:tc_tmux
 let &cpoptions = s:cpoptions
 unlet s:cpoptions
