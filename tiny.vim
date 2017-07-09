@@ -93,6 +93,10 @@ if has('langmap')
   endif
 endif
 
+if has('mouse') && !has('gui_running')
+  set mouse=
+endif
+
 if has('eval')
   let s:cpoptions = &cpoptions
   set cpoptions&vim
