@@ -29,5 +29,9 @@ if has('nvim-0.2')
   set inccommand=nosplit
 endif
 
+if has('gui_running') && exists('g:nyaovim_version')
+  set mouse=a
+endif
+
 call default#init()
 colorscheme torte

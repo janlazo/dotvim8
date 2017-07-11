@@ -13,6 +13,7 @@
 " limitations under the License.
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let $MYGVIMRC = expand('<sfile>:p')
+set mouse=a
 
 " neovim-qt
 if exists(':GuiFont') == 2
