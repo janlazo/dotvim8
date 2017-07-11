@@ -160,7 +160,7 @@ if has('eval')
     set shellslash    " '/' is closer to home row than '\\'
 
     if $ConEmuANSI ==# 'ON' && !has('gui_running') && !has('nvim')
-      if has('builtin_terms')
+      if has('builtin_terms') && $ConEmuTask !~# 'Shells::cmd'
         set term=xterm
         set t_Co=256
         let &t_AB = "\e[48;5;%dm"
