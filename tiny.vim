@@ -97,9 +97,18 @@ if has('mouse') && !has('gui_running')
   set mouse=
 endif
 
+if has('termguicolors')
+  set notermguicolors
+endif
+
 if has('eval')
   let s:cpoptions = &cpoptions
   set cpoptions&vim
+  let s:fix_ux = !has('win32unix') && $TERM !=# 'cygwin' && empty($TMUX)
+
+  if s:fix_ux
+    set relativenumber
+  endif
 
   if has('multi_byte')
     if &encoding ==# 'latin1' && has('gui_running')
@@ -173,11 +182,6 @@ if has('eval')
     endif
   endif
 
-  " relativenumber is slow and can break buffer redrawing
-  if !has('win32unix') && $TERM !=# 'cygwin' && len($TMUX) == 0
-    set relativenumber
-  endif
-
   if v:version > 703
     set formatoptions+=j
   endif
@@ -188,6 +192,16 @@ if has('eval')
 
     if has('linebreak')
       set linebreak
+    endif
+
+    if s:fix_ux && has('termguicolors') && (has('gui_running') || &t_Co == 256)
+      " Vim 8.0.147+ is required for truecolor in Windows builds
+      if has('nvim') || !empty(filter(map([
+                          \ '7.4.1770', '7.4.1799', '7.4.1854', '7.4.1942',
+                          \ '8.0.0142', '8.0.0147'
+                          \ ], '"patch-" . v:val'), 'has(v:val)'))
+        set termguicolors
+      endif
     endif
   endif
 
@@ -207,5 +221,5 @@ if has('eval')
   endif
 
   let &cpoptions = s:cpoptions
-  unlet s:cpoptions
+  unlet s:cpoptions s:fix_ux
 endif
