@@ -44,7 +44,11 @@ set backspace=2 whichwrap=<,>,b,s
 set fileformats=unix,dos,mac
 set nrformats-=octal complete-=i
 set notimeout ttimeout ttimeoutlen=100
-set noswapfile updatecount=0 swapsync= nobackup patchmode=
+set noswapfile updatecount=0 nobackup patchmode=
+
+if exists('+swapsync')
+  set swapsync=
+endif
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Huge
