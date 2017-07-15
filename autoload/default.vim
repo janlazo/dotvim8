@@ -44,6 +44,20 @@ function! s:format_opts() abort
 endfunction
 
 
+function! s:vim_enter() abort
+  let patches = map(['7.4.1799', '8.0.0142', '8.0.0147'], '"patch-" . v:val')
+
+  if has('termguicolors') && &t_Co == 256 &&
+    \ (has('nvim-0.1.6') || !empty(filter(patches, 'has(v:val)')))
+    set termguicolors
+  endif
+
+  if has('syntax')
+    colorscheme torte
+  endif
+endfunction
+
+
 " Call this function after sourcing options.vim
 function! default#init() abort
   " Filetype
@@ -63,6 +77,7 @@ function! default#init() abort
   if has('autocmd')
     augroup default_config
       autocmd!
+      autocmd VimEnter * call s:vim_enter()
 
       " Reset settings mangled by ftplugin, syntax files
       autocmd BufWinEnter,BufNewFile * call s:format_opts()

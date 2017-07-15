@@ -23,7 +23,3 @@ runtime tiny.vim
 if has('autocmd')
   call default#init()
 endif
-
-if has('syntax')
-  colorscheme torte
-endif

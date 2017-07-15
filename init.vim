@@ -34,4 +34,3 @@ if has('gui_running') && exists('g:nyaovim_version')
 endif
 
 call default#init()
-colorscheme torte
