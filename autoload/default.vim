@@ -64,7 +64,6 @@ function! default#init() abort
   let g:tex_flavor = 'latex'
 
   " External Plugins
-  runtime! macros/matchit.vim   " '%' jumps to begin/end pairs
   call s:fzf()
 
   " Initialize plugins
