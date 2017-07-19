@@ -27,8 +27,7 @@ set splitbelow splitright
 " UI
 "" Center
 set nostartofline noshowmatch       " don't randomly move the cursor
-set scrolloff=1 sidescroll=5        " always show 1 line, 5 cols
-set display=lastline                " don't mangle last line of buffer
+set sidescroll=5 scrolloff=1 sidescrolloff=1 display=lastline
 
 "" Left
 set number norelativenumber
@@ -41,7 +40,7 @@ set autoread
 set novisualbell noerrorbells
 set nolazyredraw                    " lazyredraw is still broken
 set backspace=2 whichwrap=<,>,b,s
-set fileformats=unix,dos,mac
+set fileformats=unix,dos
 set nrformats-=octal complete-=i
 set notimeout ttimeout ttimeoutlen=100
 set noswapfile updatecount=0 nobackup patchmode=
