@@ -30,7 +30,7 @@ set nostartofline noshowmatch       " don't randomly move the cursor
 set sidescroll=5 scrolloff=1 sidescrolloff=1 display=lastline
 
 "" Left
-set number norelativenumber
+set number
 
 "" Bottom
 set laststatus=2 cmdheight=2 showmode
@@ -64,10 +64,6 @@ endif
 if has('linebreak')
   set numberwidth=4 textwidth=76  " 3-digit line number in 80 col terminals
   set nolinebreak                 " hard wrap on inserted lines
-
-  if exists('+breakindent')
-    set nobreakindent
-  endif
 endif
 
 if has('cmdline_info')
@@ -109,10 +105,6 @@ if has('eval')
   let s:cpoptions = &cpoptions
   set cpoptions&vim
   let s:fix_ux = !has('win32unix') && $TERM !=# 'cygwin' && empty($TMUX)
-
-  if s:fix_ux
-    set relativenumber
-  endif
 
   if has('multi_byte')
     if &encoding ==# 'latin1' && has('gui_running')
@@ -157,10 +149,6 @@ if has('eval')
 
   if has('syntax')
     set nocursorline synmaxcol=500      " optimize for minified files
-
-    if exists('+colorcolumn')
-      let &colorcolumn = &textwidth
-    endif
   endif
 
   if has('windows')
@@ -186,6 +174,14 @@ if has('eval')
     endif
   endif
 
+  if v:version > 702
+    set norelativenumber
+
+    if has('syntax')
+      set colorcolumn=
+    endif
+  endif
+
   if v:version > 703
     set formatoptions+=j
   endif
@@ -195,7 +191,15 @@ if has('eval')
     set nofixendofline
 
     if has('linebreak')
-      set linebreak
+      set linebreak nobreakindent
+    endif
+
+    if s:fix_ux
+      set relativenumber
+
+      if has('syntax')
+        let &colorcolumn = &textwidth
+      endif
     endif
   endif
 
