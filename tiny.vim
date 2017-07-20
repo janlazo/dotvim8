@@ -37,6 +37,7 @@ set laststatus=2 cmdheight=2 showmode
 
 " Fixes
 set autoread
+set shortmess+=I
 set novisualbell noerrorbells
 set nolazyredraw                    " lazyredraw is still broken
 set backspace=2 whichwrap=<,>,b,s
@@ -189,6 +190,7 @@ if has('eval')
   if v:version >= 800 || has('nvim-0.1.6')
     set belloff=all
     set nofixendofline
+    set shortmess+=cF
 
     if has('linebreak')
       set linebreak nobreakindent
