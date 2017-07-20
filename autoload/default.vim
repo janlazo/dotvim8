@@ -45,11 +45,15 @@ endfunction
 
 
 function! s:vim_enter() abort
-  let patches = map(['7.4.1799', '8.0.0142', '8.0.0147'], '"patch-" . v:val')
+  if has('termguicolors')
+    let patches = map(['7.4.1799', '8.0.0142', '8.0.0147'], '"patch-" . v:val')
 
-  if has('termguicolors') && &t_Co == 256 && empty($TMUX) &&
-    \ (has('nvim-0.1.6') || !empty(filter(patches, 'has(v:val)')))
-    set termguicolors
+    if (has('nvim-0.1.6') || !empty(filter(patches, 'has(v:val)'))) &&
+        \ &t_Co == 256 && empty($TMUX)
+      set termguicolors
+    else
+      set notermguicolors
+    endif
   endif
 
   if has('syntax')
