@@ -66,7 +66,7 @@ function! default#init() abort
     Plug fzf_path
   endif
 
-  Plug 'justinmk/dirvish'
+  Plug 'justinmk/vim-dirvish'
   nnoremap <Space>o :Dirvish<CR>
 
   if !exists('g:grepper')
