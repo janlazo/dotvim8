@@ -18,21 +18,7 @@ endif
 let g:loaded_autoload_default = 1
 let s:cpoptions = &cpoptions
 set cpoptions&vim
-
-function! s:fzf() abort
-  let fzf_dirs = split(glob('~/.fzf', 1), "\n")
-
-  if empty(fzf_dirs)
-    return
-  endif
-
-  let &rtp .= ',' . fzf_dirs[0]
-  let fzf_docs = split(glob(fzf_dirs[0] . '/doc', 1), "\n")
-
-  if !empty(fzf_docs)
-    execute 'helptags' fzf_docs[0]
-  endif
-endfunction
+let s:base_dir = expand('<sfile>:p:h:h')
 
 
 function! s:format_opts() abort
@@ -56,36 +42,57 @@ function! s:vim_enter() abort
     endif
   endif
 
-  if has('syntax')
-    colorscheme torte
-  endif
+  colorscheme torte
 endfunction
 
 
-" Call this function after sourcing options.vim
+" Call this function after sourcing tiny.vim
+" Assume vim 7.2+ (normal/huge version) or nvim 0.1+
+" For Windows, assume vim 7.4+ or nvim 0.2+
 function! default#init() abort
+  if !has('syntax') || !has('autocmd')
+    finish
+  endif
+
   " Filetype
   let g:tex_flavor = 'latex'
 
-  " External Plugins
-  call s:fzf()
+  runtime vim-plug/plug.vim
+  call plug#begin(expand(s:base_dir . '/bundles'))
 
-  " Initialize plugins
-  filetype plugin indent on
+  let fzf_path = expand('~/.fzf')
 
-  if has('syntax') && !exists('g:syntax_on')
-    syntax enable
+  if isdirectory(fzf_path)
+    Plug fzf_path
   endif
 
-  if has('autocmd')
-    augroup default_config
-      autocmd!
-      autocmd VimEnter * call s:vim_enter()
+  Plug 'justinmk/dirvish'
+  nnoremap <Space>o :Dirvish<CR>
 
-      " Reset settings mangled by ftplugin, syntax files
-      autocmd BufWinEnter,BufNewFile * call s:format_opts()
-    augroup END
+  if !exists('g:grepper')
+    let g:grepper = {}
   endif
+
+  let g:grepper.tools = filter([
+  \ 'rg', 'sift', 'grep', 'findstr', 'git'
+  \ ], 'executable(v:val)')
+
+  if !empty(g:grepper.tools)
+    let grep_cmd = g:grepper.tools[0]
+    let grep_cmd = ':Grepper' . toupper(grep_cmd[0]) . grep_cmd[1:]
+    execute 'nnoremap <Space>/' grep_cmd ''
+  endif
+
+  Plug 'mhinz/vim-grepper'
+  call plug#end()
+
+  augroup default_config
+    autocmd!
+    autocmd VimEnter * call s:vim_enter()
+
+    " Reset settings mangled by ftplugin, syntax files
+    autocmd BufWinEnter,BufNewFile * call s:format_opts()
+  augroup END
 endfunction
 
 let &cpoptions = s:cpoptions

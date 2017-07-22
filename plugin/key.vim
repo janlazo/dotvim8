@@ -29,10 +29,6 @@ nnoremap <silent> <Space>rs :%s/\s\+$//g<CR>
 nnoremap <silent> <Space>v :tabedit $MYVIMRC<CR>
 nnoremap <silent> <Space>gv :tabedit $MYGVIMRC<CR>
 
-" open directory via netrw
-nnoremap <silent> - :Explore<CR>
-nnoremap <silent> <Space>o :exec ':Explore' getcwd()<CR>
-
 " use <Space>[hjkl] to move across buffers in same tab
 nnoremap <Space>j <C-W><C-J>
 nnoremap <Space>k <C-W><C-K>

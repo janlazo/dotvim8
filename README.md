@@ -29,15 +29,3 @@ Apache License Version 2.0 (ALv2)
 ## TODO
 - `default#init()` for common bundles via vim package manager (e.g. plug, dein)
   - submodules affect the history and require recent versions of Git to be user-friendly
-- replace netrw with dirvish
-  - netrw is useless in neovim on Windows (disabled in init.vim)
-  - netrw requires configurations to be reliable
-    - swap files while browsing directories
-    - cannot access `C:/` (root directory) in Windows by default
-  - dirvish is faster and works with experimental Windows builds since Neovim 0.1.6
-- use vim-grepper or similar plugin to grep via rg or sift
-  - rg and sift are cross-platform, fast, and easy to install
-    - rg: install via chocolatey in Windows to resolve dependencies
-    - sift: install via downloadable zip from its website
-  - ag is hard to compile/install in Windows
-  - ack can hang in Windows because it relies on perl
