@@ -42,7 +42,20 @@ function! s:vim_enter() abort
     endif
   endif
 
-  colorscheme torte
+  let cur_color = get('g:', 'colors_name', 'default')
+
+  if (has('gui_running') ||
+        \ (has('termguicolors') && &termguicolors) ||
+        \ &t_Co == 256) &&
+      \ cur_color !=# 'jellybeans'
+    silent! colorscheme jellybeans
+  endif
+
+  if cur_color ==# 'default'
+    colorscheme torte
+  endif
+
+  syntax enable
 endfunction
 
 
@@ -84,7 +97,9 @@ function! default#init() abort
   endif
 
   Plug 'mhinz/vim-grepper'
+  Plug 'nanotech/jellybeans.vim'
   call plug#end()
+  syntax off
 
   augroup default_config
     autocmd!
