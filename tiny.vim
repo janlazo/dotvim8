@@ -98,6 +98,11 @@ if has('mouse') && !has('gui_running')
   set mouse=
 endif
 
+if has('syntax')
+   " optimize for minified files
+  set nocursorline nocursorcolumn synmaxcol=500
+endif
+
 if has('termguicolors')
   set notermguicolors
 endif
@@ -146,10 +151,6 @@ if has('eval')
     let s:statusline .= ' |%4l:%-4c'                        " line, column
     let &statusline = s:statusline
     unlet s:statusline
-  endif
-
-  if has('syntax')
-    set nocursorline synmaxcol=500      " optimize for minified files
   endif
 
   if has('windows')
