@@ -42,16 +42,14 @@ function! s:vim_enter() abort
     endif
   endif
 
-  let cur_color = get('g:', 'colors_name', 'default')
+  let cur_color = get(g:, 'colors_name', 'default')
 
   if (has('gui_running') ||
         \ (has('termguicolors') && &termguicolors) ||
         \ &t_Co == 256) &&
       \ cur_color !=# 'jellybeans'
     silent! colorscheme jellybeans
-  endif
-
-  if cur_color ==# 'default'
+  elseif cur_color ==# 'default'
     colorscheme torte
   endif
 
