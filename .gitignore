@@ -6,3 +6,6 @@ Session.vim
 
 # Neovim
 rplugin.vim
+
+# Vim packages
+bundles/
