@@ -42,7 +42,14 @@ function! default#init() abort
   let g:tex_flavor = 'latex'
 
   runtime vim-plug/plug.vim
-  call plug#begin(expand(s:base_dir . '/bundles'))
+  silent! call plug#begin(expand(s:base_dir . '/bundles'))
+  Plug 'tpope/vim-unimpaired'
+  Plug 'tpope/vim-surround'
+  Plug 'tpope/vim-commentary'
+  Plug 'tpope/vim-endwise'
+  Plug 'tpope/tpope-vim-abolish'
+  Plug 'tpope/vim-speeddating'
+  Plug 'tpope/vim-repeat'
 
   let fzf_path = expand('~/.fzf')
 
