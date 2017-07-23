@@ -69,6 +69,17 @@ function! default#init() abort
     endif
 
   Plug 'nanotech/jellybeans.vim'
+    " some shells/terminals don't use ANSI in 8-16 color terminals
+    " ex. cmd.exe and powershell.exe in Windows
+    let g:jellybeans_use_lowcolor_black = 0
+    let g:jellybeans_use_term_italics = 0
+    let g:jellybeans_use_gui_italics = 0
+    let g:jellybeans_override = {
+    \ 'Todo': {},
+    \ 'Comment': {},
+    \ 'background': {'ctermbg': 'none', '256ctermbg': 'none'}
+    \ }
+
   call plug#end()
 
   if has('termguicolors')
