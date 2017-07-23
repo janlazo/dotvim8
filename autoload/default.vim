@@ -51,23 +51,23 @@ function! default#init() abort
   endif
 
   Plug 'justinmk/vim-dirvish'
-  nnoremap <Space>o :Dirvish<CR>
-
-  if !exists('g:grepper')
-    let g:grepper = {}
-  endif
-
-  let g:grepper.tools = filter([
-  \ 'rg', 'sift', 'grep', 'findstr', 'git'
-  \ ], 'executable(v:val)')
-
-  if !empty(g:grepper.tools)
-    let grep_cmd = g:grepper.tools[0]
-    let grep_cmd = ':Grepper' . toupper(grep_cmd[0]) . grep_cmd[1:]
-    execute 'nnoremap <Space>/' grep_cmd ''
-  endif
+    nnoremap <Space>o :Dirvish<CR>
 
   Plug 'mhinz/vim-grepper'
+    if !exists('g:grepper')
+      let g:grepper = {}
+    endif
+
+    let g:grepper.tools = filter([
+    \ 'rg', 'sift', 'grep', 'findstr', 'git'
+    \ ], 'executable(v:val)')
+
+    if !empty(g:grepper.tools)
+      let grep_cmd = g:grepper.tools[0]
+      let grep_cmd = ':Grepper' . toupper(grep_cmd[0]) . grep_cmd[1:]
+      execute 'nnoremap <Space>/' grep_cmd ''
+    endif
+
   Plug 'nanotech/jellybeans.vim'
   call plug#end()
 
