@@ -79,7 +79,13 @@ function! default#init() abort
     \ 'Comment': {},
     \ 'background': {'ctermbg': 'none', '256ctermbg': 'none'}
     \ }
+  Plug 'junegunn/seoul256.vim'
+    let g:seoul256_background = 233
+    let g:seoul256_light_background = 255
 
+    if has('unix')
+      let g:seoul256_srgb = 1
+    endif
   call plug#end()
 
   if has('termguicolors')
@@ -97,11 +103,11 @@ function! default#init() abort
 
   let cur_color = get(g:, 'colors_name', 'default')
 
-  if (has('gui_running') ||
-        \ (has('termguicolors') && &termguicolors) ||
-        \ &t_Co == 256) &&
+  if (has('gui_running') || (has('termguicolors') && &termguicolors)) &&
       \ cur_color !=# 'jellybeans'
     silent! colorscheme jellybeans
+  elseif &t_Co == 256 && cur_color !=# 'seoul256'
+    silent! colorscheme seoul256
   endif
 
   let cur_color = get(g:, 'colors_name', 'default')
