@@ -30,33 +30,6 @@ function! s:format_opts() abort
 endfunction
 
 
-function! s:vim_enter() abort
-  if has('termguicolors')
-    let patches = map(['7.4.1799', '8.0.0142', '8.0.0147'], '"patch-" . v:val')
-
-    if (has('nvim-0.1.6') || !empty(filter(patches, 'has(v:val)'))) &&
-        \ &t_Co == 256 && empty($TMUX)
-      set termguicolors
-    else
-      set notermguicolors
-    endif
-  endif
-
-  let cur_color = get(g:, 'colors_name', 'default')
-
-  if (has('gui_running') ||
-        \ (has('termguicolors') && &termguicolors) ||
-        \ &t_Co == 256) &&
-      \ cur_color !=# 'jellybeans'
-    silent! colorscheme jellybeans
-  elseif cur_color ==# 'default'
-    colorscheme torte
-  endif
-
-  syntax enable
-endfunction
-
-
 " Call this function after sourcing tiny.vim
 " Assume vim 7.2+ (normal/huge version) or nvim 0.1+
 " For Windows, assume vim 7.4+ or nvim 0.2+
@@ -97,11 +70,37 @@ function! default#init() abort
   Plug 'mhinz/vim-grepper'
   Plug 'nanotech/jellybeans.vim'
   call plug#end()
-  syntax off
+
+  if has('termguicolors')
+    let patches = filter(map([
+    \ '7.4.1799', '8.0.0142', '8.0.0147'
+    \ ], '"patch-" . v:val'), 'has(v:val)')
+
+    if (has('nvim-0.1.6') || !empty(patches)) &&
+        \ &t_Co == 256 && empty($TMUX)
+      set termguicolors
+    else
+      set notermguicolors
+    endif
+  endif
+
+  let cur_color = get(g:, 'colors_name', 'default')
+
+  if (has('gui_running') ||
+        \ (has('termguicolors') && &termguicolors) ||
+        \ &t_Co == 256) &&
+      \ cur_color !=# 'jellybeans'
+    silent! colorscheme jellybeans
+  endif
+
+  let cur_color = get(g:, 'colors_name', 'default')
+
+  if cur_color ==# 'default'
+    colorscheme torte
+  endif
 
   augroup default_config
     autocmd!
-    autocmd VimEnter * call s:vim_enter()
 
     " Reset settings mangled by ftplugin, syntax files
     autocmd BufWinEnter,BufNewFile * call s:format_opts()
