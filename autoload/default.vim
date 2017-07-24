@@ -21,7 +21,8 @@ set cpoptions&vim
 let s:base_dir = expand('<sfile>:p:h:h')
 
 
-function! s:format_opts() abort
+" Reset settings mangled by ftplugin, syntax files
+function! s:reset_opts() abort
   set formatoptions=rl
 
   if v:version > 703
@@ -125,9 +126,7 @@ function! default#init() abort
 
   augroup default_config
     autocmd!
-
-    " Reset settings mangled by ftplugin, syntax files
-    autocmd BufWinEnter,BufNewFile * call s:format_opts()
+    autocmd BufWinEnter,BufNewFile * call s:reset_opts()
   augroup END
 endfunction
 
