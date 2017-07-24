@@ -39,11 +39,9 @@ function! default#init() abort
     finish
   endif
 
-  " Filetype
-  let g:tex_flavor = 'latex'
-
   runtime vim-plug/plug.vim
   silent! call plug#begin(expand(s:base_dir . '/bundles'))
+  " {{{plug-core
   Plug 'tpope/vim-unimpaired'
   Plug 'tpope/vim-surround'
   Plug 'tpope/vim-commentary'
@@ -75,7 +73,8 @@ function! default#init() abort
       let grep_cmd = ':Grepper' . toupper(grep_cmd[0]) . grep_cmd[1:]
       execute 'nnoremap <Space>/' grep_cmd ''
     endif
-
+  " }}}plug-core
+  " {{{plug-color
   Plug 'nanotech/jellybeans.vim'
     " some shells/terminals don't use ANSI in 8-16 color terminals
     " ex. cmd.exe and powershell.exe in Windows
@@ -94,8 +93,28 @@ function! default#init() abort
     if has('unix')
       let g:seoul256_srgb = 1
     endif
+  " }}}plug-color
+  " {{{plug-ft-lang
+  Plug 'tpope/vim-scriptease', {'for': ['vim', 'help']}
+  Plug 'keith/tmux.vim'
+  Plug 'PProvost/vim-ps1'
+  Plug 'vim-pandoc/vim-pandoc-syntax'
+  Plug 'lervag/vimtex'
+    let g:tex_flavor = 'latex'
+  Plug 'kchmck/vim-coffee-script'
+  Plug 'aklt/plantuml-syntax'
+  Plug 'exu/pgsql.vim'
+    let g:sql_type_default = 'pgsql'
+  " }}}plug-ft-lang
+  " {{{plug-ft-data
+  Plug 'cespare/vim-toml'
+  Plug 'chrisbra/csv.vim'
+  Plug 'ap/vim-css-color'
+    let g:csv_strict_columns = 1
+  " }}}plug-ft-data
   call plug#end()
 
+  " {{{set-color
   if has('termguicolors')
     let patches = filter(map([
     \ '7.4.1799', '8.0.0142', '8.0.0147'
@@ -123,6 +142,7 @@ function! default#init() abort
   if cur_color ==# 'default'
     colorscheme torte
   endif
+  " }}}set-color
 
   augroup default_config
     autocmd!

@@ -14,3 +14,4 @@
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 setlocal shiftwidth=2 tabstop=2 expandtab
 setlocal keywordprg=:help
+setlocal foldmethod=marker
