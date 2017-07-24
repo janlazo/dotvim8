@@ -49,6 +49,7 @@ function! default#init() abort
   Plug 'tpope/tpope-vim-abolish'
   Plug 'tpope/vim-speeddating'
   Plug 'tpope/vim-repeat'
+  Plug 'editorconfig/editorconfig-vim'
 
   let fzf_path = expand('~/.fzf')
 
