@@ -12,8 +12,7 @@
 " See the License for the specific language governing permissions and
 " limitations under the License.
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Tiny
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" {{{tiny
 " 4-space Indent
 set shiftwidth=4 tabstop=4 softtabstop=0 expandtab nosmarttab
 set autoindent shiftround
@@ -26,8 +25,8 @@ set splitbelow splitright
 
 " UI
 "" Center
-set nostartofline noshowmatch       " don't randomly move the cursor
-set sidescroll=5 scrolloff=1 sidescrolloff=1 display=lastline
+set sidescroll=5 nostartofline noshowmatch
+set scrolloff=1 sidescrolloff=1 display=lastline
 
 "" Left
 set number
@@ -36,10 +35,8 @@ set number
 set laststatus=2 cmdheight=2 showmode
 
 " Fixes
-set autoread
-set shortmess+=I
-set novisualbell noerrorbells
-set nolazyredraw                    " lazyredraw is still broken
+set autoread lazyredraw
+set shortmess+=I novisualbell noerrorbells
 set backspace=2 whichwrap=<,>,b,s
 set fileformats=unix,dos
 set nrformats-=octal complete-=i
@@ -49,11 +46,9 @@ set noswapfile updatecount=0 nobackup patchmode=
 if exists('+swapsync')
   set swapsync=
 endif
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Huge
+" }}}tiny
+" {{{huge
 " options below are grouped by feature (check :h feature-list)
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 if has('smartindent')
   set nosmartindent
 endif
@@ -106,7 +101,8 @@ endif
 if has('termguicolors')
   set notermguicolors
 endif
-
+" }}}huge
+" {{{eval
 if has('eval')
   let s:cpoptions = &cpoptions
   set cpoptions&vim
@@ -124,7 +120,7 @@ if has('eval')
     endif
   endif
 
-  " emulate basic statusline from github.com/itchyny/lightline.vim
+  " {{{lightline (basic statusline from github.com/itchyny/lightline.vim)
   if has('statusline')
     set noshowmode
 
@@ -152,6 +148,7 @@ if has('eval')
     let &statusline = s:statusline
     unlet s:statusline
   endif
+  " }}}lightline
 
   if has('windows')
     if &tabpagemax < 50
@@ -224,3 +221,4 @@ if has('eval')
   let &cpoptions = s:cpoptions
   unlet s:cpoptions s:fix_ux
 endif
+" }}}eval
