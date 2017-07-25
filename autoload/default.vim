@@ -99,6 +99,7 @@ function! default#init() abort
   Plug 'tpope/vim-scriptease', {'for': ['vim', 'help']}
   Plug 'keith/tmux.vim'
   Plug 'PProvost/vim-ps1'
+  Plug 'tpope/vim-markdown'
   Plug 'vim-pandoc/vim-pandoc-syntax'
   Plug 'lervag/vimtex'
     let g:tex_flavor = 'latex'
