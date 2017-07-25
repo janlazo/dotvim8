@@ -47,8 +47,7 @@ if exists('+swapsync')
   set swapsync=
 endif
 " }}}tiny
-" {{{huge
-" options below are grouped by feature (check :h feature-list)
+" {{{huge - options are grouped by feature (check :h feature-list)
 if has('smartindent')
   set nosmartindent
 endif
@@ -101,7 +100,6 @@ endif
 if has('termguicolors')
   set notermguicolors
 endif
-" }}}huge
 " {{{eval
 if has('eval')
   let s:cpoptions = &cpoptions
@@ -120,7 +118,7 @@ if has('eval')
     endif
   endif
 
-  " {{{lightline (basic statusline from github.com/itchyny/lightline.vim)
+  " {{{lightline - basic statusline from github.com/itchyny/lightline.vim
   if has('statusline')
     set noshowmode
 
@@ -222,3 +220,4 @@ if has('eval')
   unlet s:cpoptions s:fix_ux
 endif
 " }}}eval
+" }}}huge
