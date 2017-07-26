@@ -35,7 +35,7 @@ set number
 set laststatus=2 cmdheight=2 showmode
 
 " Fixes
-set autoread lazyredraw
+set autoread nolazyredraw
 set shortmess+=I novisualbell noerrorbells
 set backspace=2 whichwrap=<,>,b,s
 set fileformats=unix,dos
