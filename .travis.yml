@@ -1,0 +1,22 @@
+sudo: false
+dist: trusty
+
+language: python
+python:
+  - "3.4"
+
+env:
+  global:
+    # Do not include subtrees   ex. vim-plug
+    - VIM_FILES="vimrc gvimrc $(git ls-files '*.vim' | grep -v 'vim-plug' | tr \\n ' ')"
+    - TOXENV="py34"
+
+before_install:
+  - echo $VIM_FILES
+
+install:
+  - pip install vim-vint==0.3.12
+  - vint --version
+
+script:
+  - vint $VIM_FILES
