@@ -1,5 +1,7 @@
 # dotvim8
 
+[Travis] ![Build Status][Travis-Status]
+
 Vim 8+ / Neovim 0.2+ config folder for Windows support and async jobs.
 
 - `tiny.vim` to handle shared options and mappings
@@ -35,6 +37,8 @@ Apache License Version 2.0 (ALv2)
 ## TODO
 - port core and filetype configs from [janlazo/dotvim]
 
+[Travis]: https://travis-ci.org/janlazo/dotvim8
+[Travis-Status]: https://travis-ci.org/janlazo/dotvim8.svg?branch=master
 [vim-plug]: https://github.com/junegunn/vim-plug
 [neovim-qt]: https://github.com/equalsraf/neovim-qt
 [janlazo/dotvim]: https://github.com/janlazo/dotvim
