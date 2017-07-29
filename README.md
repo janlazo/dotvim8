@@ -28,7 +28,7 @@ Vim 8+ / Neovim 0.2+ config folder for Windows support and async jobs.
   - gui: gvim
 - Windows 7, 8.1
   - terminal: ConEmu for truecolor via `set term=xterm`
-  - gui: [neovim-qt] (shipped in Appveyor zip from Neovim team)
+  - gui: gvim, [neovim-qt]
 
 ## LICENSE
 
