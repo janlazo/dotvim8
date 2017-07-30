@@ -66,8 +66,12 @@ if has('cmdline_info')
   set noruler         " obseleted by statusline
 endif
 
+if has('statusline')
+  set rulerformat=
+endif
+
 " highlight matches, quick-jump to nearest
-if has('extra_search')
+if has('extra_search') && has('reltime')
   set hlsearch incsearch
 endif
 
