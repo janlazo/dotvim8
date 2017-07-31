@@ -38,14 +38,11 @@ set laststatus=2 cmdheight=2 showmode
 set autoread nolazyredraw
 set shortmess+=I novisualbell noerrorbells
 set backspace=2 whichwrap=<,>,b,s
+set gdefault noignorecase nosmartcase noinfercase
 set fileformats=unix,dos
 set nrformats-=octal complete-=i
 set notimeout ttimeout ttimeoutlen=100
 set noswapfile updatecount=0 nobackup patchmode=
-
-if exists('+swapsync')
-  set swapsync=
-endif
 " }}}tiny
 " {{{huge - options are grouped by feature (check :h feature-list)
 if has('smartindent')
