@@ -130,20 +130,26 @@ function! default#init() abort
     endif
   endif
 
-  let cur_color = get(g:, 'colors_name', 'default')
+  try
+    let cur_color = get(g:, 'colors_name', 'default')
 
-  if (has('gui_running') || (has('termguicolors') && &termguicolors)) &&
-      \ cur_color !=# 'jellybeans'
-    silent! colorscheme jellybeans
-  elseif &t_Co == 256 && cur_color !=# 'seoul256'
-    silent! colorscheme seoul256
-  endif
+    if has('gui_running') || (has('termguicolors') && &termguicolors)
+      if cur_color !=# 'jellybeans'
+        colorscheme jellybeans
+      endif
+    elseif &t_Co == 256
+      if cur_color !=# 'seoul256'
+        colorscheme seoul256
+      endif
+    endif
+  catch
+  finally
+    let cur_color = get(g:, 'colors_name', 'default')
 
-  let cur_color = get(g:, 'colors_name', 'default')
-
-  if cur_color ==# 'default'
-    colorscheme torte
-  endif
+    if cur_color ==# 'default'
+      colorscheme torte
+    endif
+  endtry
   " }}}set-color
 
   augroup default_config
