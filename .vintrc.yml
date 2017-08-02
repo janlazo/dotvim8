@@ -1,9 +1,0 @@
-cmdargs:
-  severity: error
-  stat: true
-  error-limit: 50
-  json: false
-  color: true
-
-  env:
-    neovim: true
