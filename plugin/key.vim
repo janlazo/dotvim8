@@ -13,7 +13,7 @@
 " limitations under the License.
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 if exists('g:loaded_plugin_key')
-	finish
+  finish
 endif
 let g:loaded_plugin_key = 1
 let s:cpoptions = &cpoptions
@@ -21,6 +21,11 @@ set cpoptions&vim
 
 nnoremap <silent> <Space>st :call util#space_to_tab()<CR>
 nnoremap <silent> <Space>ts :call util#tab_to_space()<CR>
+
+" Nobody uses 'Ex' mode and it is remapped to 'gq' in defaults.vim
+" Spell check should never be enabled by default because of false positives
+" Remap 'Ex' mode to toggling spell check
+nnoremap <silent> Q :call util#toggle_spell()<CR>
 
 " Clear trailing whitespace
 nnoremap <silent> <Space>rs :%s/\s\+$//g<CR>

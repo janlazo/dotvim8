@@ -31,5 +31,19 @@ function! util#space_to_tab() abort
   retab!
 endfunction
 
+
+function! util#toggle_spell() abort
+  if !has('syntax') || has('nvim')
+    return
+  endif
+
+  if &spell
+    setlocal nospell complete-=kspell
+  else
+    setlocal spell complete+=kspell
+  endif
+endfunction
+
+
 let &cpoptions = s:cpoptions
 unlet s:cpoptions
