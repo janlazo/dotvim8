@@ -189,7 +189,7 @@ if has('eval')
     set formatoptions+=j
 
     if has('insert_expand') && has('patch-7.4.775')
-      set completeopt+=noinsert
+      set completeopt+=noinsert,noselect
     endif
   endif
 
