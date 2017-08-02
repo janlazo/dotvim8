@@ -35,6 +35,7 @@ set number
 set laststatus=2 cmdheight=2 showmode
 
 " Fixes
+set nomodeline modelines=0
 set autoread nolazyredraw
 set shortmess+=I novisualbell noerrorbells
 set backspace=2 whichwrap=<,>,b,s
