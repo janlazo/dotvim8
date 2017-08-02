@@ -26,7 +26,11 @@ endif
 
 runtime tiny.vim
 
+if has('syntax')
+  " '%' jumps to begin/end pairs
+  runtime! macros/matchit.vim
+endif
+
 if has('autocmd')
-  runtime! macros/matchit.vim   " '%' jumps to begin/end pairs
   call default#init()
 endif
