@@ -162,7 +162,7 @@ function! default#init() abort
     autocmd BufWinEnter,BufNewFile * call s:reset_opts()
 
     if has('nvim')
-      autocmd VimEnter * UpdateRemotePlugins
+      autocmd VimEnter * silent UpdateRemotePlugins
     endif
   augroup END
 endfunction
