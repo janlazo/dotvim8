@@ -78,6 +78,10 @@ if has('wildmenu')
   set wildmenu wildmode=longest:full,full
 endif
 
+if has('insert_expand')
+  set completeopt=menuone,preview
+endif
+
 if has('mksession')
   set sessionoptions-=options
 endif
@@ -183,6 +187,10 @@ if has('eval')
 
   if v:version > 703
     set formatoptions+=j
+
+    if has('insert_expand') && has('patch-7.4.775')
+      set completeopt+=noinsert
+    endif
   endif
 
   if v:version >= 800 || has('nvim-0.1.6')

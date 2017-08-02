@@ -74,6 +74,11 @@ function! default#init() abort
       let grep_cmd = ':Grepper' . toupper(grep_cmd[0]) . grep_cmd[1:]
       execute 'nnoremap <Space>/' grep_cmd ''
     endif
+  Plug 'Shougo/deoplete.nvim', has('nvim') ? {} : {'on': []}
+  Plug 'Shougo/neco-vim', has('nvim') ? {} : {'on': []}
+    let g:deoplete#enable_at_startup = 1
+    inoremap <silent><expr> <TAB>   pumvisible() ? '<C-n>' : '<TAB>'
+    inoremap <silent><expr> <S-TAB> pumvisible() ? '<C-p>' : '<S-TAB>'
   " }}}plug-core
   " {{{plug-color
   Plug 'nanotech/jellybeans.vim'
@@ -155,6 +160,10 @@ function! default#init() abort
   augroup default_config
     autocmd!
     autocmd BufWinEnter,BufNewFile * call s:reset_opts()
+
+    if has('nvim')
+      autocmd VimEnter * UpdateRemotePlugins
+    endif
   augroup END
 endfunction
 
