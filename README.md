@@ -14,6 +14,7 @@ Vim 8+ / Neovim 0.2+ config folder for Windows support and async jobs.
 - gvimrc and ginit.vim for GUI-specific configs (e.g. fonts, columns)
 - [vim-plug] as package manager for bundles in Github
   - added my fork as subtree to resolve Windows issues
+- [go-vimlparser] for linting Vimscript
 
 ## Editor Support
 
@@ -40,5 +41,6 @@ Apache License Version 2.0 (ALv2)
 [Travis]: https://travis-ci.org/janlazo/dotvim8
 [Travis-Status]: https://travis-ci.org/janlazo/dotvim8.svg?branch=master
 [vim-plug]: https://github.com/junegunn/vim-plug
+[go-vimlparser]: https://github.com/haya14busa/go-vimlparser
 [neovim-qt]: https://github.com/equalsraf/neovim-qt
 [janlazo/dotvim]: https://github.com/janlazo/dotvim
