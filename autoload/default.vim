@@ -50,16 +50,8 @@ function! default#init() abort
   Plug 'tpope/vim-speeddating'
   Plug 'tpope/vim-repeat'
   Plug 'editorconfig/editorconfig-vim'
-
-  let fzf_path = expand('~/.fzf')
-
-  if isdirectory(fzf_path)
-    Plug fzf_path
-  endif
-
   Plug 'justinmk/vim-dirvish'
     nnoremap <Space>o :Dirvish<CR>
-
   Plug 'mhinz/vim-grepper'
     if !exists('g:grepper')
       let g:grepper = {}
@@ -74,6 +66,27 @@ function! default#init() abort
       let grep_cmd = ':Grepper' . toupper(grep_cmd[0]) . grep_cmd[1:]
       execute 'nnoremap <Space>/' grep_cmd ''
     endif
+  Plug 'AndrewRadev/splitjoin.vim'
+  Plug 'airblade/vim-rooter'
+    let g:rooter_use_lcd = 1
+    let g:rooter_silent_chdir = 1
+    let g:rooter_targets = '*'
+    let g:rooter_change_directory_for_non_project_files = 'current'
+    " Version Control
+    let g:rooter_patterns = ['.git/', '.hg/', '.svn/']
+    " Javascript
+    call extend(g:rooter_patterns, ['package.json'])
+    " PHP
+    call extend(g:rooter_patterns, ['composer.json'])
+    " Java
+    call extend(g:rooter_patterns, ['pom.xml'])
+
+  let fzf_path = expand('~/.fzf')
+
+  if isdirectory(fzf_path)
+    Plug fzf_path
+  endif
+
   Plug 'Shougo/deoplete.nvim', has('nvim') ? {} : {'on': []}
   Plug 'Shougo/neco-vim', has('nvim') ? {} : {'on': []}
     let g:deoplete#enable_at_startup = 1
