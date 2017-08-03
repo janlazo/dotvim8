@@ -83,6 +83,8 @@ function! default#init() abort
     call extend(g:rooter_patterns, ['composer.json'])
     " Java
     call extend(g:rooter_patterns, ['pom.xml'])
+  Plug 'Valloric/MatchTagAlways'
+    let g:mta_filetypes = {'html': 1, 'xml': 1, 'xhtml': 1, 'php': 1}
 
   let fzf_path = expand('~/.fzf')
 
