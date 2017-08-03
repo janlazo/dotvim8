@@ -50,6 +50,9 @@ function! default#init() abort
   Plug 'tpope/vim-speeddating'
   Plug 'tpope/vim-repeat'
   Plug 'editorconfig/editorconfig-vim'
+    let g:EditorConfig_preserve_formatoptions = 1
+    let g:EditorConfig_max_line_indicator = 'none'
+    let g:EditorConfig_exclude_patterns = ['scp://.*']
   Plug 'justinmk/vim-dirvish'
     nnoremap <Space>o :Dirvish<CR>
   Plug 'mhinz/vim-grepper'
