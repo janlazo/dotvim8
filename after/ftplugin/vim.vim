@@ -12,6 +12,6 @@
 " See the License for the specific language governing permissions and
 " limitations under the License.
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-setlocal shiftwidth=2 tabstop=2 expandtab
+setlocal shiftwidth=2 expandtab
 setlocal keywordprg=:help
 setlocal foldmethod=marker

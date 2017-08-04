@@ -16,7 +16,7 @@
 " foldmarkers group options by version (:h version)
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " 4-space Indent
-set shiftwidth=4 tabstop=4 softtabstop=0 expandtab nosmarttab
+set shiftwidth=4 smarttab expandtab
 set autoindent shiftround
 
 " Line Wrap
