@@ -12,7 +12,9 @@
 " See the License for the specific language governing permissions and
 " limitations under the License.
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" {{{tiny
+" options are grouped by feature (:h feature-list)
+" foldmarkers group options by version (:h version)
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " 4-space Indent
 set shiftwidth=4 tabstop=4 softtabstop=0 expandtab nosmarttab
 set autoindent shiftround
@@ -24,14 +26,9 @@ set wrap textwidth=72 formatoptions=rl
 set splitbelow splitright
 
 " UI
-"" Center
+set number
 set sidescroll=5 nostartofline noshowmatch
 set scrolloff=1 sidescrolloff=1 display=lastline
-
-"" Left
-set number
-
-"" Bottom
 set laststatus=2 cmdheight=2 showmode
 
 " Fixes
@@ -44,8 +41,53 @@ set fileformats=unix,dos
 set nrformats-=octal complete-=i
 set notimeout ttimeout ttimeoutlen=100
 set noswapfile updatecount=0 nobackup patchmode=
-" }}}tiny
-" {{{huge - options are grouped by feature (check :h feature-list)
+
+if 1
+  let s:cpoptions = &cpoptions
+  set cpoptions&vim
+  let s:fix_ux = !has('win32unix') && $TERM !=# 'cygwin' && empty($TMUX)
+
+  if v:version > 702
+    set norelativenumber
+  endif
+
+  if v:version > 703
+    set formatoptions+=j
+  endif
+
+  if v:version >= 800 || has('nvim-0.1.6')
+    set shortmess+=cF belloff=all
+    set nofixendofline
+
+    if s:fix_ux
+      set relativenumber
+    endif
+  endif
+endif
+
+" Escape Insert/Visual Mode via Alt/Meta + [hjkl]
+if has('nvim') || has('win32') || has('gui_running')
+  inoremap <silent> <M-h> <Esc>hl
+  vnoremap <silent> <M-h> <Esc>hl
+
+  inoremap <silent> <M-j> <Esc>jl
+  vnoremap <silent> <M-j> <Esc>jl
+
+  inoremap <silent> <M-k> <Esc>kl
+  vnoremap <silent> <M-k> <Esc>kl
+
+  inoremap <silent> <M-l> <Esc>ll
+  vnoremap <silent> <M-l> <Esc>ll
+endif
+
+" {{{small
+if has('windows')
+  if &tabpagemax < 50
+    set tabpagemax=50
+  endif
+endif
+" }}}small
+" {{{normal
 if has('smartindent')
   set nosmartindent
 endif
@@ -55,17 +97,53 @@ if has('cindent')
 endif
 
 if has('linebreak')
-  set numberwidth=4 textwidth=76  " 3-digit line number in 80 col terminals
-  set nolinebreak                 " hard wrap on inserted lines
+  " 3-digit line number in 80 col terminals
+  set numberwidth=4 textwidth=76
+  " hard wrap on inserted lines
+  set nolinebreak
+
+  if v:version >= 800 || has('nvim-0.1.6')
+    set linebreak nobreakindent
+  endif
 endif
 
 if has('cmdline_info')
-  set showcmd         " display last command
-  set noruler         " obseleted by statusline
+  " display last command
+  set showcmd
+  " obseleted by statusline
+  set noruler
+
 endif
 
 if has('statusline')
-  set rulerformat=
+  set noshowmode rulerformat=
+
+  " {{{lightline
+  " basic statusline from github.com/itchyny/lightline.vim
+  let g:statusline_mode_map = {}
+  let g:statusline_mode_map.n = 'NORMAL'
+  let g:statusline_mode_map.i = 'INSERT'
+  let g:statusline_mode_map.R = 'REPLACE'
+  let g:statusline_mode_map.v = 'VISUAL'
+  let g:statusline_mode_map.V = 'V-LINE'
+  let g:statusline_mode_map["\<C-v>"] = 'V-BLOCK'
+  let g:statusline_mode_map.s = 'SELECT'
+  let g:statusline_mode_map.S = 'S-LINE'
+  let g:statusline_mode_map["\<C-s>"] = 'S-BLOCK'
+  let g:statusline_mode_map.c = 'COMMAND'
+  let g:statusline_mode_map.t = 'TERMINAL'
+
+  let s:statusline =  ' %{get(g:statusline_mode_map, mode(), "")}'
+  let s:statusline .= ' | %t'                             " tail of filename
+  let s:statusline .= ' [%R%M]'                           " file status flags
+  let s:statusline .= '%='                                " right align
+  let s:statusline .= '%{strlen(&ft)?&ft:"none"}'         " file type
+  let s:statusline .= ' | %{strlen(&fenc)?&fenc:"none"}'  " file encoding
+  let s:statusline .= ' | %{&ff}'                         " file format
+  let s:statusline .= ' |%4l:%-4c'                        " line, column
+  let &statusline = s:statusline
+  unlet s:statusline
+  " }}}lightline
 endif
 
 " highlight matches, quick-jump to nearest
@@ -80,18 +158,14 @@ endif
 
 if has('insert_expand')
   set completeopt=menuone,preview
+
+  if v:version > 703 && has('patch-7.4.775')
+    set completeopt+=noinsert,noselect
+  endif
 endif
 
 if has('mksession')
   set sessionoptions-=options
-endif
-
-if has('langmap')
-  if exists('+langnoremap')
-    set langnoremap
-  elseif exists('+langremap')
-    set nolangremap
-  endif
 endif
 
 if has('mouse') && !has('gui_running')
@@ -101,133 +175,64 @@ endif
 if has('syntax')
    " optimize for minified files
   set nocursorline nocursorcolumn synmaxcol=500
+
+  if v:version > 702
+    set colorcolumn=
+  endif
+
+  if v:version >= 800 || has('nvim-0.1.6')
+    if s:fix_ux
+      let &colorcolumn = &textwidth
+    endif
+  endif
+endif
+
+if has('multi_byte')
+  if &encoding ==# 'latin1' && has('gui_running')
+    set encoding=utf-8
+  endif
+endif
+
+if has('cmdline_hist')
+  if &history < 1000
+    set history=1000
+  endif
+endif
+" }}}normal
+" {{{big
+if has('langmap')
+  if exists('+langnoremap')
+    set langnoremap
+  elseif exists('+langremap')
+    set nolangremap
+  endif
 endif
 
 if has('termguicolors')
   set notermguicolors
 endif
-" {{{eval
-if has('eval')
-  let s:cpoptions = &cpoptions
-  set cpoptions&vim
-  let s:fix_ux = !has('win32unix') && $TERM !=# 'cygwin' && empty($TMUX)
+" }}}big
+" {{{huge
+if has('win32')
+  " '/' is closer to home row than '\\'
+  set shellslash
 
-  if has('multi_byte')
-    if &encoding ==# 'latin1' && has('gui_running')
-      set encoding=utf-8
-    endif
-  endif
-
-  if has('cmdline_hist')
-    if &history < 1000
-      set history=1000
-    endif
-  endif
-
-  " {{{lightline - basic statusline from github.com/itchyny/lightline.vim
-  if has('statusline')
-    set noshowmode
-
-    let g:statusline_mode_map = {}
-    let g:statusline_mode_map.n = 'NORMAL'
-    let g:statusline_mode_map.i = 'INSERT'
-    let g:statusline_mode_map.R = 'REPLACE'
-    let g:statusline_mode_map.v = 'VISUAL'
-    let g:statusline_mode_map.V = 'V-LINE'
-    let g:statusline_mode_map["\<C-v>"] = 'V-BLOCK'
-    let g:statusline_mode_map.s = 'SELECT'
-    let g:statusline_mode_map.S = 'S-LINE'
-    let g:statusline_mode_map["\<C-s>"] = 'S-BLOCK'
-    let g:statusline_mode_map.c = 'COMMAND'
-    let g:statusline_mode_map.t = 'TERMINAL'
-
-    let s:statusline =  ' %{get(g:statusline_mode_map, mode(), "")}'
-    let s:statusline .= ' | %t'                             " tail of filename
-    let s:statusline .= ' [%R%M]'                           " file status flags
-    let s:statusline .= '%='                                " right align
-    let s:statusline .= '%{strlen(&ft)?&ft:"none"}'         " file type
-    let s:statusline .= ' | %{strlen(&fenc)?&fenc:"none"}'  " file encoding
-    let s:statusline .= ' | %{&ff}'                         " file format
-    let s:statusline .= ' |%4l:%-4c'                        " line, column
-    let &statusline = s:statusline
-    unlet s:statusline
-  endif
-  " }}}lightline
-
-  if has('windows')
-    if &tabpagemax < 50
-      set tabpagemax=50
-    endif
-  endif
-
-  if has('win32')
-    set shellslash    " '/' is closer to home row than '\\'
-
-    if $ConEmuANSI ==# 'ON' && !has('gui_running') && !has('nvim')
-      if has('builtin_terms') && $ConEmuTask !~# 'Shells::cmd'
-        set term=xterm
-        set t_Co=256
-        let &t_AB = "\e[48;5;%dm"
-        let &t_AF = "\e[38;5;%dm"
-      endif
-
-      inoremap <Char-0x07F> <BS>
-      nnoremap <Char-0x07F> <BS>
-      vnoremap <Char-0x07F> <BS>
-    endif
-  endif
-
-  if v:version > 702
-    set norelativenumber
-
-    if has('syntax')
-      set colorcolumn=
-    endif
-  endif
-
-  if v:version > 703
-    set formatoptions+=j
-
-    if has('insert_expand') && has('patch-7.4.775')
-      set completeopt+=noinsert,noselect
-    endif
-  endif
-
-  if v:version >= 800 || has('nvim-0.1.6')
-    set belloff=all
-    set nofixendofline
-    set shortmess+=cF
-
-    if has('linebreak')
-      set linebreak nobreakindent
+  if $ConEmuANSI ==# 'ON' && !has('gui_running') && !has('nvim')
+    if has('builtin_terms') && $ConEmuTask !~# 'Shells::cmd'
+      set term=xterm
+      set t_Co=256
+      let &t_AB = "\e[48;5;%dm"
+      let &t_AF = "\e[38;5;%dm"
     endif
 
-    if s:fix_ux
-      set relativenumber
-
-      if has('syntax')
-        let &colorcolumn = &textwidth
-      endif
-    endif
+    inoremap <Char-0x07F> <BS>
+    nnoremap <Char-0x07F> <BS>
+    vnoremap <Char-0x07F> <BS>
   endif
+endif
+" }}}huge
 
-  " Escape Insert/Visual Mode via Alt/Meta + [hjkl]
-  if has('nvim') || has('win32') || has('gui_running')
-    inoremap <silent> <M-h> <Esc>hl
-    vnoremap <silent> <M-h> <Esc>hl
-
-    inoremap <silent> <M-j> <Esc>jl
-    vnoremap <silent> <M-j> <Esc>jl
-
-    inoremap <silent> <M-k> <Esc>kl
-    vnoremap <silent> <M-k> <Esc>kl
-
-    inoremap <silent> <M-l> <Esc>ll
-    vnoremap <silent> <M-l> <Esc>ll
-  endif
-
+if 1
   let &cpoptions = s:cpoptions
   unlet s:cpoptions s:fix_ux
 endif
-" }}}eval
-" }}}huge

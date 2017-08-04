@@ -18,7 +18,7 @@ silent! while 0
 silent! endwhile
 
 " unset 'compatible' in normal/huge versions
-if has('eval')
+if 1
   if &compatible
     set nocompatible
   endif

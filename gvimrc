@@ -26,6 +26,6 @@ endif
 
 set guioptions=cegLRv     " guioption default: egmrLtT
 
-if has('eval')
+if 1
   let &columns = 81 + &numberwidth
 endif
