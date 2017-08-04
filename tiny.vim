@@ -35,7 +35,7 @@ set laststatus=2 cmdheight=2 showmode
 set nomodeline modelines=0
 set autoread nolazyredraw
 set shortmess+=I novisualbell noerrorbells
-set backspace=2 whichwrap=<,>,b,s
+set backspace=2 whichwrap=<,>,b,s nojoinspaces
 set gdefault noignorecase nosmartcase noinfercase
 set fileformats=unix,dos
 set nrformats-=octal complete-=i
