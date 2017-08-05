@@ -22,9 +22,6 @@ set autoindent shiftround
 " Line Wrap
 set wrap textwidth=72 formatoptions=rl
 
-" Splits
-set splitbelow splitright
-
 " UI
 set number
 set sidescroll=5 nostartofline noshowmatch
@@ -33,24 +30,20 @@ set laststatus=2 cmdheight=2 showmode
 
 " Fixes
 set nomodeline modelines=0
-set autoread nolazyredraw
-set shortmess+=I novisualbell noerrorbells
+set autoread
+set shortmess+=I
 set backspace=2 whichwrap=<,>,b,s nojoinspaces
-set gdefault noignorecase nosmartcase noinfercase
+set gdefault
 set fileformats=unix,dos
 set nrformats-=octal complete-=i
 set notimeout ttimeout ttimeoutlen=100
-set noswapfile updatecount=0 nobackup patchmode=
+set noswapfile updatecount=0
 
 if 1
   let s:cpoptions = &cpoptions
   set cpoptions&vim
   let s:base_dir = expand('<sfile>:p:h')
   let s:fix_ux = !has('win32unix') && $TERM !=# 'cygwin' && empty($TMUX)
-
-  if v:version > 702
-    set norelativenumber
-  endif
 
   if v:version > 703
     set formatoptions+=j
@@ -83,28 +76,20 @@ endif
 
 " {{{small
 if has('windows')
+  set splitbelow
+
   if &tabpagemax < 50
     set tabpagemax=50
   endif
 endif
 " }}}small
 " {{{normal
-if has('smartindent')
-  set nosmartindent
-endif
-
-if has('cindent')
-  set nocindent
-endif
-
 if has('linebreak')
   " 3-digit line number in 80 col terminals
   set numberwidth=4 textwidth=76
-  " hard wrap on inserted lines
-  set nolinebreak
 
   if v:version >= 800 || has('nvim-0.1.6')
-    set linebreak nobreakindent
+    set linebreak
   endif
 endif
 
@@ -113,7 +98,6 @@ if has('cmdline_info')
   set showcmd
   " obseleted by statusline
   set noruler
-
 endif
 
 if has('statusline')
@@ -175,7 +159,7 @@ endif
 
 if has('syntax')
    " optimize for minified files
-  set nocursorline nocursorcolumn synmaxcol=500
+  set synmaxcol=500
 
   if v:version > 702
     set colorcolumn=
@@ -211,6 +195,10 @@ if has('persistent_undo')
   let &undodir = s:undodir
   unlet s:undodir
 endif
+
+if has('vertsplit')
+  set splitright
+endif
 " }}}normal
 " {{{big
 if has('langmap')
@@ -219,10 +207,6 @@ if has('langmap')
   elseif exists('+langremap')
     set nolangremap
   endif
-endif
-
-if has('termguicolors')
-  set notermguicolors
 endif
 " }}}big
 " {{{huge
