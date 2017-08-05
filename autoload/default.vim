@@ -49,10 +49,6 @@ function! default#init() abort
   Plug 'tpope/tpope-vim-abolish'
   Plug 'tpope/vim-speeddating'
   Plug 'tpope/vim-repeat'
-  Plug 'editorconfig/editorconfig-vim'
-    let g:EditorConfig_preserve_formatoptions = 1
-    let g:EditorConfig_max_line_indicator = 'none'
-    let g:EditorConfig_exclude_patterns = ['scp://.*']
   Plug 'justinmk/vim-dirvish'
     nnoremap <Space>o :Dirvish<CR>
   Plug 'mhinz/vim-grepper'
@@ -83,21 +79,26 @@ function! default#init() abort
     call extend(g:rooter_patterns, ['composer.json'])
     " Java
     call extend(g:rooter_patterns, ['pom.xml'])
-  Plug 'Valloric/MatchTagAlways'
-    let g:mta_filetypes = {'html': 1, 'xml': 1, 'xhtml': 1, 'php': 1}
 
   let fzf_path = expand('~/.fzf')
 
   if isdirectory(fzf_path)
     Plug fzf_path
   endif
-
+  " }}}plug-core
+  " {{{plug-python
+  Plug 'editorconfig/editorconfig-vim'
+    let g:EditorConfig_preserve_formatoptions = 1
+    let g:EditorConfig_max_line_indicator = 'none'
+    let g:EditorConfig_exclude_patterns = ['scp://.*']
+  Plug 'Valloric/MatchTagAlways'
+    let g:mta_filetypes = {'html': 1, 'xml': 1, 'xhtml': 1, 'php': 1}
   Plug 'Shougo/deoplete.nvim', has('nvim') ? {} : {'on': []}
   Plug 'Shougo/neco-vim', has('nvim') ? {} : {'on': []}
     let g:deoplete#enable_at_startup = 1
     inoremap <silent><expr> <TAB>   pumvisible() ? '<C-n>' : '<TAB>'
     inoremap <silent><expr> <S-TAB> pumvisible() ? '<C-p>' : '<S-TAB>'
-  " }}}plug-core
+  " }}}plug-python
   " {{{plug-color
   Plug 'nanotech/jellybeans.vim'
     " some shells/terminals don't use ANSI in 8-16 color terminals
