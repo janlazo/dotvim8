@@ -41,6 +41,7 @@ function! default#init() abort
 
   runtime vim-plug/plug.vim
   silent! call plug#begin(expand(s:base_dir . '/bundles'))
+  let plug_disable = {'on': []}
   " {{{plug-core
   Plug 'tpope/vim-unimpaired'
   Plug 'tpope/vim-surround'
@@ -87,14 +88,17 @@ function! default#init() abort
   endif
   " }}}plug-core
   " {{{plug-python
-  Plug 'editorconfig/editorconfig-vim'
+  let base_cond = has('python') || has('python3')
+  Plug 'editorconfig/editorconfig-vim', base_cond ? {} : plug_disable
     let g:EditorConfig_preserve_formatoptions = 1
     let g:EditorConfig_max_line_indicator = 'none'
     let g:EditorConfig_exclude_patterns = ['scp://.*']
-  Plug 'Valloric/MatchTagAlways'
+  Plug 'Valloric/MatchTagAlways', base_cond ? {} : plug_disable
     let g:mta_filetypes = {'html': 1, 'xml': 1, 'xhtml': 1, 'php': 1}
-  Plug 'Shougo/deoplete.nvim', has('nvim') ? {} : {'on': []}
-  Plug 'Shougo/neco-vim', has('nvim') ? {} : {'on': []}
+
+  let base_cond = base_cond && has('nvim')
+  Plug 'Shougo/deoplete.nvim', base_cond ? {} : plug_disable
+  Plug 'Shougo/neco-vim', base_cond ? {} : plug_disable
     let g:deoplete#enable_at_startup = 1
     inoremap <silent><expr> <TAB>   pumvisible() ? '<C-n>' : '<TAB>'
     inoremap <silent><expr> <S-TAB> pumvisible() ? '<C-p>' : '<S-TAB>'
