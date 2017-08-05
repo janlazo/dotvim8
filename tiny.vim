@@ -45,6 +45,7 @@ set noswapfile updatecount=0 nobackup patchmode=
 if 1
   let s:cpoptions = &cpoptions
   set cpoptions&vim
+  let s:base_dir = expand('<sfile>:p:h')
   let s:fix_ux = !has('win32unix') && $TERM !=# 'cygwin' && empty($TMUX)
 
   if v:version > 702
@@ -198,6 +199,18 @@ if has('cmdline_hist')
     set history=1000
   endif
 endif
+
+if has('persistent_undo')
+  set undofile
+  let s:undodir = expand(s:base_dir . '/undodir')
+
+  if !isdirectory(s:undodir)
+    call system('mkdir ' . shellescape(s:undodir))
+  endif
+
+  let &undodir = s:undodir
+  unlet s:undodir
+endif
 " }}}normal
 " {{{big
 if has('langmap')
@@ -234,5 +247,5 @@ endif
 
 if 1
   let &cpoptions = s:cpoptions
-  unlet s:cpoptions s:fix_ux
+  unlet s:cpoptions s:fix_ux s:base_dir
 endif
