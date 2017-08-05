@@ -20,18 +20,18 @@ set shiftwidth=4 smarttab expandtab
 set autoindent shiftround
 
 " Line Wrap
-set wrap textwidth=72 formatoptions=rl
+set textwidth=72 formatoptions=rl
 
 " UI
 set number
-set sidescroll=5 nostartofline noshowmatch
+set sidescroll=5 nostartofline
 set scrolloff=1 sidescrolloff=1 display=lastline
 set laststatus=2 cmdheight=2 showmode
 
 " Fixes
 set nomodeline modelines=0
 set autoread
-set shortmess+=I
+set shortmess+=sI
 set backspace=2 whichwrap=<,>,b,s nojoinspaces
 set gdefault
 set fileformats=unix,dos
