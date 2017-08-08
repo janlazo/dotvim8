@@ -90,20 +90,22 @@ if has('statusline')
 
   " {{{lightline
   " basic statusline from github.com/itchyny/lightline.vim
-  let g:statusline_mode_map = {}
-  let g:statusline_mode_map.n = 'NORMAL'
-  let g:statusline_mode_map.i = 'INSERT'
-  let g:statusline_mode_map.R = 'REPLACE'
-  let g:statusline_mode_map.v = 'VISUAL'
-  let g:statusline_mode_map.V = 'V-LINE'
-  let g:statusline_mode_map["\<C-v>"] = 'V-BLOCK'
-  let g:statusline_mode_map.s = 'SELECT'
-  let g:statusline_mode_map.S = 'S-LINE'
-  let g:statusline_mode_map["\<C-s>"] = 'S-BLOCK'
-  let g:statusline_mode_map.c = 'COMMAND'
-  let g:statusline_mode_map.t = 'TERMINAL'
+  let g:statusline_modes = {
+  \ 'n': 'NORMAL',
+  \ 'i': 'INSERT',
+  \ 'R': 'REPLACE',
+  \ 'v': 'VISUAL',
+  \ 'V': 'V-LINE',
+  \ "\<C-v>": 'V-BLOCK',
+  \ 's': 'SELECT',
+  \ 'S': 'S-LINE',
+  \ "\<C-s>": 'S-BLOCK',
+  \ 'c': 'COMMAND',
+  \ 't': 'TERMINAL',
+  \ 'r': 'PROMPT'
+  \ }
 
-  let s:statusline =  ' %{get(g:statusline_mode_map, mode(), "")}'
+  let s:statusline =  ' %{get(g:statusline_modes, mode(), "")}'
   let s:statusline .= ' | %t'                             " tail of filename
   let s:statusline .= ' [%R%M]'                           " file status flags
   let s:statusline .= '%='                                " right align
