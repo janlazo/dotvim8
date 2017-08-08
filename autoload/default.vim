@@ -110,18 +110,6 @@ function! default#init() abort
     let g:jellybeans_use_lowcolor_black = 0
     let g:jellybeans_use_term_italics = 0
     let g:jellybeans_use_gui_italics = 0
-    let g:jellybeans_override = {
-    \ 'Todo': {},
-    \ 'Comment': {},
-    \ 'background': {'ctermbg': 'none', '256ctermbg': 'none'}
-    \ }
-  Plug 'junegunn/seoul256.vim'
-    let g:seoul256_background = 233
-    let g:seoul256_light_background = 255
-
-    if has('unix')
-      let g:seoul256_srgb = 1
-    endif
   " }}}plug-color
   " {{{plug-ft-lang
   Plug 'tpope/vim-scriptease', {'for': ['vim', 'help']}
@@ -161,13 +149,9 @@ function! default#init() abort
   try
     let cur_color = get(g:, 'colors_name', 'default')
 
-    if has('gui_running') || (has('termguicolors') && &termguicolors)
+    if has('gui_running') || &t_Co == 256
       if cur_color !=# 'jellybeans'
         colorscheme jellybeans
-      endif
-    elseif &t_Co == 256
-      if cur_color !=# 'seoul256'
-        colorscheme seoul256
       endif
     endif
   catch
