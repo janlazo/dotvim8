@@ -15,6 +15,18 @@
 " options are grouped by feature (:h feature-list)
 " foldmarkers group options by version (:h version)
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Fixes
+set cpoptions-=C
+set nomodeline modelines=0
+set autoread
+set shortmess+=sI
+set backspace=2 whichwrap=<,>,b,s nojoinspaces
+set gdefault
+set fileformats=unix,dos
+set nrformats-=octal complete-=i
+set notimeout ttimeout ttimeoutlen=100
+set noswapfile updatecount=0
+
 " 4-space Indent
 set shiftwidth=4 smarttab expandtab
 set autoindent shiftround
@@ -28,20 +40,7 @@ set sidescroll=5 nostartofline
 set scrolloff=1 sidescrolloff=1 display=lastline
 set laststatus=2 cmdheight=2 showmode
 
-" Fixes
-set nomodeline modelines=0
-set autoread
-set shortmess+=sI
-set backspace=2 whichwrap=<,>,b,s nojoinspaces
-set gdefault
-set fileformats=unix,dos
-set nrformats-=octal complete-=i
-set notimeout ttimeout ttimeoutlen=100
-set noswapfile updatecount=0
-
 if 1
-  let s:cpoptions = &cpoptions
-  set cpoptions&vim
   let s:base_dir = expand('<sfile>:p:h')
   let s:fix_ux = !has('win32unix') && $TERM !=# 'cygwin' && empty($TMUX)
 
@@ -272,6 +271,5 @@ if 1
   endif
   " }}}mappings
 
-  let &cpoptions = s:cpoptions
-  unlet s:cpoptions s:fix_ux s:base_dir
+  unlet s:fix_ux s:base_dir
 endif
