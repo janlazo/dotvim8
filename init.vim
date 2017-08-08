@@ -12,7 +12,7 @@
 " See the License for the specific language governing permissions and
 " limitations under the License.
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-runtime tiny.vim
+runtime dotvim8.vim
 
 if has('win32')
   let g:loaded_netrw = 1
@@ -33,4 +33,4 @@ if exists('g:nyaovim_version')
   set mouse=a
 endif
 
-call default#init()
+call dotvim8_plugs#init()

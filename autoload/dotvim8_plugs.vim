@@ -21,20 +21,10 @@ set cpoptions&vim
 let s:base_dir = expand('<sfile>:p:h:h')
 
 
-" Reset settings mangled by ftplugin, syntax files
-function! s:reset_opts() abort
-  set formatoptions=rl
-
-  if v:version > 703
-    set formatoptions+=j
-  endif
-endfunction
-
-
-" Call this function after sourcing tiny.vim
+" Call this function after sourcing dotvim8.vim
 " Assume vim 7.2+ (normal/huge version) or nvim 0.1+
 " For Windows, assume vim 7.4+ or nvim 0.2+
-function! default#init() abort
+function! dotvim8_plugs#init() abort
   if !has('syntax') || !has('autocmd')
     finish
   endif
@@ -163,15 +153,6 @@ function! default#init() abort
     endif
   endtry
   " }}}set-color
-
-  augroup default_config
-    autocmd!
-    autocmd BufWinEnter,BufNewFile * call s:reset_opts()
-
-    if has('nvim')
-      autocmd VimEnter * silent UpdateRemotePlugins
-    endif
-  augroup END
 endfunction
 
 let &cpoptions = s:cpoptions
