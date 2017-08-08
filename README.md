@@ -8,6 +8,7 @@ Vim 8+ / Neovim 0.2+ config folder for Windows support and async jobs.
   - validate in vim 7+, mainly `vim-tiny`, in Ubuntu 16.04 and Windows 7
   - check features and options to avoid vimscript errors
   - acts as a self-contained vimrc, independent of the entire repo
+  - assumes `set nocompatible` is set by Vim/Neovim or the user
 - vimrc and init.vim are hooks to bootstrap the editor
   - neovim: language providers, inccommand
   - vim: `set nocompatible`, matchit plugin
