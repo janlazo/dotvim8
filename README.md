@@ -17,6 +17,9 @@ Vim 8+ / Neovim 0.2+ config folder for Windows support and async jobs.
   - added my fork as subtree to resolve Windows issues
 - [go-vimlparser] for linting Vimscript
 
+Vimscript files in this repo use folds which slows down terminal Vim.
+For performance, use GUIs when navigating or editing inside folds.
+
 ## Editor Support
 
 - Vim 7.4+ to be compatible with most plugins in Github
