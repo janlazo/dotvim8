@@ -210,10 +210,10 @@ endif
 
 if has('persistent_undo')
   set undofile
-  let s:undodir = expand(s:base_dir . '/undodir')
+  let s:undodir = expand(s:base_dir . '/.undodir')
 
   if !isdirectory(s:undodir)
-    call system('mkdir ' . shellescape(s:undodir))
+    call mkdir(s:undodir, 'p')
   endif
 
   let &undodir = s:undodir
