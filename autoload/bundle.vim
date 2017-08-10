@@ -75,6 +75,7 @@ function! bundle#init() abort
 
   if isdirectory(fzf_path)
     Plug fzf_path
+    Plug 'janlazo/fzf.vim', {'branch': 'Windows'}
   endif
   " }}}plug-core
   " {{{plug-python
