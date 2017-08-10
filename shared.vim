@@ -56,6 +56,26 @@ if 1
       set relativenumber
     endif
   endif
+
+  function! SpaceToTab() abort
+    setlocal noexpandtab
+    retab!
+  endfunction
+
+  function! TabToSpace() abort
+    setlocal expandtab
+    retab
+  endfunction
+
+  nnoremap <silent> <Space>it :call SpaceToTab()<CR>
+  nnoremap <silent> <Space>is :call TabToSpace()<CR>
+
+  nnoremap <Plug>(RemoveTrailingSpace) :%s/\s\+%//g<CR>
+  nmap <Space>rs <Plug>(RemoveTrailingSpace)
+
+  " open vimrc or init.vim in new tab
+  nnoremap <silent> <Space>v :tabedit $MYVIMRC<CR>
+  nnoremap <silent> <Space>gv :tabedit $MYGVIMRC<CR>
 endif
 
 " {{{small
@@ -156,6 +176,24 @@ if has('syntax')
       let &colorcolumn = &textwidth
     endif
   endif
+
+  function! ToggleSpell() abort
+    if !has('syntax') || has('nvim')
+      return
+    endif
+
+    if &spell
+      setlocal nospell complete-=kspell
+    else
+      setlocal spell complete+=kspell
+    endif
+  endfunction
+
+  " Nobody uses 'Ex' mode
+  " It is remapped to 'gq' in $VIMRUNTIME/defaults.vim in Vim 8+
+  " Spell check gives false positives so it must be unset by default
+  " Remap 'Ex' mode to toggle spell check
+  nnoremap <silent> Q :call ToggleSpell()<CR>
 endif
 
 if has('multi_byte')
@@ -213,63 +251,23 @@ if has('win32')
     vnoremap <Char-0x07F> <BS>
   endif
 endif
+
+" Escape Insert/Visual Mode via Alt/Meta + [hjkl]
+if has('nvim') || has('win32') || has('gui_running')
+  inoremap <silent> <M-h> <Esc>hl
+  vnoremap <silent> <M-h> <Esc>hl
+
+  inoremap <silent> <M-j> <Esc>jl
+  vnoremap <silent> <M-j> <Esc>jl
+
+  inoremap <silent> <M-k> <Esc>kl
+  vnoremap <silent> <M-k> <Esc>kl
+
+  inoremap <silent> <M-l> <Esc>ll
+  vnoremap <silent> <M-l> <Esc>ll
+endif
 " }}}huge
 
 if 1
-  " {{{mappings
-  function! SpaceToTab() abort
-    setlocal noexpandtab
-    retab!
-  endfunction
-
-  function! TabToSpace() abort
-    setlocal expandtab
-    retab
-  endfunction
-
-  function! ToggleSpell() abort
-    if !has('syntax') || has('nvim')
-      return
-    endif
-
-    if &spell
-      setlocal nospell complete-=kspell
-    else
-      setlocal spell complete+=kspell
-    endif
-  endfunction
-
-  nnoremap <silent> <Space>it :call SpaceToTab()<CR>
-  nnoremap <silent> <Space>is :call TabToSpace()<CR>
-
-  " Nobody uses 'Ex' mode
-  " It is remapped to 'gq' in $VIMRUNTIME/defaults.vim in Vim 8+
-  " Spell check gives false positives so it must be unset by default
-  " Remap 'Ex' mode to toggle spell check
-  nnoremap <silent> Q :call ToggleSpell()<CR>
-
-  nnoremap <Plug>(RemoveTrailingSpace) :%s/\s\+%//g<CR>
-  nmap <Space>rs <Plug>(RemoveTrailingSpace)
-
-  " open vimrc or init.vim in new tab
-  nnoremap <silent> <Space>v :tabedit $MYVIMRC<CR>
-  nnoremap <silent> <Space>gv :tabedit $MYGVIMRC<CR>
-
-  " Escape Insert/Visual Mode via Alt/Meta + [hjkl]
-  if has('nvim') || has('win32') || has('gui_running')
-    inoremap <silent> <M-h> <Esc>hl
-    vnoremap <silent> <M-h> <Esc>hl
-
-    inoremap <silent> <M-j> <Esc>jl
-    vnoremap <silent> <M-j> <Esc>jl
-
-    inoremap <silent> <M-k> <Esc>kl
-    vnoremap <silent> <M-k> <Esc>kl
-
-    inoremap <silent> <M-l> <Esc>ll
-    vnoremap <silent> <M-l> <Esc>ll
-  endif
-  " }}}mappings
-
   unlet s:fix_ux s:base_dir
 endif
