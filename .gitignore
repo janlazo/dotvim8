@@ -9,4 +9,4 @@ rplugin.vim
 
 # user-defined
 bundles/
-undodir/
+.undodir/
