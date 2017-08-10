@@ -24,7 +24,7 @@ if 1
   endif
 endif
 
-runtime dotvim8.vim
+runtime shared.vim
 
 if has('syntax')
   " '%' jumps to begin/end pairs
@@ -32,5 +32,5 @@ if has('syntax')
 endif
 
 if has('autocmd')
-  call dotvim8_plugs#init()
+  call bundle#init()
 endif
