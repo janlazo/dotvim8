@@ -12,10 +12,10 @@
 " See the License for the specific language governing permissions and
 " limitations under the License.
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-if exists('g:loaded_autoload_default')
+if exists('g:loaded_autoload_bundle')
   finish
 endif
-let g:loaded_autoload_default = 1
+let g:loaded_autoload_bundle = 1
 let s:cpoptions = &cpoptions
 set cpoptions&vim
 let s:base_dir = expand('<sfile>:p:h:h')
