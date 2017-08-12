@@ -118,8 +118,8 @@ function! bundle#init() abort
   " {{{plug-ft-data
   Plug 'cespare/vim-toml'
   Plug 'chrisbra/csv.vim'
-  Plug 'ap/vim-css-color'
     let g:csv_strict_columns = 1
+  Plug 'ap/vim-css-color'
   " }}}plug-ft-data
   call plug#end()
 
