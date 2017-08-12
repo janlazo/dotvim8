@@ -33,6 +33,7 @@ function! bundle#init() abort
   silent! call plug#begin(expand(s:base_dir . '/bundles'))
   let plug_disable = {'on': []}
   " {{{plug-core
+  Plug 'tpope/vim-scriptease'
   Plug 'tpope/vim-unimpaired'
   Plug 'tpope/vim-surround'
   Plug 'tpope/vim-commentary'
@@ -103,7 +104,6 @@ function! bundle#init() abort
     let g:jellybeans_use_gui_italics = 0
   " }}}plug-color
   " {{{plug-ft-lang
-  Plug 'tpope/vim-scriptease', {'for': ['vim', 'help']}
   Plug 'keith/tmux.vim'
   Plug 'PProvost/vim-ps1'
   Plug 'tpope/vim-markdown'
