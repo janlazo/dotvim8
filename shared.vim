@@ -235,8 +235,16 @@ endif
 " }}}big
 " {{{huge
 if has('win32')
-  " '/' is closer to home row than '\\'
-  set shellslash
+  " Fix the default runtimepath
+  if has('nvim')
+    " Remove useless directories
+    set shellslash
+    execute 'set runtimepath-=' . fnamemodify(expand($VIMRUNTIME), ':p:h:h:h')
+    set noshellslash
+  else
+    " Fix inconsistent slashes in each filepath
+    let &runtimepath = join(map(split(&runtimepath, ','), 'expand(v:val)'), ',')
+  endif
 
   if $ConEmuANSI ==# 'ON' && !has('gui_running') && !has('nvim')
     if has('builtin_terms') && $ConEmuTask !~# 'Shells::cmd'
@@ -267,6 +275,18 @@ if has('nvim') || has('win32') || has('gui_running')
   vnoremap <silent> <M-l> <Esc>ll
 endif
 " }}}huge
+
+if has('autocmd')
+  augroup dotvim8
+    autocmd!
+
+    if has('win32')
+      " '/' is closer to home row than '\\'
+      " Use VimEnter to minimize inconsistent filepaths during startup
+      autocmd VimEnter * if has('win32') | set shellslash | endif
+    endif
+  augroup END
+endif
 
 if 1
   unlet s:fix_ux s:base_dir
