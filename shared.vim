@@ -232,15 +232,20 @@ if has('langmap')
     set nolangremap
   endif
 endif
+
+" Neovim GUIs set this before sourcing init.vim so unset it here
+if has('termguicolors')
+  set notermguicolors
+endif
 " }}}big
 " {{{huge
 if has('win32')
   " Fix the default runtimepath
   if has('nvim')
-    " Remove useless directories
-    set shellslash
-    execute 'set runtimepath-=' . fnamemodify(expand($VIMRUNTIME), ':p:h:h:h')
-    set noshellslash
+    " neovim-qt mangles the runtimepath so revert to Vim defaults
+    if empty($NVIM_QT_RUNTIMEPATH)
+      set runtimepath&vim
+    endif
   else
     " Fix inconsistent slashes in each filepath
     let &runtimepath = join(map(split(&runtimepath, ','), 'expand(v:val)'), ',')
