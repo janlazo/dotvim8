@@ -140,6 +140,7 @@ endif
 " highlight matches, quick-jump to nearest
 if has('extra_search') && has('reltime')
   set hlsearch incsearch
+  nnoremap <Space>c :nohlsearch<CR>
 endif
 
 " Display hints, complete with selection via tab
