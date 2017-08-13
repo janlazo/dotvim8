@@ -178,10 +178,6 @@ if has('syntax')
   endif
 
   function! ToggleSpell() abort
-    if !has('syntax') || has('nvim')
-      return
-    endif
-
     if &spell
       setlocal nospell complete-=kspell
     else

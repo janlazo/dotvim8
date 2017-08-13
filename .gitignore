@@ -6,6 +6,7 @@ Session.vim
 
 # Neovim
 rplugin.vim
+spell/
 
 # user-defined
 bundles/

@@ -12,6 +12,8 @@
 " See the License for the specific language governing permissions and
 " limitations under the License.
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let s:base_dir = fnamemodify(expand('<sfile>'), ':p:h')
+
 if has('win32')
   " neovim-qt mangles the runtimepath so revert to Vim defaults
   if empty($NVIM_QT_RUNTIMEPATH)
@@ -22,14 +24,17 @@ endif
 runtime shared.vim
 
 if has('win32')
-  let g:loaded_netrw = 1
-  let g:loaded_netrwPlugin = 1
-
   if !has('nvim-0.2')
     let g:loaded_python_provider = 1
     let g:loaded_python3_provider = 1
     let g:loaded_ruby_provider = 1
   endif
+
+  " Neovim uses hardcoded XDG directories for spell/
+  " Hijack the function that outputs these directories to point here
+  function! spellfile#WritableSpellDir()
+    return expand(s:base_dir . '/spell')
+  endfunction
 endif
 
 if has('nvim-0.2')
