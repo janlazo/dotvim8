@@ -99,6 +99,7 @@ function! bundle#init() abort
     let g:jellybeans_use_gui_italics = 0
   " }}}plug-color
   " {{{plug-ft-lang
+  Plug 'junegunn/vader.vim'
   Plug 'keith/tmux.vim'
   Plug 'PProvost/vim-ps1'
   Plug 'tpope/vim-markdown'
