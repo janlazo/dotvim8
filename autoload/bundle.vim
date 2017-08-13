@@ -125,7 +125,7 @@ function! bundle#init() abort
   " {{{set-color
   if has('termguicolors')
     let patches = filter(map([
-    \ '7.4.1799', '8.0.0142', '8.0.0147'
+    \ '7.4.1799', '8.0.0142', '8.0.0146'
     \ ], '"patch-" . v:val'), 'has(v:val)')
 
     if (has('nvim-0.1.6') || !empty(patches)) &&
