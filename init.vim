@@ -12,6 +12,13 @@
 " See the License for the specific language governing permissions and
 " limitations under the License.
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+if has('win32')
+  " neovim-qt mangles the runtimepath so revert to Vim defaults
+  if empty($NVIM_QT_RUNTIMEPATH)
+    set runtimepath&vim
+  endif
+endif
+
 runtime shared.vim
 
 if has('win32')

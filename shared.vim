@@ -239,32 +239,6 @@ if has('termguicolors')
 endif
 " }}}big
 " {{{huge
-if has('win32')
-  " Fix the default runtimepath
-  if has('nvim')
-    " neovim-qt mangles the runtimepath so revert to Vim defaults
-    if empty($NVIM_QT_RUNTIMEPATH)
-      set runtimepath&vim
-    endif
-  else
-    " Fix inconsistent slashes in each filepath
-    let &runtimepath = join(map(split(&runtimepath, ','), 'expand(v:val)'), ',')
-  endif
-
-  if $ConEmuANSI ==# 'ON' && !has('gui_running') && !has('nvim')
-    if has('builtin_terms') && $ConEmuTask !~# 'Shells::cmd'
-      set term=xterm
-      set t_Co=256
-      let &t_AB = "\e[48;5;%dm"
-      let &t_AF = "\e[38;5;%dm"
-    endif
-
-    inoremap <Char-0x07F> <BS>
-    nnoremap <Char-0x07F> <BS>
-    vnoremap <Char-0x07F> <BS>
-  endif
-endif
-
 " Escape Insert/Visual Mode via Alt/Meta + [hjkl]
 if has('nvim') || has('win32') || has('gui_running')
   inoremap <silent> <M-h> <Esc>hl
