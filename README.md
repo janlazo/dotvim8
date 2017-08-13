@@ -10,8 +10,17 @@ Vim 8+ / Neovim 0.2+ config folder for Windows support and async jobs.
   - acts as a self-contained vimrc, independent of the entire repo
   - assumes `set nocompatible` is set by Vim/Neovim or the user
 - vimrc and init.vim are hooks to bootstrap the editor
-  - neovim: language providers, inccommand
-  - vim: `set nocompatible`, matchit plugin
+  - both:
+    - fix initial runtimepath
+    - load Vim packages
+  - neovim:
+    - language providers
+    - inccommand
+    - fix spell directory
+  - vim:
+    - `set nocompatible` for vim-tiny
+    - set terminal options and fix mappings for ConEmu
+    - matchit plugin (neovim loads this by default)
 - gvimrc and ginit.vim for GUI-specific configs (e.g. fonts, columns)
 - [vim-plug] as package manager for bundles in Github
   - added my fork as subtree to resolve Windows issues
