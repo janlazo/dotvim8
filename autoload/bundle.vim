@@ -74,8 +74,14 @@ function! bundle#init() abort
 
   if isdirectory(fzf_path)
     Plug fzf_path
-    Plug 'janlazo/fzf.vim', {'branch': 'Windows'}
+  else
+    Plug 'junegunn/fzf', {
+    \ 'dir': fzf_path,
+    \ 'do': 'bash ./install --bin'
+    \ }
   endif
+
+  Plug 'janlazo/fzf.vim', {'branch': 'Windows'}
   " }}}plug-core
   " {{{plug-python
   let base_cond = has('python') || has('python3')
