@@ -66,6 +66,9 @@ function! bundle#init() abort
     call extend(g:rooter_patterns, ['composer.json'])
     " Java
     call extend(g:rooter_patterns, ['pom.xml'])
+  Plug 'junegunn/vim-easy-align'
+    nmap ga <Plug>(EasyAlign)
+    xmap ga <Plug>(EasyAlign)
 
   let fzf_path = expand('~/.fzf')
 
