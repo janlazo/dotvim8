@@ -130,11 +130,7 @@ function! bundle#init() abort
 
   " {{{set-color
   if has('termguicolors')
-    let patches = filter(map([
-    \ '7.4.1799', '8.0.0142', '8.0.0146'
-    \ ], '"patch-" . v:val'), 'has(v:val)')
-
-    if (has('nvim-0.1.6') || !empty(patches)) &&
+    if (has('nvim-0.1.6') || (has('patch-8.0.142') && has('patch-8.0.146'))) &&
         \ &t_Co == 256 && empty($TMUX)
       set termguicolors
     else
