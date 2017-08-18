@@ -69,8 +69,7 @@ if 1
 
   nnoremap <silent> <Space>it :call SpaceToTab()<CR>
   nnoremap <silent> <Space>is :call TabToSpace()<CR>
-
-  nnoremap <Plug>(RemoveTrailingSpace) :%s/\s\+%//g<CR>
+  nnoremap <Plug>(RemoveTrailingSpace) :%s/\s\+$//g<CR>
   nmap <Space>rs <Plug>(RemoveTrailingSpace)
 
   " open vimrc or init.vim in new tab
