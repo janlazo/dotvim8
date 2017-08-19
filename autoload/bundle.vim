@@ -124,6 +124,7 @@ function! bundle#init() abort
   Plug 'cespare/vim-toml'
   Plug 'chrisbra/csv.vim'
     let g:csv_strict_columns = 1
+  Plug 'othree/csscomplete.vim'
   Plug 'ap/vim-css-color'
   " }}}plug-ft-data
   call plug#end()
