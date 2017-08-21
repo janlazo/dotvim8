@@ -100,6 +100,7 @@ function! bundle#init() abort
     inoremap <silent><expr> <S-TAB> pumvisible() ? '<C-p>' : '<S-TAB>'
   " }}}plug-python
   " {{{plug-color
+  Plug 'ap/vim-css-color'
   Plug 'nanotech/jellybeans.vim'
     " some shells/terminals don't use ANSI in 8-16 color terminals
     " ex. cmd.exe and powershell.exe in Windows
@@ -107,26 +108,32 @@ function! bundle#init() abort
     let g:jellybeans_use_term_italics = 0
     let g:jellybeans_use_gui_italics = 0
   " }}}plug-color
-  " {{{plug-ft-lang
+  " {{{plug-ft
+  " Vim
   Plug 'junegunn/vader.vim'
+
+  " Shell
   Plug 'keith/tmux.vim'
   Plug 'PProvost/vim-ps1'
+
+  " Document
   Plug 'tpope/vim-markdown'
   Plug 'vim-pandoc/vim-pandoc-syntax'
   Plug 'lervag/vimtex'
     let g:tex_flavor = 'latex'
-  Plug 'kchmck/vim-coffee-script'
   Plug 'aklt/plantuml-syntax'
+
+  " Web
+  Plug 'othree/csscomplete.vim'
+  Plug 'kchmck/vim-coffee-script'
+
+  " Database
   Plug 'exu/pgsql.vim'
     let g:sql_type_default = 'pgsql'
-  " }}}plug-ft-lang
-  " {{{plug-ft-data
+
+  " Data
   Plug 'cespare/vim-toml'
-  Plug 'chrisbra/csv.vim'
-    let g:csv_strict_columns = 1
-  Plug 'othree/csscomplete.vim'
-  Plug 'ap/vim-css-color'
-  " }}}plug-ft-data
+  " }}}plug-ft
   call plug#end()
 
   " {{{set-color
