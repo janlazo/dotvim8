@@ -13,5 +13,10 @@
 " limitations under the License.
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 setlocal shiftwidth=2 expandtab
+
+if !exists('g:vim_indent_cont')
+  let g:vim_indent_cont = &shiftwidth
+endif
+
 setlocal keywordprg=:help
 setlocal foldmethod=marker
