@@ -15,5 +15,5 @@ trim_trailing_whitespace = false
 [{.vimrc,vimrc,gvimrc,*.vim}]
 indent_size = 2
 
-[*.{json,yml,yaml,md}]
+[*.{json,yml,yaml}]
 indent_size = 2
