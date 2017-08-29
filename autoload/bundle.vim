@@ -126,6 +126,7 @@ function! bundle#init() abort
   " Web
   Plug 'othree/csscomplete.vim'
   Plug 'kchmck/vim-coffee-script'
+  Plug 'leafgarland/typescript-vim'
 
   " Database
   Plug 'exu/pgsql.vim'
