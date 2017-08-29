@@ -81,7 +81,8 @@ function! bundle#init() abort
     \ }
   endif
 
-  Plug 'janlazo/fzf.vim', {'branch': 'Windows'}
+  Plug 'janlazo/fzf.vim'
+  Plug 'tpope/vim-fugitive'
   " }}}plug-core
   " {{{plug-python
   let base_cond = has('python') || has('python3')
