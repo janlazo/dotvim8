@@ -124,6 +124,7 @@ function! bundle#init() abort
   Plug 'aklt/plantuml-syntax'
 
   " Web
+  Plug 'hail2u/vim-css3-syntax'
   Plug 'othree/csscomplete.vim'
   Plug 'kchmck/vim-coffee-script'
   Plug 'leafgarland/typescript-vim'
