@@ -95,10 +95,10 @@ function! bundle#init() abort
 
   let base_cond = base_cond && has('nvim')
   Plug 'Shougo/deoplete.nvim', base_cond ? {} : plug_disable
-  Plug 'Shougo/neco-vim', base_cond ? {} : plug_disable
     let g:deoplete#enable_at_startup = 1
     inoremap <silent><expr> <TAB>   pumvisible() ? '<C-n>' : '<TAB>'
     inoremap <silent><expr> <S-TAB> pumvisible() ? '<C-p>' : '<S-TAB>'
+  Plug 'Shougo/neco-vim', base_cond ? {} : plug_disable
   " }}}plug-python
   " {{{plug-color
   Plug 'ap/vim-css-color'
