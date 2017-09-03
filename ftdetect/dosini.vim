@@ -12,6 +12,6 @@
 " See the License for the specific language governing permissions and
 " limitations under the License.
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let s:globs = ['*.json', '.bowerrc', 'composer.lock']
-execute 'autocmd BufNewFile,BufRead' join(s:globs, ',') 'setfiletype json'
+let s:globs = ['.npmrc']
+execute 'autocmd BufNewFile,BufRead' join(s:globs, ',') 'setfiletype dosini'
 unlet s:globs
