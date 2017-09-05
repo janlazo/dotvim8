@@ -41,7 +41,6 @@ set scrolloff=1 sidescrolloff=1 display=lastline
 set laststatus=2 cmdheight=2 showmode
 
 if 1
-  let s:base_dir = expand('<sfile>:p:h')
   let s:fix_ux = !has('win32unix') && $TERM !=# 'cygwin' && empty($TMUX)
 
   if v:version > 703
@@ -87,6 +86,10 @@ if has('windows')
 endif
 " }}}small
 " {{{normal
+if has('modify_fname')
+  let s:base_dir = expand('<sfile>:p:h')
+endif
+
 if has('linebreak')
   " 3-digit line number in 80 col terminals
   set numberwidth=4 textwidth=76
@@ -206,14 +209,17 @@ endif
 
 if has('persistent_undo')
   set undofile
-  let s:undodir = expand(s:base_dir . '/.undodir')
 
-  if !isdirectory(s:undodir)
-    call mkdir(s:undodir, 'p')
+  if exists('s:base_dir')
+    let s:undodir = s:base_dir . '/.undodir'
+
+    if !isdirectory(s:undodir)
+      call mkdir(s:undodir, 'p')
+    endif
+
+    let &undodir = s:undodir
+    unlet s:undodir
   endif
-
-  let &undodir = s:undodir
-  unlet s:undodir
 endif
 
 if has('vertsplit')
@@ -263,6 +269,10 @@ if has('autocmd')
   augroup END
 endif
 
+if has('modify_fname')
+  unlet s:base_dir
+endif
+
 if 1
-  unlet s:fix_ux s:base_dir
+  unlet s:fix_ux
 endif
