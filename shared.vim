@@ -195,12 +195,6 @@ if has('syntax')
   nnoremap <silent> Q :call ToggleSpell()<CR>
 endif
 
-if has('multi_byte')
-  if &encoding ==# 'latin1' && has('gui_running')
-    set encoding=utf-8
-  endif
-endif
-
 if has('cmdline_hist')
   if &history < 1000
     set history=1000

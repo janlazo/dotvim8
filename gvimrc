@@ -12,6 +12,12 @@
 " See the License for the specific language governing permissions and
 " limitations under the License.
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+if has('multi_byte')
+  if &encoding ==# 'latin1'
+    set encoding=utf-8
+  endif
+endif
+
 if has('win32')
   behave mswin
   set guifont=Consolas:h12:cANSI:qANTIALIASED
