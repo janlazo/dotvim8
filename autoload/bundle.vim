@@ -145,6 +145,7 @@ function! bundle#init() abort
 
   " System
   Plug 'rust-lang/rust.vim'
+  Plug 'tbastos/vim-lua'
   " }}}plug-ft
   call plug#end()
 
