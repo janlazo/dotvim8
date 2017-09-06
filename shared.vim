@@ -235,20 +235,6 @@ if has('termguicolors')
 endif
 " }}}big
 " {{{huge
-" Escape Insert/Visual Mode via Alt/Meta + [hjkl]
-if has('nvim') || has('win32') || has('gui_running')
-  inoremap <silent> <M-h> <Esc>hl
-  vnoremap <silent> <M-h> <Esc>hl
-
-  inoremap <silent> <M-j> <Esc>jl
-  vnoremap <silent> <M-j> <Esc>jl
-
-  inoremap <silent> <M-k> <Esc>kl
-  vnoremap <silent> <M-k> <Esc>kl
-
-  inoremap <silent> <M-l> <Esc>ll
-  vnoremap <silent> <M-l> <Esc>ll
-endif
 " }}}huge
 
 if has('autocmd')
