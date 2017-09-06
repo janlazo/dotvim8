@@ -67,6 +67,7 @@ function! bundle#init() abort
     " Java
     call extend(g:rooter_patterns, ['pom.xml'])
   Plug 'junegunn/vim-easy-align'
+    let g:easy_align_bypass_fold = 1
     nmap ga <Plug>(EasyAlign)
     xmap ga <Plug>(EasyAlign)
 
