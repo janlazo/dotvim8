@@ -12,7 +12,7 @@
 " See the License for the specific language governing permissions and
 " limitations under the License.
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let s:base_dir = fnamemodify(expand('<sfile>'), ':p:h')
+let s:base_dir = expand('<sfile>:p:h')
 
 if has('win32')
   " neovim-qt mangles the runtimepath so revert to Vim defaults
