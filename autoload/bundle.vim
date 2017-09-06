@@ -94,7 +94,7 @@ function! bundle#init() abort
     let g:mta_filetypes = {'html': 1, 'xml': 1, 'xhtml': 1, 'php': 1}
 
   let base_cond = base_cond && has('nvim')
-  Plug 'Shougo/deoplete.nvim', base_cond ? {} : plug_disable
+  Plug 'Shougo/deoplete.nvim', base_cond ? {'do': ':UpdateRemotePlugins'} : plug_disable
     let g:deoplete#enable_at_startup = 1
     inoremap <silent><expr> <TAB>   pumvisible() ? '<C-n>' : '<TAB>'
     inoremap <silent><expr> <S-TAB> pumvisible() ? '<C-p>' : '<S-TAB>'
