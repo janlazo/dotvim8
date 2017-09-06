@@ -24,7 +24,21 @@ endif
 runtime shared.vim
 
 if has('win32')
-  if !has('nvim-0.2')
+  if has('nvim-0.2')
+    let s:python = exepath('python2.exe')
+
+    if !empty(s:python)
+      let g:python_host_prog  = s:python
+    endif
+
+    let s:python = exepath('python3.exe')
+
+    if !empty(s:python)
+      let g:python3_host_prog = s:python
+    endif
+
+    unlet s:python
+  else
     let g:loaded_python_provider = 1
     let g:loaded_python3_provider = 1
     let g:loaded_ruby_provider = 1
