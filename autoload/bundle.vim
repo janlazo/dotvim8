@@ -141,6 +141,9 @@ function! bundle#init() abort
 
   " Data
   Plug 'cespare/vim-toml'
+
+  " System
+  Plug 'rust-lang/rust.vim'
   " }}}plug-ft
   call plug#end()
 
