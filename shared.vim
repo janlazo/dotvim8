@@ -79,6 +79,7 @@ endif
 " {{{small
 if has('windows')
   set splitbelow
+  set showtabline=2
 
   if &tabpagemax < 50
     set tabpagemax=50
