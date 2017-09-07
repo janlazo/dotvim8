@@ -220,6 +220,10 @@ endif
 if has('vertsplit')
   set splitright
 endif
+
+if has('folding')
+  set nofoldenable
+endif
 " }}}normal
 " {{{big
 if has('langmap')

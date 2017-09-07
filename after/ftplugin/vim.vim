@@ -19,4 +19,4 @@ if !exists('g:vim_indent_cont')
 endif
 
 setlocal keywordprg=:help
-setlocal foldmethod=marker
+setlocal foldenable foldmethod=marker
