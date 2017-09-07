@@ -13,4 +13,10 @@
 " limitations under the License.
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 setlocal commentstring=::%s
-let &l:keywordprg = has('win32') ? 'cls && help.exe' : ''
+
+if has('win32') || has('win32unix')
+  " Assume default values for all shell-related options
+  let &l:keywordprg = (has('win32') ? 'cls' : 'clear') . ' && help.exe'
+else
+  setlocal keywordprg=
+endif
