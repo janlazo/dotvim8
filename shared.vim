@@ -245,12 +245,6 @@ endif
 if has('autocmd')
   augroup dotvim8
     autocmd!
-
-    if has('win32')
-      " '/' is closer to home row than '\\'
-      " Use VimEnter to minimize inconsistent filepaths during startup
-      autocmd VimEnter * if has('win32') | set shellslash | endif
-    endif
   augroup END
 endif
 
