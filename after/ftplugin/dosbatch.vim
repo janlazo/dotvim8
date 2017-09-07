@@ -13,4 +13,4 @@
 " limitations under the License.
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 setlocal commentstring=::%s
-setlocal keywordprg=help.exe
+let &l:keywordprg = has('win32') ? 'cls && help.exe' : ''
