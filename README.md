@@ -49,7 +49,14 @@ For performance, use GUIs when navigating or editing inside folds.
 Apache License Version 2.0 (ALv2)
 
 ## TODO
-- port core and filetype configs from [janlazo/dotvim]
+- terminal config for Vim 8 and Neovim
+  - mappings?
+  - plugins?
+- setup linting that works in Windows
+  - ale?
+  - makeprg + errorformat is out so compiler is out too
+- improve deoplete for other filetypes
+  - neco-syntax is too slow
 
 [Travis]: https://travis-ci.org/janlazo/dotvim8
 [Travis-Status]: https://travis-ci.org/janlazo/dotvim8.svg?branch=master
