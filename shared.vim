@@ -16,7 +16,7 @@
 " foldmarkers group options by version (:h version)
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Fixes
-set cpoptions-=C
+set cpoptions-=C cpoptions-=<
 set nomodeline modelines=0
 set autoread
 set shortmess+=sI
@@ -56,24 +56,17 @@ if 1
     endif
   endif
 
-  function! SpaceToTab() abort
-    setlocal noexpandtab
-    retab!
-  endfunction
-
-  function! TabToSpace() abort
-    setlocal expandtab
-    retab
-  endfunction
-
-  nnoremap <silent> <Space>it :call SpaceToTab()<CR>
-  nnoremap <silent> <Space>is :call TabToSpace()<CR>
   nnoremap <Plug>(RemoveTrailingSpace) :%s/\s\+$//g<CR>
   nmap <Space>rs <Plug>(RemoveTrailingSpace)
 
   " open vimrc or init.vim in new tab
   nnoremap <silent> <Space>v :tabedit $MYVIMRC<CR>
   nnoremap <silent> <Space>gv :tabedit $MYGVIMRC<CR>
+
+  " $VIMRUNTIME/defaults.vim remaps Q to gq but both are useless to me
+  " I don't use 'Ex mode' and I don't format comments
+  " Remap it to redraw the screen
+  nnoremap <silent> Q :redraw!<CR>
 endif
 
 " {{{small
@@ -181,19 +174,13 @@ if has('syntax')
     endif
   endif
 
-  function! ToggleSpell() abort
+  function! s:toggle_spell() abort
     if &spell
       setlocal nospell complete-=kspell
     else
       setlocal spell complete+=kspell
     endif
   endfunction
-
-  " Nobody uses 'Ex' mode
-  " It is remapped to 'gq' in $VIMRUNTIME/defaults.vim in Vim 8+
-  " Spell check gives false positives so it must be unset by default
-  " Remap 'Ex' mode to toggle spell check
-  nnoremap <silent> Q :call ToggleSpell()<CR>
 endif
 
 if has('cmdline_hist')
@@ -223,6 +210,15 @@ endif
 
 if has('folding')
   set nofoldenable
+endif
+
+if has('user_commands')
+  command! SpaceToTab setlocal noexpandtab | retab!
+  command! TabToSpace setlocal expandtab | retab
+
+  if exists('*s:toggle_spell')
+    command! ToggleSpell call <SID>toggle_spell()
+  endif
 endif
 " }}}normal
 " {{{big
