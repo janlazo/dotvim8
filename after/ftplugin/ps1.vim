@@ -14,14 +14,43 @@
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let s:cpoptions = &cpoptions
 set cpoptions&vim
+setlocal keywordprg=
 
-if has('win32') || has('win32unix')
+if !exists('*s:help')
   " Assume default values for all shell-related options
-  let &l:keywordprg = (has('win32') ? 'cls' : 'clear') . ' && ' .
-  \ 'powershell -NoProfile -NoLogo -Command Get-Help'
-else
-  setlocal keywordprg=
+  " TODO - convert to an autoload function
+  function <SID>help()
+    if !executable('powershell')
+      echom 'powershell is unavailable in PATH'
+      return
+    endif
+
+    if has('win32')
+      let clear = 'cls'
+    else
+      let clear = 'clear'
+    endif
+
+    let ps1_fmt = 'powershell -NoProfile -NoLogo -Command %s'
+    let help_fmt = 'Get-Help %s | more'
+    let help_cmd = printf(help_fmt, expand('<cword>'))
+    " TODO - use fzf#shellescape and tempname
+    let cmd = printf(ps1_fmt, shellescape(help_cmd))
+
+    if has('nvim')
+      execute ':terminal' cmd
+      startinsert
+    else
+      if !has('gui_running')
+        let cmd = clear . ' && ' . cmd
+      endif
+
+      execute ':silent !' cmd
+      redraw!
+    endif
+  endfunction
 endif
 
+nnoremap <buffer> K :call <SID>help()<CR>
 let &cpoptions = s:cpoptions
 unlet s:cpoptions
