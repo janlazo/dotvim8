@@ -25,29 +25,11 @@ if !exists('*s:help')
       return
     endif
 
-    if has('win32')
-      let clear = 'cls'
-    else
-      let clear = 'clear'
-    endif
-
     let ps1_fmt = 'powershell -NoProfile -NoLogo -Command %s'
     let help_fmt = 'Get-Help %s | more'
     let help_cmd = printf(help_fmt, expand('<cword>'))
-    " TODO - use fzf#shellescape and tempname
-    let cmd = printf(ps1_fmt, shellescape(help_cmd))
-
-    if has('nvim')
-      execute ':terminal' cmd
-      startinsert
-    else
-      if !has('gui_running')
-        let cmd = clear . ' && ' . cmd
-      endif
-
-      execute ':silent !' cmd
-      redraw!
-    endif
+    let cmd = printf(ps1_fmt, dotvim8#shellescape(help_cmd))
+    call dotvim8#bang(cmd)
   endfunction
 endif
 
