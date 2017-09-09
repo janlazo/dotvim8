@@ -20,7 +20,7 @@ let s:cpoptions = &cpoptions
 set cpoptions&vim
 
 if has('win32')
-  function! dotvim8#call(fn, ...)
+  function! s:call(fn, ...)
     let shellslash = &shellslash
 
     try
@@ -31,7 +31,7 @@ if has('win32')
     endtry
   endfunction
 else
-  function! dotvim8#call(fn, ...)
+  function! s:call(fn, ...)
     return call(a:fn, a:000)
   endfunction
 endif
@@ -72,7 +72,7 @@ function! dotvim8#shellescape(arg, ...)
     return s:shellesc_ps1(a:arg)
   endif
 
-  return dotvim8#call('shellescape', a:arg)
+  return s:call('shellescape', a:arg)
 endfunction
 
 " Vim    - !
