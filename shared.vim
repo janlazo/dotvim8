@@ -220,6 +220,21 @@ if has('user_commands')
     command! ToggleSpell call <SID>toggle_spell()
   endif
 endif
+
+if has('autocmd')
+  let s:globs = {
+  \ 'coffee': ['*.cson'],
+  \ 'dosini': ['.npmrc'],
+  \ 'json': ['*.json', '.bowerrc', 'composer.lock'],
+  \ 'pandoc': ['*.pandoc']
+  \ }
+  augroup filetypedetect
+    for s:list in items(s:globs)
+      execute 'autocmd BufNewFile,BufRead' join(s:list[1], ',') 'setfiletype' s:list[0]
+    endfor
+  augroup END
+  unlet s:globs s:list
+endif
 " }}}normal
 " {{{big
 if has('langmap')
@@ -237,12 +252,6 @@ endif
 " }}}big
 " {{{huge
 " }}}huge
-
-if has('autocmd')
-  augroup dotvim8
-    autocmd!
-  augroup END
-endif
 
 if has('modify_fname')
   unlet s:base_dir
