@@ -83,7 +83,7 @@ function! dotvim8#bang(cmd)
     return
   endif
 
-  let cmd = a:cmd
+  let cmd = escape(a:cmd, '%#!')
   let [shell, shellcmdflag, shellxquote] = [&shell, &shellcmdflag, &shellxquote]
 
   try
