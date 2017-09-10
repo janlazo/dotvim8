@@ -1,4 +1,4 @@
 dotvim8
 Copyright 2017 Jan Edmund Doroin Lazo
 
-This product includes a fork of Junegunn Choi's vim-plug (github.com/junegunn/vim-plug), a Vim package manager licensed under MIT License.
+This product includes plug.vim from Junegunn Choi's vim-plug (github.com/junegunn/vim-plug), a Vim package manager licensed under MIT License.

@@ -23,7 +23,6 @@ Vim 8+ / Neovim 0.2+ config folder for Windows support and async jobs.
         - matchit plugin (neovim loads this by default)
 - gvimrc and ginit.vim for GUI-specific configs (e.g. fonts, columns)
 - [vim-plug] as package manager for bundles in Github
-    - added my fork as subtree to resolve Windows issues
 - [go-vimlparser] for linting Vimscript
 - [dotvim8.vim] resolves idiosyncrasies in Vim and Neovim
 
