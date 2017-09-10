@@ -118,7 +118,6 @@ function! bundle#init() abort
   Plug 'tpope/vim-markdown'
   Plug 'vim-pandoc/vim-pandoc-syntax'
   Plug 'lervag/vimtex'
-    let g:tex_flavor = 'latex'
   Plug 'aklt/plantuml-syntax'
 
   " Web

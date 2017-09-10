@@ -222,6 +222,9 @@ if has('user_commands')
 endif
 
 if has('autocmd')
+  let g:vimsyn_embed = ''
+  let g:vim_indent_cont = 0
+  let g:tex_flavor = 'latex'
   let s:globs = {
   \ 'coffee': ['*.cson'],
   \ 'dosini': ['.npmrc'],
