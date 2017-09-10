@@ -14,7 +14,6 @@
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let s:cpoptions = &cpoptions
 set cpoptions&vim
-setlocal keywordprg=
 
 if !exists('*s:help')
   " Assume default values for all shell-related options

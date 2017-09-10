@@ -17,6 +17,4 @@ setlocal commentstring=::%s
 if has('win32') || has('win32unix')
   " Assume default values for all shell-related options
   let &l:keywordprg = (has('win32') ? 'cls' : 'clear') . ' && help.exe'
-else
-  setlocal keywordprg=
 endif

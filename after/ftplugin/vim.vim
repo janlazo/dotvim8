@@ -13,5 +13,4 @@
 " limitations under the License.
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 setlocal shiftwidth=2 expandtab
-setlocal keywordprg=:help
 setlocal foldenable foldmethod=marker
