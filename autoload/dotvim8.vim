@@ -36,6 +36,10 @@ else
   endfunction
 endif
 
+function! s:escape_ex(cmd)
+  return escape(a:cmd, '%#!')
+endfunction
+
 " cmd.exe supports double-quote escaping only with ^ as its escape character
 " Wrap in ^" so cmd.exe does not dequote the token immediately
 " Escape metacharacters used in interactive shell and batchfile
@@ -75,15 +79,14 @@ function! dotvim8#shellescape(arg, ...)
   return s:call('shellescape', a:arg)
 endfunction
 
-" Vim    - !
-" Neovim - terminal
+" Vim without +terminal        - !
+" Vim with +terminal or Neovim - terminal
 function! dotvim8#bang(cmd)
   if empty(a:cmd)
     echom 'Command is empty string'
     return
   endif
 
-  let cmd = escape(a:cmd, '%#!')
   let [shell, shellcmdflag, shellxquote] = [&shell, &shellcmdflag, &shellxquote]
 
   try
@@ -93,15 +96,16 @@ function! dotvim8#bang(cmd)
       set shell=sh shellcmdflag=-c
     endif
 
-    if has('nvim')
-      execute ':terminal' cmd
+    if has('nvim-0.2.1') || (has('nvim') && !has('win32'))
+      execute ':terminal' s:escape_ex(a:cmd)
       startinsert
+    elseif has('terminal') && has('gui_running') && has('patch-8.0.1051')
+      call term_start(join([&shell, &shellcmdflag, a:cmd]))
     else
-      if !has('gui_running')
-        let cmd = (has('win32') ? 'cls' : 'clear') . ' && ' . cmd
-      endif
-
-      execute ':silent !' cmd
+      let cmd = has('gui_running') ?
+                \ a:cmd :
+                \ (has('win32') ? 'cls' : 'clear') . ' && ' . a:cmd
+      execute ':silent !' s:escape_ex(cmd)
       redraw!
     endif
   finally
