@@ -66,6 +66,9 @@ function! bundle#init() abort
     " Java
     call extend(g:rooter_patterns, ['pom.xml'])
   Plug 'tommcdo/vim-lion'
+  Plug 'Shougo/echodoc.vim', has('patch-7.4.774') ? {
+  \ 'do': ':call echodoc#enable()'
+  \ } : plug_disable
 
   let fzf_path = expand('~/.fzf')
 
@@ -91,7 +94,9 @@ function! bundle#init() abort
     let g:mta_filetypes = {'html': 1, 'xml': 1, 'xhtml': 1, 'php': 1}
 
   let base_cond = base_cond && has('nvim')
-  Plug 'Shougo/deoplete.nvim', base_cond ? {'do': ':UpdateRemotePlugins'} : plug_disable
+  Plug 'Shougo/deoplete.nvim', base_cond ? {
+  \ 'do': ':UpdateRemotePlugins'
+  \ } : plug_disable
     let g:deoplete#enable_at_startup = 1
     inoremap <silent><expr> <TAB>   pumvisible() ? '<C-n>' : '<TAB>'
     inoremap <silent><expr> <S-TAB> pumvisible() ? '<C-p>' : '<S-TAB>'
@@ -143,6 +148,10 @@ function! bundle#init() abort
   Plug 'tbastos/vim-lua'
   " }}}plug-ft
   call plug#end()
+  try
+    call echodoc#enable()
+  catch
+  endtry
 
   " {{{set-color
   if has('termguicolors')
