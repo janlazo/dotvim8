@@ -25,6 +25,9 @@ Vim 8+ / Neovim 0.2+ config folder for Windows support and async jobs.
 - [vim-plug] as package manager for bundles in Github
 - [go-vimlparser] for linting Vimscript
 - [dotvim8.vim] resolves idiosyncrasies in Vim and Neovim
+    - based on my contributions for Vim plugin of [fzf] on Windows
+    - `dotvim8#shellescape` is based on `fzf#shellescape`
+    - `dotvim8#bang` is based on the `s:execute` functions
 
 Vimscript files in this repo use folds which slows down terminal Vim.
 For performance, use GUIs when navigating or editing inside folds.
@@ -65,3 +68,4 @@ Apache License Version 2.0 (ALv2)
 [neovim-qt]: https://github.com/equalsraf/neovim-qt
 [janlazo/dotvim]: https://github.com/janlazo/dotvim
 [dotvim8.vim]: https://github.com/janlazo/dotvim8/blob/master/autoload/dotvim8.vim
+[fzf]: https://github.com/junegunn/fzf
