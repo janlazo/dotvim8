@@ -96,9 +96,13 @@ function! dotvim8#bang(cmd)
       set shell=sh shellcmdflag=-c
     endif
 
-    if has('nvim-0.2.1') || (has('nvim') && !has('win32'))
-      execute ':terminal' s:escape_ex(a:cmd)
-      startinsert
+    if has('nvim')
+      if has('nvim-0.2.1') || !has('win32')
+        execute ':terminal' s:escape_ex(a:cmd)
+        startinsert
+      else
+        call jobstart('start /wait cmd /c ' . a:cmd)
+      endif
     elseif has('terminal') && has('gui_running') && has('patch-8.0.1051')
       call term_start(join([&shell, &shellcmdflag, a:cmd]))
     else
