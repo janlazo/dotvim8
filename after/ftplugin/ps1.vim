@@ -26,7 +26,7 @@ if !exists('*s:help')
 
     let ps1_fmt = 'powershell -NoProfile -NoLogo -Command %s'
     let help_fmt = 'Get-Help %s | more'
-    let help_cmd = printf(help_fmt, expand('<cword>'))
+    let help_cmd = printf(help_fmt, dotvim8#shellescape(expand('<cword>'), 'powershell.exe'))
     let cmd = printf(ps1_fmt, dotvim8#shellescape(help_cmd))
     call dotvim8#bang(cmd)
   endfunction
