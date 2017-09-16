@@ -18,6 +18,9 @@ endif
 let g:loaded_autoload_dotvim8 = 1
 let s:cpoptions = &cpoptions
 set cpoptions&vim
+let s:use_term = has('nvim') ?
+                \ (has('nvim-0.2.1') || !has('win32')) :
+                \ (has('terminal') && has('patch-8.0.1051'))
 
 if has('win32')
   function! s:call(fn, ...)
@@ -103,13 +106,13 @@ function! dotvim8#bang(cmd)
     endif
 
     if has('nvim')
-      if has('nvim-0.2.1') || !has('win32')
+      if s:use_term
         execute ':terminal' s:escape_ex(a:cmd)
         startinsert
       else
         call jobstart('start /wait cmd /c ' . a:cmd)
       endif
-    elseif has('terminal') && has('gui_running') && has('patch-8.0.1051')
+    elseif s:use_term && has('gui_running')
       call term_start(join([&shell, &shellcmdflag, a:cmd]))
     else
       let cmd = has('gui_running') ?
