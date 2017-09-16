@@ -60,8 +60,8 @@ function! s:shellesc_ps1(arg)
   return "'".substitute(a:arg, "'", "''", 'g').'"'
 endfunction
 
-" Fix shellescape for Windows
-" Assumes shellxquote is unset
+" Fix shellescape for external programs in Windows
+" Try regular shellescape with noshellslash for internal commands in cmd.exe
 function! dotvim8#shellescape(arg, ...)
   if empty(a:arg)
     return ''
@@ -87,11 +87,17 @@ function! dotvim8#bang(cmd)
     return
   endif
 
-  let [shell, shellcmdflag, shellxquote] = [&shell, &shellcmdflag, &shellxquote]
+  let shell_opts = [&shell, &shellcmdflag, &shellxquote, &shellxescape]
 
   try
     if has('win32')
-      set shell=cmd.exe shellcmdflag=/c shellxquote=
+      set shell=cmd.exe shellcmdflag=/c shellxescape&vim
+
+      if has('nvim')
+        set shellxquote&vim
+      else
+        set shellxquote=(
+      endif
     else
       set shell=sh shellcmdflag=-c
     endif
@@ -113,7 +119,7 @@ function! dotvim8#bang(cmd)
       redraw!
     endif
   finally
-    let [&shell, &shellcmdflag, &shellxquote] = [shell, shellcmdflag, shellxquote]
+    let [&shell, &shellcmdflag, &shellxquote, &shellxescape] = shell_opts
   endtry
 endfunction
 
