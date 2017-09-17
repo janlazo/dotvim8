@@ -41,6 +41,17 @@ if has('win32')
     nnoremap <Char-0x07F> <BS>
     vnoremap <Char-0x07F> <BS>
   endif
+
+  if !empty($SHELL)
+    set shell=cmd.exe shellcmdflag=/c shellredir=>%s\ 2>&1
+    set shellxquote=( shellxescape&vim shellquote=
+  endif
+endif
+
+if has('win32unix')
+  if !empty($SHELL)
+    set shell=sh shellredir=>%s\ 2>&1
+  endif
 endif
 
 runtime shared.vim
