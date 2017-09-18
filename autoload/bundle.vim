@@ -90,7 +90,7 @@ function! bundle#init() abort
   Plug 'editorconfig/editorconfig-vim', base_cond ? {} : plug_disable
     let g:EditorConfig_preserve_formatoptions = 1
     let g:EditorConfig_max_line_indicator = 'none'
-    let g:EditorConfig_exclude_patterns = ['scp://.*']
+    let g:EditorConfig_exclude_patterns = ['scp://.*', 'fugitive://.*']
   Plug 'Valloric/MatchTagAlways', base_cond ? {} : plug_disable
     let g:mta_filetypes = {'html': 1, 'xml': 1, 'xhtml': 1, 'php': 1}
 
