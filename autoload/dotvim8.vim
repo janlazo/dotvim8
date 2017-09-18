@@ -20,7 +20,7 @@ let s:cpoptions = &cpoptions
 set cpoptions&vim
 let s:use_term = has('nvim') ?
                 \ (has('nvim-0.2.1') || !has('win32')) :
-                \ (has('terminal') && has('patch-8.0.1051'))
+                \ (has('terminal') && has('patch-8.0.1123'))
 
 if has('win32')
   function! s:call(fn, ...)
@@ -105,15 +105,15 @@ function! dotvim8#bang(cmd)
       set shell=sh shellcmdflag=-c
     endif
 
-    if has('nvim')
-      if s:use_term
+    if s:use_term
+      if has('nvim')
         execute ':terminal' s:escape_ex(a:cmd)
         startinsert
       else
-        call jobstart('start /wait cmd /c ' . a:cmd)
+        call term_start(join([&shell, &shellcmdflag, a:cmd]))
       endif
-    elseif s:use_term && has('gui_running')
-      call term_start(join([&shell, &shellcmdflag, a:cmd]))
+    elseif has('nvim') && has('win32')
+      call jobstart('start /wait cmd /c ' . a:cmd)
     else
       let cmd = has('gui_running') ?
                 \ a:cmd :
