@@ -232,11 +232,17 @@ if has('autocmd')
   \ 'json': ['*.json', '.bowerrc', 'composer.lock'],
   \ 'pandoc': ['*.pandoc']
   \ }
+
+  if exists('g:did_load_filetypes')
+    filetype off
+  endif
+
   augroup filetypedetect
     for s:list in items(s:globs)
       execute 'autocmd BufNewFile,BufRead' join(s:list[1], ',') 'setfiletype' s:list[0]
     endfor
   augroup END
+
   unlet s:globs s:list
 endif
 " }}}normal
