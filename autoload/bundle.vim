@@ -27,6 +27,7 @@ function! bundle#init() abort
   silent! call plug#begin(expand(s:base_dir . '/bundles'))
   let plug_disable = {'on': []}
   " {{{plug-core
+  Plug 'chrisbra/matchit', v:version >= 800 ? {} : plug_disable
   Plug 'tpope/vim-scriptease'
   Plug 'tpope/vim-unimpaired'
   Plug 'tpope/vim-surround'

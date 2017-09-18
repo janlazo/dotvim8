@@ -57,8 +57,10 @@ endif
 runtime shared.vim
 
 if has('syntax')
-  " '%' jumps to begin/end pairs
-  runtime! macros/matchit.vim
+  if v:version < 800
+    " '%' jumps to begin/end pairs
+    runtime! macros/matchit.vim
+  endif
 endif
 
 if has('autocmd')
