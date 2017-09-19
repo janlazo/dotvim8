@@ -191,17 +191,18 @@ if has('cmdline_hist')
 endif
 
 if has('persistent_undo')
-  set undofile
+  set noundofile
 
   if exists('s:base_dir')
-    let s:undodir = s:base_dir . '/.undodir'
+    let &undodir = expand(s:base_dir . '/.undodir')
 
-    if !isdirectory(s:undodir)
-      call mkdir(s:undodir, 'p')
+    if !isdirectory(&undodir)
+      call mkdir(&undodir, 'p')
     endif
 
-    let &undodir = s:undodir
-    unlet s:undodir
+    set undofile
+  else
+    set undodir=
   endif
 endif
 
