@@ -8,6 +8,9 @@ Session.vim
 rplugin.vim
 spell/
 
+# vim-plug
+plug.vim.old
+
 # user-defined
 bundles/
 .undodir/
