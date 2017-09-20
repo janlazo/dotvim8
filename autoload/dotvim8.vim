@@ -63,6 +63,51 @@ function! s:shellesc_ps1(arg)
   return "'".substitute(a:arg, "'", "''", 'g')."'"
 endfunction
 
+" Pass an executable shell to set all shell options for the following:
+" system(), :!, job, terminal
+function! dotvim8#set_shell(shell)
+  if !executable(a:shell)
+    echom '''shell'' is not executable'
+    return
+  endif
+
+  let shell = fnamemodify(a:shell, ':t')
+
+  if shell ==# 'cmd.exe'
+    let &shell = a:shell
+    set shellcmdflag=/c shellquote=
+    let &shellredir = '>%s 2>&1'
+
+    if has('nvim')
+      set shellxquote= shellxescape=
+    else
+      set shellxquote=(
+      let &shellxescape = '"&|<>()@^'
+    endif
+  elseif shell ==# 'powershell.exe'
+    let &shell = a:shell
+    let &shellcmdflag = '-NoProfile -NoLogo -Command'
+    set shellxescape= shellquote=
+    let &shellredir = '>%s 2>&1'
+
+    if !has('nvim') && has('win32')
+      let &shellxquote = '"'
+    else
+      set shellxquote=
+    endif
+  elseif shell ==# 'sh' || shell ==# 'bash'
+    let &shell = a:shell
+    set shellcmdflag=-c shellxescape= shellquote=
+    let &shellredir = '>%s 2>&1'
+
+    if !has('nvim') && has('win32')
+      let &shellxquote = '"'
+    else
+      set shellxquote=
+    endif
+  endif
+endfunction
+
 " Fix shellescape for external programs in Windows
 " Try regular shellescape with noshellslash for internal commands in cmd.exe
 function! dotvim8#shellescape(arg, ...)
@@ -88,42 +133,32 @@ function! dotvim8#bang(cmd)
   if empty(a:cmd)
     echom 'Command is empty string'
     return
+  elseif !executable(&shell)
+    echom '''shell'' is not executable'
+    return
   endif
 
-  let shell_opts = [&shell, &shellcmdflag, &shellxquote, &shellxescape]
-
-  try
-    if has('win32')
-      set shell=cmd.exe shellcmdflag=/c shellxescape&vim
-
-      if has('nvim')
-        set shellxquote&vim
-      else
-        set shellxquote=(
-      endif
+  if s:use_term
+    if has('nvim')
+      execute ':terminal' s:escape_ex(a:cmd)
+      startinsert
     else
-      set shell=sh shellcmdflag=-c
+      call term_start(join([&shell, &shellcmdflag, a:cmd]))
+    endif
+  elseif has('nvim') && &shell =~# 'cmd.exe$'
+    call jobstart('start /wait cmd /c ' . a:cmd)
+  else
+    if has('gui_running')
+      let cmd = a:cmd
+    else
+      let cls = &shell =~# 'cmd.exe$' || &shell =~# 'powershell.exe$' ?
+                \ 'cls' : 'clear'
+      let cmd = cls . ' && ' . a:cmd
     endif
 
-    if s:use_term
-      if has('nvim')
-        execute ':terminal' s:escape_ex(a:cmd)
-        startinsert
-      else
-        call term_start(join([&shell, &shellcmdflag, a:cmd]))
-      endif
-    elseif has('nvim') && has('win32')
-      call jobstart('start /wait cmd /c ' . a:cmd)
-    else
-      let cmd = has('gui_running') ?
-                \ a:cmd :
-                \ (has('win32') ? 'cls' : 'clear') . ' && ' . a:cmd
-      execute ':silent !' s:escape_ex(cmd)
-      redraw!
-    endif
-  finally
-    let [&shell, &shellcmdflag, &shellxquote, &shellxescape] = shell_opts
-  endtry
+    execute ':silent !' s:escape_ex(cmd)
+    redraw!
+  endif
 endfunction
 
 let &cpoptions = s:cpoptions

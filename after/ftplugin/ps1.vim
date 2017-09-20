@@ -22,13 +22,26 @@ if !exists('*s:help')
     if !executable('powershell')
       echom 'powershell is unavailable in PATH'
       return
+    elseif !executable(&shell)
+      echom '''shell'' is not executable'
+      return
     endif
 
-    let ps1_fmt = 'powershell -NoProfile -NoLogo -Command %s'
-    let help_fmt = 'Get-Help %s | more'
-    let help_cmd = printf(help_fmt, dotvim8#shellescape(expand('<cword>'), 'powershell.exe'))
-    let cmd = printf(ps1_fmt, dotvim8#shellescape(help_cmd))
-    call dotvim8#bang(cmd)
+    let shell = &shell
+
+    try
+      if shell !~# 'powershell.exe$'
+        call dotvim8#set_shell('powershell.exe')
+      endif
+
+      let help_fmt = 'Get-Help %s | more'
+      let cmd = printf(help_fmt, dotvim8#shellescape(expand('<cword>')))
+      call dotvim8#bang(cmd)
+    finally
+      if shell !~# 'powershell.exe$'
+        call dotvim8#set_shell(shell)
+      endif
+    endtry
   endfunction
 endif
 
