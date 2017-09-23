@@ -3,10 +3,10 @@ tags
 *[._]s[a-w][a-z]
 .netrwhist
 Session.vim
+spell/
 
 # Neovim
 rplugin.vim
-spell/
 
 # vim-plug
 plug.vim.old

@@ -43,12 +43,6 @@ if has('win32')
     let g:loaded_python3_provider = 1
     let g:loaded_ruby_provider = 1
   endif
-
-  " Neovim uses hardcoded XDG directories for spell/
-  " Hijack the function that outputs these directories to point here
-  function! spellfile#WritableSpellDir()
-    return expand(s:base_dir . '/spell')
-  endfunction
 endif
 
 if has('nvim-0.2')

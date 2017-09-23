@@ -265,11 +265,17 @@ if has('termguicolors')
 endif
 " }}}big
 " {{{huge
-" }}}huge
-
-if has('modify_fname')
-  unlet s:base_dir
+if has('win32')
+  " Vim uses HOME environment variable to point here (unreliable in Windows)
+  " Neovim uses hardcoded XDG directories
+  " Hijack the function that outputs these directories to point here
+  if exists('s:base_dir')
+    function! spellfile#WritableSpellDir()
+      return expand(s:base_dir . '/spell')
+    endfunction
+  endif
 endif
+" }}}huge
 
 if 1
   unlet s:fix_ux
