@@ -64,8 +64,8 @@ if 1
   nnoremap <silent> <Space>v :tabedit $MYVIMRC<CR>
   nnoremap <silent> <Space>gv :tabedit $MYGVIMRC<CR>
 
-  " $VIMRUNTIME/defaults.vim remaps Q to gq but both are useless to me
-  " I don't use 'Ex mode' and I don't format comments
+  " Q defaults to Ex mode but I don't use it
+  " $VIMRUNTIME/defaults.vim remaps Q to gq but I don't format comments
   " Remap it to redraw the screen
   nnoremap <silent> Q :redraw!<CR>
 endif
@@ -137,7 +137,10 @@ endif
 " highlight matches, quick-jump to nearest
 if has('extra_search') && has('reltime')
   set hlsearch incsearch
-  nnoremap <Space>c :nohlsearch<CR>
+
+  if v:version > 703
+    execute 'nnoremap Q :nohlsearch <Bar>' maparg('Q', 'n')
+  endif
 endif
 
 " Display hints, complete with selection via tab
