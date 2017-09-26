@@ -96,7 +96,8 @@ endif
 
 if has('cmdline_info')
   " display last command
-  set showcmd
+  let &showcmd = s:fix_ux
+
   " obseleted by statusline
   set noruler
 endif
