@@ -13,3 +13,7 @@
 " limitations under the License.
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 setlocal commentstring=<!--%s-->
+
+if executable('pandoc')
+  let &l:makeprg = 'pandoc -so "%:r.pdf" % $*'
+endif
