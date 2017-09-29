@@ -17,8 +17,11 @@ silent! while 0
   set nocompatible
 silent! endwhile
 
-" unset 'compatible' in normal/huge versions
 if 1
+  " Disable defaults.vim
+  let g:skip_defaults_vim = 1
+
+  " unset 'compatible' in normal/huge versions
   if &compatible
     set nocompatible
   endif
