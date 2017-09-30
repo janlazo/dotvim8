@@ -257,6 +257,12 @@ if has('win32')
       return expand(s:base_dir . '/spell')
     endfunction
   endif
+
+  " Fix shell options for cmd.exe such that the command is run
+  " as if it was typed in an interactive prompt
+  if &shell =~# 'cmd.exe'
+    set shellcmdflag=/s\ /c shellxquote=\" shellxescape=
+  endif
 endif
 " }}}huge
 

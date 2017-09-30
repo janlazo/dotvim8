@@ -75,15 +75,10 @@ function! dotvim8#set_shell(shell)
 
   if shell ==# 'cmd.exe'
     let &shell = a:shell
-    set shellcmdflag=/c shellquote=
+    let &shellcmdflag = '/s /c'
+    let &shellxquote= '"'
+    set shellxescape= shellquote=
     let &shellredir = '>%s 2>&1'
-
-    if has('nvim')
-      set shellxquote= shellxescape=
-    else
-      set shellxquote=(
-      let &shellxescape = '"&|<>()@^'
-    endif
   elseif shell ==# 'powershell.exe'
     let &shell = a:shell
     let &shellcmdflag = '-NoProfile -NoLogo -Command'
