@@ -32,17 +32,23 @@ if has('win32')
   let &runtimepath = join(map(split(&runtimepath, ','), 'expand(v:val)'), ',')
 
   " Force xterm rendering in ConEmu for truecolor
-  if $ConEmuANSI ==# 'ON' && !has('gui_running')
-    if has('builtin_terms') && $ConEmuTask !~# 'Shells::cmd'
-      set term=xterm
-      set t_Co=256
-      let &t_AB = "\e[48;5;%dm"
-      let &t_AF = "\e[38;5;%dm"
-    endif
+  if $ConEmuANSI ==# 'ON'
+    if has('gui_running')
+      " Vim (winpty) terminal inherits ConEmu env vars
+      " This breaks terminal Vim in GVim
+      let $ConEmuANSI = ''
+    else
+      if has('builtin_terms') && $ConEmuTask !~# 'Shells::cmd'
+        set term=xterm
+        set t_Co=256
+        let &t_AB = "\e[48;5;%dm"
+        let &t_AF = "\e[38;5;%dm"
+      endif
 
-    inoremap <Char-0x07F> <BS>
-    nnoremap <Char-0x07F> <BS>
-    vnoremap <Char-0x07F> <BS>
+      inoremap <Char-0x07F> <BS>
+      nnoremap <Char-0x07F> <BS>
+      vnoremap <Char-0x07F> <BS>
+    endif
   endif
 
   if !empty($SHELL)

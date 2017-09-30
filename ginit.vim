@@ -23,3 +23,8 @@ if exists(':GuiFont') == 2
     GuiFont! Monospace:h12
   endif
 endif
+
+" Unset ConEmu env vars so terminal Vim does not break in winpty
+if !empty($ConEmuANSI)
+  let $ConEmuANSI = ''
+endif
