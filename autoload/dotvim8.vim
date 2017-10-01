@@ -141,7 +141,7 @@ function! dotvim8#bang(cmd)
       call term_start(join([&shell, &shellcmdflag, a:cmd]))
     endif
   elseif has('nvim') && &shell =~# 'cmd.exe$'
-    call jobstart('start /wait cmd /c ' . a:cmd)
+    call jobstart('start /wait cmd /s /c "' . a:cmd . '"')
   else
     if has('gui_running')
       let cmd = a:cmd
