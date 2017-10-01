@@ -135,7 +135,8 @@ function! dotvim8#bang(cmd)
 
   if s:use_term
     if has('nvim')
-      execute ':terminal' s:escape_ex(a:cmd)
+      enew
+      call termopen(a:cmd)
       startinsert
     else
       if &shell =~# 'cmd.exe$'
