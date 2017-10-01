@@ -15,6 +15,5 @@
 setlocal commentstring=::%s
 
 if has('win32') || has('win32unix')
-  " Assume default values for all shell-related options
-  let &l:keywordprg = (has('win32') ? 'cls' : 'clear') . ' && help.exe'
+  nnoremap <silent> <buffer> K :call dotvim8#bang('help.exe ' . expand('<cword>'))<CR>
 endif

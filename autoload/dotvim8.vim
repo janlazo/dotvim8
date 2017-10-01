@@ -138,7 +138,21 @@ function! dotvim8#bang(cmd)
       execute ':terminal' s:escape_ex(a:cmd)
       startinsert
     else
-      call term_start(join([&shell, &shellcmdflag, a:cmd]))
+      if &shell =~# 'cmd.exe$'
+        let cmd = ['cmd', '/s', '/c', '"' . a:cmd . '"']
+      else
+        let cmd = [&shell, &shellcmdflag, a:cmd]
+      endif
+
+      " Vim escapes the double quotes with backslashes
+      " This can break either the executable, internal command, or the entire command
+      " This escaping is unreliable in cmd.exe and invalid in powershell.exe
+      " Also, Vim does not officially support powershell.exe
+      if has('win32')
+        let cmd = join(cmd)
+      endif
+
+      call term_start(cmd)
     endif
   elseif has('nvim') && &shell =~# 'cmd.exe$'
     call jobstart('start /wait cmd /s /c "' . a:cmd . '"')
