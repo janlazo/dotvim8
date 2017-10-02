@@ -60,7 +60,7 @@ endfunction
 " Wrap in single quotes so environment variables are not expanded
 " Double all inner single quotes
 function! s:shellesc_ps1(arg)
-  return "'".substitute(a:arg, "'", "''", 'g')."'"
+  return "'".substitute(escape(a:arg, '"'), "'", "''", 'g')."'"
 endfunction
 
 " Pass an executable shell to set all shell options for the following:
