@@ -153,7 +153,7 @@ endif
 if has('insert_expand')
   set completeopt=menuone,preview
 
-  if v:version > 703 && has('patch-7.4.775')
+  if v:version >= 800
     set completeopt+=noinsert,noselect
   endif
 endif
