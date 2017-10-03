@@ -51,7 +51,7 @@ if 1
   if v:version >= 800 || has('nvim-0.1.6')
     set shortmess+=cF belloff=all
     set nofixendofline
-    set listchars=tab:>\ ,trail:-,nbsp:+
+    set list listchars=tab:>\ ,trail:-,nbsp:+
 
     if s:fix_ux
       set relativenumber
