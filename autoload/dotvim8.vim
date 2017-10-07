@@ -44,17 +44,14 @@ function! s:escape_ex(cmd)
 endfunction
 
 " cmd.exe supports double-quote escaping only with ^ as its escape character
-" Wrap in ^" so cmd.exe does not dequote the token immediately
 " Escape metacharacters used in interactive shell and batchfile
-" Escape % to avoid environment variable expansion
-" Escape all double quotes as \^"
-" Escape backslashes and avoid escaping the closing ^"
+" Escape % and ! to avoid environment variable expansion
+" Prepend all double quotes and backslashes with a backslash
+" Return an escaped string, wrapped in ^", so cmd.exe doesn't dequote it yet.
 function! s:shellesc_cmd(arg, script)
-  let escaped = substitute(a:arg, '[&|<>()@^]', '^&', 'g')
+  let escaped = '"' . escape(a:arg, '"\') . '"'
   let escaped = substitute(escaped, '%', (a:script ? '%' : '^') . '&', 'g')
-  let escaped = substitute(escaped, '"', '\\^&', 'g')
-  let escaped = substitute(escaped, '\(\\\+\)\(\\^\)', '\1\1\2', 'g')
-  return '^"'.substitute(escaped, '\(\\\+\)$', '\1\1', '').'^"'
+  return substitute(a:arg, '[&|<>()@^!"]', '^&', 'g')
 endfunction
 
 " Wrap in single quotes so environment variables are not expanded
