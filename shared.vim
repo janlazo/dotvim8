@@ -25,7 +25,7 @@ set gdefault
 set fileformats=unix,dos
 set nrformats-=octal complete-=i
 set notimeout ttimeout ttimeoutlen=100
-set noswapfile updatecount=0
+set noswapfile updatecount=0 directory=
 set keywordprg=:help
 
 " 4-space Indent
