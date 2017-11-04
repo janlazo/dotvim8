@@ -48,6 +48,10 @@ if has('win32')
       inoremap <Char-0x07F> <BS>
       nnoremap <Char-0x07F> <BS>
       vnoremap <Char-0x07F> <BS>
+
+      if exists(':tnoremap') == 2
+        tnoremap <Char-0x07F> <BS>
+      endif
     endif
   endif
 
