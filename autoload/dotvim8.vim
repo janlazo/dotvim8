@@ -18,9 +18,13 @@ endif
 let g:loaded_autoload_dotvim8 = 1
 let s:cpoptions = &cpoptions
 set cpoptions&vim
-let s:use_term = has('nvim') ?
+let s:has_term = has('nvim') ?
                 \ (has('nvim-0.2.1') || !has('win32')) :
-                \ (has('terminal') && has('patch-8.0.1123'))
+                \ (has('terminal') && has('patch-8.0.1108'))
+let s:has_job = has('nvim') ?
+                \ (has('nvim-0.2') || !has('win32')) :
+                \ (v:version >= 800)
+
 
 if has('win32')
   function! s:call(fn, ...)
@@ -130,7 +134,7 @@ function! dotvim8#bang(cmd)
     return
   endif
 
-  if s:use_term
+  if s:has_term
     if has('nvim')
       enew
       call termopen(a:cmd)
@@ -152,7 +156,7 @@ function! dotvim8#bang(cmd)
 
       call term_start(cmd)
     endif
-  elseif has('nvim') && &shell =~# 'cmd.exe$'
+  elseif has('nvim') && s:has_job && &shell =~# 'cmd.exe$'
     call jobstart('start /wait cmd /s /c "' . a:cmd . '"')
   else
     if has('gui_running')
@@ -169,7 +173,10 @@ function! dotvim8#bang(cmd)
 endfunction
 
 function! dotvim8#jobstart(cmd, ...)
-  if empty(a:cmd)
+  if !s:has_job
+    echom 'Requires nvim 0.2 or vim 8 with jobs'
+    return
+  elseif empty(a:cmd)
     echom 'Command required'
     return
   endif
