@@ -16,7 +16,7 @@ let s:cpoptions = &cpoptions
 set cpoptions&vim
 setlocal commentstring=<!--%s-->
 
-if executable('pandoc')
+if executable('pandoc') && (has('nvim-0.2') || v:version >= 800)
   function! s:make(ft)
     if empty(a:ft)
       echom 'Filetype required'
