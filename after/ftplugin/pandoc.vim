@@ -12,8 +12,24 @@
 " See the License for the specific language governing permissions and
 " limitations under the License.
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let s:cpoptions = &cpoptions
+set cpoptions&vim
 setlocal commentstring=<!--%s-->
 
 if executable('pandoc')
-  let &l:makeprg = 'pandoc -so "%:r.pdf" % $*'
+  function! s:make(ft)
+    if empty(a:ft)
+      echom 'Filetype required'
+      return
+    endif
+
+    let cur_file = expand('%:p')
+    let output = fnamemodify(cur_file, ':r') . '.' . a:ft
+    call dotvim8#jobstart(['pandoc', '-so', output, cur_file])
+  endfunction
+
+  command! -buffer -nargs=1 -complete=filetype Pandoc call s:make(<f-args>)
 endif
+
+let &cpoptions = s:cpoptions
+unlet s:cpoptions

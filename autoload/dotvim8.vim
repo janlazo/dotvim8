@@ -168,5 +168,20 @@ function! dotvim8#bang(cmd)
   endif
 endfunction
 
+function! dotvim8#jobstart(cmd, ...)
+  if empty(a:cmd)
+    echom 'Command required'
+    return
+  endif
+
+  let opts = get(a:000, 0, {})
+
+  if has('nvim')
+    call jobstart(a:cmd, opts)
+  else
+    call job_start(a:cmd, opts)
+  endif
+endfunction
+
 let &cpoptions = s:cpoptions
 unlet s:cpoptions
