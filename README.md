@@ -37,7 +37,7 @@ For performance, use GUIs when navigating or editing inside folds.
 
 - Vim 7.4+ to be compatible with most plugins in Github
     - prioritize Vim 8 builds that support true color in ConEmu
-- Neovim 0.2.0 to use fzf and async jobs in Windows
+- Neovim 0.2 to use fzf and async jobs in Windows
 
 ## OS Support
 
@@ -54,13 +54,16 @@ Apache License Version 2.0 (ALv2)
 
 ## TODO
 - terminal config for Vim 8 and Neovim
-  - mappings?
-  - plugins?
+    - mappings?
+    - plugins?
 - setup linting that works in Windows
-  - ale?
-  - makeprg + errorformat is out so compiler is out too
+    - ale?
+    - `makeprg` and `errorformat` are unacceptable so `:compiler` is out
 - improve deoplete for other filetypes
-  - neco-syntax is too slow
+    - neco-syntax is too slow
+- make an async `:Grep`
+    - `:grep` is blocking and `shellescape` for cmd.exe is insufficient for arbitrary text
+    - Windows support in vim-grepper is an afterthought
 
 [Travis]: https://travis-ci.org/janlazo/dotvim8
 [Travis-Status]: https://travis-ci.org/janlazo/dotvim8.svg?branch=master
