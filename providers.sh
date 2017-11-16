@@ -9,3 +9,6 @@ pip3 install neovim
 
 # Ruby - https://github.com/alexgenco/neovim-ruby
 gem install --conservative neovim
+
+# Node - https://github.com/neovim/node-client
+npm install -g neovim
