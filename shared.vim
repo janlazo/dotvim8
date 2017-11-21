@@ -264,6 +264,8 @@ if has('win32')
   if &shell =~# 'cmd.exe'
     set shellcmdflag=/s\ /c shellxquote=\" shellxescape=
   endif
+
+  let &grepprg = executable('findstr.exe') ? 'findstr /n $* nul' : ''
 endif
 " }}}huge
 
