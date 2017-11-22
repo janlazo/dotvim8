@@ -12,5 +12,5 @@ rplugin.vim
 plug.vim.old
 
 # user-defined
-bundles/
+bundle/
 .undodir/
