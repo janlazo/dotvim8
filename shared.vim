@@ -259,12 +259,6 @@ if has('win32')
     endfunction
   endif
 
-  " Fix shell options for cmd.exe such that the command is run
-  " as if it was typed in an interactive prompt
-  if &shell =~# 'cmd.exe'
-    set shellcmdflag=/s\ /c shellxquote=\" shellxescape=
-  endif
-
   let &grepprg = executable('findstr.exe') ? 'findstr /n $* nul' : ''
 endif
 " }}}huge

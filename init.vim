@@ -19,6 +19,13 @@ if has('win32')
   if !isdirectory($NVIM_QT_RUNTIMEPATH)
     set runtimepath&vim
   endif
+
+  " Fix shell options for cmd.exe such that the command is run
+  " as if it was typed in an interactive prompt
+  if &shell =~# 'cmd.exe'
+    let &shellcmdflag = '/s /c'
+    let &shellxquote = '"'
+  endif
 endif
 
 runtime shared.vim
