@@ -25,7 +25,7 @@ if executable('pandoc') && (has('nvim-0.2') || v:version >= 800)
 
     let cur_file = expand('%:p')
     let output = fnamemodify(cur_file, ':r') . '.' . a:ft
-    call dotvim8#jobstart(['pandoc', '-so', output, cur_file])
+    call dotvim8#jobstart(['pandoc', '--filter', 'pandoc-citeproc', '-so', output, cur_file])
   endfunction
 
   command! -buffer -nargs=1 -complete=filetype Pandoc call s:make(<f-args>)
