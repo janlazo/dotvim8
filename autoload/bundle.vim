@@ -87,6 +87,14 @@ function! bundle#init() abort
     let g:deoplete#enable_at_startup = 1
     inoremap <silent><expr> <TAB>   pumvisible() ? '<C-n>' : '<TAB>'
     inoremap <silent><expr> <S-TAB> pumvisible() ? '<C-p>' : '<S-TAB>'
+
+    if base_cond
+      function s:deoplete_cr() abort
+        return deoplete#close_popup() . "\<CR>"
+      endfunction
+
+      inoremap <silent> <CR> <C-R>=<SID>deoplete_cr()<CR>
+    endif
   Plug 'Shougo/neco-vim', base_cond ? {} : plug_disable
   " }}}plug-python
   " {{{plug-color
