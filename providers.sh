@@ -11,4 +11,4 @@ pip3 install neovim
 gem install --conservative neovim
 
 # Node - https://github.com/neovim/node-client
-npm install -g neovim
+# npm install -g neovim
