@@ -52,10 +52,6 @@ if 1
     set shortmess+=cF belloff=all
     set nofixendofline
     set list listchars=tab:>\ ,trail:-,nbsp:+
-
-    if s:fix_ux
-      set relativenumber
-    endif
   endif
 
   nnoremap <Plug>(RemoveTrailingSpace) :%s/\s\+$//g<CR>
