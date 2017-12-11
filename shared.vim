@@ -54,8 +54,13 @@ if 1
     set list listchars=tab:>\ ,trail:-,nbsp:+
   endif
 
-  nnoremap <Plug>(RemoveTrailingSpace) :%s/\s\+$//g<CR>
-  nmap <Space>rs <Plug>(RemoveTrailingSpace)
+  function! s:remove_trailing_spaces()
+    let cur_view = winsaveview()
+    %s/\s\+$//e
+    call winrestview(cur_view)
+  endfunction
+
+  nnoremap <silent> <Space>rs :call <SID>remove_trailing_spaces()<CR>
 
   " open vimrc or init.vim in new tab
   nnoremap <silent> <Space>v :tabedit $MYVIMRC<CR>
