@@ -37,7 +37,6 @@ function! bundle#init() abort
   Plug 'tpope/vim-speeddating'
   Plug 'tpope/vim-repeat'
   Plug 'justinmk/vim-dirvish'
-    nnoremap <Space>o :Dirvish<CR>
   Plug 'AndrewRadev/splitjoin.vim'
   Plug 'airblade/vim-rooter'
     let g:rooter_use_lcd = 1

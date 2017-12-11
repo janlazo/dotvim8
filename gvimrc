@@ -30,7 +30,8 @@ elseif has('unix') && !has('win32unix')
   set guifont=Monospace\ 12
 endif
 
-set guioptions=cegLRv     " guioption default: egmrLtT
+" remove all GUI bloat taking up screen space
+set guioptions=cegLRv
 
 if 1
   let &columns = 81 + &numberwidth
