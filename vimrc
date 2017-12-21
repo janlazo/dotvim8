@@ -29,7 +29,7 @@ endif
 
 if has('win32')
   " Fix inconsistent slashes in each filepath
-  let &runtimepath = join(map(split(&runtimepath, ','), 'expand(v:val)'), ',')
+  let &runtimepath = tr(&runtimepath, '/', '\')
 
   " Force xterm rendering in ConEmu for truecolor
   if $ConEmuANSI ==# 'ON'
