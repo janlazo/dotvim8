@@ -16,31 +16,33 @@ let s:cpoptions = &cpoptions
 set cpoptions&vim
 setlocal commentstring=<!--%s-->
 
-function! s:make(ft)
-  if empty(a:ft)
-    echomsg 'Filetype required'
-    return
-  elseif !executable('pandoc')
-    echomsg 'pandoc is not in $PATH'
-    return
-  endif
+if !exists('*s:make')
+  function! s:make(ft)
+    if empty(a:ft)
+      echomsg 'Filetype required'
+      return
+    elseif !executable('pandoc')
+      echomsg 'pandoc is not in $PATH'
+      return
+    endif
 
-  let cur_file = expand('%:p')
+    let cur_file = expand('%:p')
 
-  if empty(cur_file)
-    echomsg 'Cannot get absolute filepath in buffer'
-    return
-  endif
+    if empty(cur_file)
+      echomsg 'Cannot get absolute filepath in buffer'
+      return
+    endif
 
-  let output = fnamemodify(cur_file, ':r') . '.' . a:ft
-  let job_cmd = ['pandoc']
+    let output = fnamemodify(cur_file, ':r') . '.' . a:ft
+    let job_cmd = ['pandoc']
 
-  if executable('pandoc-citeproc')
-    call extend(job_cmd, ['--filter', 'pandoc-citeproc'])
-  endif
+    if executable('pandoc-citeproc')
+      call extend(job_cmd, ['--filter', 'pandoc-citeproc'])
+    endif
 
-  call dotvim8#jobstart(extend(job_cmd, ['-so', output, cur_file]))
-endfunction
+    call dotvim8#jobstart(extend(job_cmd, ['-so', output, cur_file]))
+  endfunction
+endif
 
 command! -buffer -nargs=1 -complete=filetype Pandoc call s:make(<f-args>)
 let &cpoptions = s:cpoptions

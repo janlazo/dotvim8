@@ -16,9 +16,7 @@ let s:cpoptions = &cpoptions
 set cpoptions&vim
 
 if !exists('*s:help')
-  " Assume default values for all shell-related options
-  " TODO - convert to an autoload function
-  function <SID>help()
+  function! s:help()
     if !executable('powershell')
       echom 'powershell is unavailable in PATH'
       return

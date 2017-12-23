@@ -12,7 +12,3 @@
 " limitations under the License.
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 setlocal commentstring=#%s
-
-if executable('gnuplot')
-  setlocal makeprg=gnuplot\ %
-endif
