@@ -23,8 +23,7 @@ let s:has_term = has('nvim') ?
                 \ (has('terminal') && has('patch-8.0.1108'))
 let s:has_job = has('nvim') ?
                 \ (has('nvim-0.2') || !has('win32')) :
-                \ (v:version >= 800)
-
+                \ (has('job') && has('channel') && has('patch-8.0.87'))
 
 if has('win32')
   function! s:call(fn, ...)
@@ -68,7 +67,7 @@ endfunction
 " system(), :!, job, terminal
 function! dotvim8#set_shell(shell)
   if !executable(a:shell)
-    echom '''shell'' is not executable'
+    echomsg '''shell'' is not executable'
     return
   endif
 
@@ -133,10 +132,10 @@ endfunction
 " Vim with +terminal or Neovim - terminal
 function! dotvim8#bang(cmd)
   if empty(a:cmd)
-    echom 'Command is empty string'
+    echomsg 'Command is empty string'
     return
   elseif !executable(&shell)
-    echom '''shell'' is not executable'
+    echomsg '''shell'' is not executable'
     return
   endif
 
@@ -178,16 +177,32 @@ function! dotvim8#bang(cmd)
   endif
 endfunction
 
+" On Vim, use job_start() and return a job object.
+" On Neovim, use jobstart() and return a job id.
+" If jobs feature is unsupported (Vim 7, Windows 7+),
+" then fallback to system() and return an empty string.
+" On failure, return -1.
 function! dotvim8#jobstart(cmd, ...)
-  if !s:has_job
-    echom 'Requires nvim 0.2 or vim 8 with jobs'
-    return
-  elseif empty(a:cmd)
-    echom 'Command required'
-    return
+  if empty(a:cmd)
+    echomsg 'Command required'
+    return -1
+  endif
+
+  let cmd_type = type(a:cmd)
+
+  if cmd_type != type('') && cmd_type != type([])
+    echomsg 'Invalid command type'
+    return -1
   endif
 
   let opts = get(a:000, 0, {})
+
+  if !s:has_job
+    " TODO - Escape each list entry for &shell
+    let cmd = (cmd_type == type([])) ? join(a:cmd) : a:cmd
+    call system(cmd)
+    return ''
+  endif
 
   if has('nvim')
     let job_id = jobstart(a:cmd, opts)
