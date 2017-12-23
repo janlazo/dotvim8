@@ -16,20 +16,32 @@ let s:cpoptions = &cpoptions
 set cpoptions&vim
 setlocal commentstring=<!--%s-->
 
-if executable('pandoc') && (has('nvim-0.2') || v:version >= 800)
-  function! s:make(ft)
-    if empty(a:ft)
-      echom 'Filetype required'
-      return
-    endif
+function! s:make(ft)
+  if empty(a:ft)
+    echomsg 'Filetype required'
+    return
+  elseif !executable('pandoc')
+    echomsg 'pandoc is not in $PATH'
+    return
+  endif
 
-    let cur_file = expand('%:p')
-    let output = fnamemodify(cur_file, ':r') . '.' . a:ft
-    call dotvim8#jobstart(['pandoc', '--filter', 'pandoc-citeproc', '-so', output, cur_file])
-  endfunction
+  let cur_file = expand('%:p')
 
-  command! -buffer -nargs=1 -complete=filetype Pandoc call s:make(<f-args>)
-endif
+  if empty(cur_file)
+    echomsg 'Cannot get absolute filepath in buffer'
+    return
+  endif
 
+  let output = fnamemodify(cur_file, ':r') . '.' . a:ft
+  let job_cmd = ['pandoc']
+
+  if executable('pandoc-citeproc')
+    call extend(job_cmd, ['--filter', 'pandoc-citeproc'])
+  endif
+
+  call dotvim8#jobstart(extend(job_cmd, ['-so', output, cur_file]))
+endfunction
+
+command! -buffer -nargs=1 -complete=filetype Pandoc call s:make(<f-args>)
 let &cpoptions = s:cpoptions
 unlet s:cpoptions

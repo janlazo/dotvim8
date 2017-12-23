@@ -190,9 +190,11 @@ function! dotvim8#jobstart(cmd, ...)
   let opts = get(a:000, 0, {})
 
   if has('nvim')
-    call jobstart(a:cmd, opts)
+    let job_id = jobstart(a:cmd, opts)
+    return job_id
   else
-    call job_start(a:cmd, opts)
+    let job_obj = job_start(a:cmd, opts)
+    return job_obj
   endif
 endfunction
 
