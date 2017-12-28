@@ -12,28 +12,12 @@
 " See the License for the specific language governing permissions and
 " limitations under the License.
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-if exists('g:loaded_after_plugin_browse')
-  finish
+if !exists('*s:browse')
+  " Query current keyword in 'MDN Web Docs' website
+  function! s:browse()
+    let url = 'https://duckduckgo.com/?q=!mdn%20' . expand('<cword>')
+    execute 'Browse' url
+  endfunction
 endif
-let g:loaded_after_plugin_browse = 1
-let s:cpoptions = &cpoptions
-set cpoptions&vim
 
-" TODO - support other OS
-function! s:browse(url)
-  if !(has('win32') || has('win32unix'))
-    echomsg 'Not supported in this environment'
-    return
-  elseif empty(a:url)
-    echomsg 'Url must be non-empty string'
-    return
-  endif
-
-  let cmd = ['rundll32', 'url.dll,FileProtocolHandler', a:url]
-  call dotvim8#jobstart(cmd)
-endfunction
-
-command! -nargs=1 Browse call s:browse(<f-args>)
-
-let &cpoptions = s:cpoptions
-unlet s:cpoptions
+nnoremap <silent> <buffer> K :call <SID>browse()<CR>

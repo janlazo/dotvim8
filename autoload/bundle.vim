@@ -96,7 +96,7 @@ function! bundle#init() abort
     inoremap <silent><expr> <S-TAB> pumvisible() ? '<C-p>' : '<S-TAB>'
 
     if base_cond
-      function s:deoplete_cr() abort
+      function! s:deoplete_cr() abort
         return deoplete#close_popup() . "\<CR>"
       endfunction
 

@@ -22,7 +22,7 @@ set cpoptions&vim
 let s:formatoptions = &formatoptions
 
 " Reset Vim options misconfigured by ftplugin and syntax files
-function s:reset_opts()
+function! s:reset_opts()
   let &formatoptions = s:formatoptions
 endfunction
 
