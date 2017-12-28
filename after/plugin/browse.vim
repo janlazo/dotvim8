@@ -33,18 +33,19 @@ function! s:browse(url)
   call dotvim8#jobstart(cmd)
 endfunction
 
-" MDN Web Docs
-function! s:browse_mdn(...)
+function! s:query(url, ...)
   if empty(a:000)
     echomsg 'No arguments passed'
-    return ''
+    return
   endif
-  let url = 'https://developer.mozilla.org/en-US/search?q=' . join(a:000, '%20')
-  execute 'Browse' url
+  call s:browse(a:url.join(a:000, '%20'))
 endfunction
 
 command! -nargs=1 Browse call s:browse(<f-args>)
-command! -nargs=+ BrowseMDN call s:browse_mdn(<f-args>)
+command! -nargs=+ BrowseMDN
+\ call s:query('https://developer.mozilla.org/en-US/search?q=', <f-args>)
+command! -nargs=+ BrowsePHP
+\ call s:query('https://secure.php.net/manual-lookup.php?pattern=', <f-args>)
 
 let &cpoptions = s:cpoptions
 unlet s:cpoptions
