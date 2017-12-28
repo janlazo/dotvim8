@@ -27,7 +27,15 @@ function! bundle#init() abort
   silent! call plug#begin(expand(s:base_dir . '/bundle'))
   let plug_disable = {'on': []}
   " {{{plug-core
-  Plug 'chrisbra/matchit', v:version >= 800 ? {} : plug_disable
+  if v:version >= 800
+    Plug 'chrisbra/matchit'
+  else
+    Plug 'chrisbra/matchit', plug_disable
+
+    if has('syntax') && !has('nvim-0.1.6')
+      runtime! macros/matchit.vim
+    endif
+  endif
   Plug 'tpope/vim-scriptease'
   Plug 'tpope/vim-unimpaired'
   Plug 'tpope/vim-surround'

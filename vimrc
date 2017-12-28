@@ -69,13 +69,6 @@ endif
 
 runtime shared.vim
 
-if has('syntax')
-  if v:version < 800
-    " '%' jumps to begin/end pairs
-    runtime! macros/matchit.vim
-  endif
-endif
-
 if has('autocmd')
   call bundle#init()
 endif
