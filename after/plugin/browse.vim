@@ -19,8 +19,14 @@ let g:loaded_after_plugin_browse = 1
 let s:cpoptions = &cpoptions
 set cpoptions&vim
 
-" TODO - support other OS
-function! s:browse(url)
+" Open url in default browser.
+" Additional arguments are joined with '%20' as space character
+" and the resulting string is appended to the url.
+"
+" TODO
+" - validate url
+" - support other OS
+function! s:browse(url, ...)
   if !(has('win32') || has('win32unix'))
     echomsg 'Not supported in this environment'
     return
@@ -29,23 +35,16 @@ function! s:browse(url)
     return
   endif
 
-  let cmd = ['rundll32', 'url.dll,FileProtocolHandler', a:url]
+  let url = a:url . join(a:000, '%20')
+  let cmd = ['rundll32', 'url.dll,FileProtocolHandler', url]
   call dotvim8#jobstart(cmd)
-endfunction
-
-function! s:query(url, ...)
-  if empty(a:000)
-    echomsg 'No arguments passed'
-    return
-  endif
-  call s:browse(a:url.join(a:000, '%20'))
 endfunction
 
 command! -nargs=1 Browse call s:browse(<f-args>)
 command! -nargs=+ BrowseMDN
-\ call s:query('https://developer.mozilla.org/en-US/search?q=', <f-args>)
+\ call s:browse('https://developer.mozilla.org/en-US/search?q=', <f-args>)
 command! -nargs=+ BrowsePHP
-\ call s:query('https://secure.php.net/manual-lookup.php?pattern=', <f-args>)
+\ call s:browse('https://secure.php.net/manual-lookup.php?pattern=', <f-args>)
 
 let &cpoptions = s:cpoptions
 unlet s:cpoptions
