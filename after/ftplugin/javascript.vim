@@ -13,10 +13,8 @@
 " limitations under the License.
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 if !exists('*s:browse')
-  " Query current keyword in 'MDN Web Docs' website
   function! s:browse()
-    let url = 'https://duckduckgo.com/?q=!mdn%20' . expand('<cword>')
-    execute 'Browse' url
+    execute 'BrowseMDN' expand('<cword>')
   endfunction
 endif
 
