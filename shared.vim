@@ -21,7 +21,6 @@ set nomodeline modelines=0
 set autoread
 set shortmess+=sI
 set backspace=2 whichwrap=<,>,b,s nojoinspaces
-set gdefault
 set fileformats=unix,dos
 set nrformats-=octal complete-=i
 set notimeout ttimeout ttimeoutlen=100
@@ -56,7 +55,7 @@ if 1
 
   function! s:remove_trailing_spaces()
     let cur_view = winsaveview()
-    %s/\s\+$//e
+    %s/\s\+$//ge
     call winrestview(cur_view)
   endfunction
 
