@@ -76,6 +76,7 @@ function! bundle#init() abort
   endif
 
   Plug 'janlazo/fzf.vim'
+    let g:fzf_command_prefix = 'Fzf'
   Plug 'tpope/vim-fugitive'
   " }}}plug-core
   " {{{plug-python
