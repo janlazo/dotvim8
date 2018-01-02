@@ -24,6 +24,7 @@ let s:base_dir = expand('<sfile>:p:h:h')
 " Assume vim 7.2+ (normal/huge version) or nvim 0.1+
 " For Windows, assume vim 7.4+ or nvim 0.2+
 function! bundle#init() abort
+  let g:plug_window = 'tabnew'
   silent! call plug#begin(expand(s:base_dir . '/bundle'))
   let plug_disable = {'on': []}
   " {{{plug-core
