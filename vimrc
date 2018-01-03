@@ -54,11 +54,6 @@ if has('win32')
       endif
     endif
   endif
-
-  if !empty($SHELL)
-    set shell=cmd.exe shellcmdflag=/c shellredir=>%s\ 2>&1
-    set shellxquote=( shellxescape&vim shellquote=
-  endif
 endif
 
 if has('win32unix')
