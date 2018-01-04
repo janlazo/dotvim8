@@ -27,16 +27,20 @@ set cpoptions&vim
 " - validate url
 " - support other OS
 function! s:browse(url, ...)
-  if !(has('win32') || has('win32unix'))
-    echomsg 'Not supported in this environment'
-    return
-  elseif empty(a:url)
+  if empty(a:url)
     echomsg 'Url must be non-empty string'
     return
   endif
 
   let url = a:url . join(a:000, '%20')
-  let cmd = ['rundll32', 'url.dll,FileProtocolHandler', url]
+
+  if (has('win32') || has('win32unix')) && executable('rundll32.exe')
+    let cmd = ['rundll32.exe', 'url.dll,FileProtocolHandler', url]
+  else
+    echomsg 'Not supported in this environment'
+    return
+  endif
+
   call dotvim8#jobstart(cmd)
 endfunction
 
