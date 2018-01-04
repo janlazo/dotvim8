@@ -42,6 +42,8 @@ function! s:browse(url, ...)
   elseif has('unix')
     if executable('xdg-open')
       let cmd = ['xdg-open', url]
+    elseif executable('x-www-browser')
+      let cmd = ['x-www-browser', url]
     endif
   endif
 
