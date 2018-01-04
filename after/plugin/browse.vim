@@ -33,10 +33,19 @@ function! s:browse(url, ...)
   endif
 
   let url = a:url . join(a:000, '%20')
+  let cmd = ''
 
-  if (has('win32') || has('win32unix')) && executable('rundll32.exe')
-    let cmd = ['rundll32.exe', 'url.dll,FileProtocolHandler', url]
-  else
+  if has('win32') || has('win32unix')
+    if executable('rundll32.exe')
+      let cmd = ['rundll32.exe', 'url.dll,FileProtocolHandler', url]
+    endif
+  elseif has('unix')
+    if executable('xdg-open')
+      let cmd = ['xdg-open', url]
+    endif
+  endif
+
+  if empty(cmd)
     echomsg 'Not supported in this environment'
     return
   endif
