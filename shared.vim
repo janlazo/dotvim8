@@ -278,9 +278,7 @@ if has('win32')
   " cmd.exe uses %PROMPT% to set its prompt
   " default prompt is not user-friendly
   " ConEmu breaks it for winpty so :terminal has garbled prompt
-  if !empty($PROMPT)
-    let $PROMPT = '$P$_$G$S'
-  endif
+  let $PROMPT = '$P$_$G$S'
 endif
 " }}}huge
 
