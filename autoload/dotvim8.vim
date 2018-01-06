@@ -85,16 +85,19 @@ function! dotvim8#set_shell(shell)
     else
       set shellcmdflag=/c shellxquote&vim shellxescape&vim
     endif
-  elseif shell ==# 'powershell.exe'
+  elseif shell =~# '^powershell'
     let &shell = a:shell
     let &shellcmdflag = '-NoProfile -NoLogo -ExecutionPolicy RemoteSigned -Command'
-    set shellxescape= shellquote=
-    let &shellredir = '>%s 2>&1'
+    set shellxescape=
+    let &shellpipe = '|'
+    let &shellredir = '>'
 
-    if !has('nvim') && has('win32')
-      let &shellxquote = '"'
-    else
+    if has('nvim')
       set shellxquote=
+      let &shellquote = '"'
+    else
+      let &shellxquote = has('win32') ? '"' : ''
+      set shellquote=
     endif
   elseif shell ==# 'sh' || shell ==# 'bash'
     let &shell = a:shell

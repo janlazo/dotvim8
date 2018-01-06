@@ -28,15 +28,15 @@ if !exists('*s:help')
     let shell = &shell
 
     try
-      if shell !~# 'powershell.exe$'
-        call dotvim8#set_shell('powershell.exe')
+      if shell !~# 'powershell'
+        call dotvim8#set_shell('powershell')
       endif
 
       let help_fmt = 'Get-Help %s | more'
       let cmd = printf(help_fmt, dotvim8#shellescape(expand('<cword>')))
       call dotvim8#bang(cmd)
     finally
-      if shell !~# 'powershell.exe$'
+      if shell !~# 'powershell'
         call dotvim8#set_shell(shell)
       endif
     endtry
