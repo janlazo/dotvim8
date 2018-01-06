@@ -94,7 +94,7 @@ function! dotvim8#set_shell(shell)
 
     if has('nvim')
       set shellxquote=
-      let &shellquote = '"'
+      let &shellquote = '('
     else
       let &shellxquote = has('win32') ? '"' : ''
       set shellquote=
