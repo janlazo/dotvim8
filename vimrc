@@ -43,14 +43,8 @@ if has('win32')
         set t_Co=256
         let &t_AB = "\e[48;5;%dm"
         let &t_AF = "\e[38;5;%dm"
-      endif
-
-      inoremap <Char-0x07F> <BS>
-      nnoremap <Char-0x07F> <BS>
-      vnoremap <Char-0x07F> <BS>
-
-      if exists(':tnoremap') == 2
-        tnoremap <Char-0x07F> <BS>
+        let &t_kb = nr2char(127)
+        let &t_kD = "^[[3~"
       endif
     endif
   endif
