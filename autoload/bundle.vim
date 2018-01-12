@@ -137,8 +137,6 @@ function! bundle#init() abort
   Plug 'othree/yajs.vim'
   Plug 'kchmck/vim-coffee-script'
   Plug 'leafgarland/typescript-vim'
-  Plug 'posva/vim-vue'
-    let g:vue_disable_pre_processors = 1
 
   " Database
   Plug 'exu/pgsql.vim'
