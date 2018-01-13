@@ -49,18 +49,16 @@ endfunction
 " cmd.exe supports double-quote escaping only with ^ as its escape character
 " Escape metacharacters used in interactive shell and batchfile
 " Escape % and ! to avoid environment variable expansion
-" Prepend all double quotes and backslashes with a backslash
 " Return an escaped string, wrapped in ^", so cmd.exe doesn't dequote it yet.
 function! s:shellesc_cmd(arg, script)
-  let escaped = '"' . escape(a:arg, '"\') . '"'
   let escaped = substitute(escaped, '%', (a:script ? '%' : '^') . '&', 'g')
-  return substitute(a:arg, '[&|<>()@^!"]', '^&', 'g')
+  return substitute('"'.escaped.'"', '[&|<>()@^!"]', '^&', 'g')
 endfunction
 
 " Wrap in single quotes so environment variables are not expanded
 " Double all inner single quotes
 function! s:shellesc_ps1(arg)
-  return "'".substitute(escape(a:arg, '"\'), "'", "''", 'g')."'"
+  return "'".substitute(a:arg, "'", "''", 'g')."'"
 endfunction
 
 " Pass an executable shell to set all shell options for the following:
@@ -119,13 +117,16 @@ function! dotvim8#shellescape(arg, ...)
     return ''
   endif
 
-  let shell = get(a:000, 0, &shell)
-  let script = get(a:000, 1, 0)
+  let opts = get(a:000, 0, {})
+  let shell = fnamemodify(get(opts, 'shell', &shell), ':t')
+  let script = get(opts, 'script', 0)
+  let arg = get(opts, 'escape_argv', 1) && (has('win32') || has('win32unix')) ?
+            \ s:escape_argv(a:arg) : a:arg
 
-  if shell =~# 'cmd.exe$'
-    return s:shellesc_cmd(a:arg, script)
-  elseif shell =~# 'powershell.exe$'
-    return s:shellesc_ps1(a:arg)
+  if shell ==# 'cmd.exe'
+    return s:shellesc_cmd(arg, script)
+  elseif shell =~# '^powershell'
+    return s:shellesc_ps1(arg)
   endif
 
   return s:call('shellescape', a:arg)
