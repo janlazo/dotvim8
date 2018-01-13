@@ -250,18 +250,14 @@ endif
 " }}}big
 " {{{huge
 if has('win32')
+  set shell=cmd.exe shellredir=>%s\ 2>&1
+
   if has('nvim')
     " Force dequoting in cmd.exe to escape the entire command.
     " The command must be escaped as if it's run in an interactive session.
-    if &shell =~# 'cmd.exe$'
-      set shellcmdflag=/s/c shellxquote=\"
-    endif
+    set shellcmdflag=/s/c shellxquote=\"
   else
-    " Only cmd.exe reliably works on Windows
-    if !empty($SHELL)
-      set shell=cmd.exe shellcmdflag=/c shellredir=>%s\ 2>&1
-      set shellxquote=( shellxescape&vim shellquote=
-    endif
+    set shellcmdflag=/c shellxquote=(
   endif
 
   " Vim uses HOME environment variable to point here (unreliable in Windows)
