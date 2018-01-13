@@ -25,23 +25,6 @@ let s:has_job = has('nvim') ?
                 \ (has('nvim-0.2') || !has('win32')) :
                 \ (has('job') && has('channel') && has('patch-8.0.87'))
 
-if has('win32')
-  function! s:call(fn, ...)
-    let shellslash = &shellslash
-
-    try
-      set noshellslash
-      return call(a:fn, a:000)
-    finally
-      let &shellslash = shellslash
-    endtry
-  endfunction
-else
-  function! s:call(fn, ...)
-    return call(a:fn, a:000)
-  endfunction
-endif
-
 function! s:escape_ex(cmd)
   return escape(a:cmd, '%#!')
 endfunction
@@ -121,15 +104,23 @@ function! dotvim8#shellescape(arg, ...)
   let shell = fnamemodify(get(opts, 'shell', &shell), ':t')
   let script = get(opts, 'script', 0)
   let arg = get(opts, 'escape_argv', 1) && (has('win32') || has('win32unix')) ?
-            \ s:escape_argv(a:arg) : a:arg
+            \ escape(a:arg, '"\') : a:arg
 
   if shell ==# 'cmd.exe'
     return s:shellesc_cmd(arg, script)
   elseif shell =~# '^powershell'
     return s:shellesc_ps1(arg)
+  elseif has('win32') || has('win32unix')
+    let shellslash = &shellslash
+    try
+      set shellslash
+      return shellescape(arg)
+    finally
+      let &shellslash = shellslash
+    endtry
   endif
 
-  return s:call('shellescape', a:arg)
+  return shellescape(a:arg)
 endfunction
 
 " Vim without +terminal        - !
