@@ -12,11 +12,6 @@
 " See the License for the specific language governing permissions and
 " limitations under the License.
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" unset 'compatible' in tiny/small versions (hack copied from defaults.vim)
-silent! while 0
-  set nocompatible
-silent! endwhile
-
 if 1
   " Disable defaults.vim
   let g:skip_defaults_vim = 1

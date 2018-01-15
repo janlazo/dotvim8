@@ -20,7 +20,6 @@ Vim 8+ / Neovim 0.2+ config folder for Windows support and async jobs.
         - language providers
         - inccommand
     - vim:
-        - `set nocompatible` for vim-tiny
         - set terminal options and fix mappings for ConEmu
 - gvimrc and ginit.vim for GUI-specific configs (e.g. fonts, columns)
 - [vim-plug] as package manager for bundles in Github
