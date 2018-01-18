@@ -70,10 +70,10 @@ function! bundle#init() abort
   if isdirectory(fzf_path)
     Plug fzf_path
   else
-    Plug 'junegunn/fzf', {
+    Plug 'junegunn/fzf', executable('bash') ? {
     \ 'dir': fzf_path,
     \ 'do': 'bash ./install --bin'
-    \ }
+    \ } : plug_disable
   endif
 
   Plug 'janlazo/fzf.vim'
