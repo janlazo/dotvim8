@@ -232,6 +232,7 @@ if has('autocmd')
   let g:vimsyn_embed = ''
   let g:vim_indent_cont = 0
   let g:tex_flavor = 'latex'
+  let g:netrw_dirhistmax = 0
 endif
 " }}}normal
 " {{{big
