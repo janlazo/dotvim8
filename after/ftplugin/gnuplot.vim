@@ -12,3 +12,11 @@
 " limitations under the License.
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 setlocal commentstring=#%s
+
+if !exists('*s:help')
+  function! s:help()
+    call dotvim8#bang('gnuplot -e "help '.expand('<cword>').'; pause -1"')
+  endfunction
+endif
+
+nnoremap <silent> <buffer> K :call <SID>help()<CR>
