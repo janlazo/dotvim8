@@ -15,6 +15,7 @@
 if has('autocmd')
   let s:globs = {
   \ 'coffee': ['*.cson'],
+  \ 'csv': ['*.csv'],
   \ 'dosini': ['.npmrc'],
   \ 'json': ['*.json', '.bowerrc', 'composer.lock'],
   \ 'bib': ['*.bibtex', '*.biblatex'],
