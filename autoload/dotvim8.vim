@@ -80,7 +80,12 @@ function! dotvim8#set_shell(shell)
       let &shellxquote = has('win32') ? '"' : ''
       set shellquote=
     endif
-  elseif shell ==# 'sh' || shell ==# 'bash'
+  elseif shell =~# '^wsl'
+    let &shell = a:shell
+    let &shellcmdflag = 'bash --login -c'
+    let &shellredir = '>%s 2>&1'
+    set shellxquote=\" shellxescape= shellquote=
+  elseif shell =~# '^sh' || shell =~# '^bash'
     let &shell = a:shell
     set shellcmdflag=-c shellxescape= shellquote=
     let &shellredir = '>%s 2>&1'
