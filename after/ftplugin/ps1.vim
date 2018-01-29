@@ -18,27 +18,22 @@ set cpoptions&vim
 if !exists('*s:help')
   function! s:help()
     if !executable('powershell')
-      echom 'powershell is unavailable in PATH'
+      echomsg 'powershell is unavailable in PATH'
       return
     elseif !executable(&shell)
-      echom '''shell'' is not executable'
+      echomsg '''shell'' is not executable'
       return
     endif
 
     let shell = &shell
 
     try
-      if shell !~# 'powershell'
-        call dotvim8#set_shell('powershell')
-      endif
-
+      call dotvim8#set_shell('powershell')
       let help_fmt = 'Get-Help %s | more'
       let cmd = printf(help_fmt, dotvim8#shellescape(expand('<cword>')))
       call dotvim8#bang(cmd)
     finally
-      if shell !~# 'powershell'
-        call dotvim8#set_shell(shell)
-      endif
+      call dotvim8#set_shell(shell)
     endtry
   endfunction
 endif

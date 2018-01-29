@@ -15,6 +15,10 @@ setlocal commentstring=#%s
 
 if !exists('*s:help')
   function! s:help()
+    if !executable('gnuplot')
+      echomsg 'gnuplot is unavailable in PATH'
+      return
+    endif
     call dotvim8#bang('gnuplot -e "help '.expand('<cword>').'; pause -1"')
   endfunction
 endif
