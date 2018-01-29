@@ -14,4 +14,6 @@
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 if has('patch-8.0.60')
   setlocal keywordprg=:BrowsePHP
+else
+  nnoremap <silent> <buffer> K :execute ':BrowsePHP' expand('<cword>')<CR>
 endif
