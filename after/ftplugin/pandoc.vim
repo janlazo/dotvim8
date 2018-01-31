@@ -16,6 +16,21 @@ let s:cpoptions = &cpoptions
 set cpoptions&vim
 setlocal commentstring=<!--%s-->
 
+if !exists('*s:version')
+  " Return the version number in output of 'pandoc --version'
+  " Return empty if pandoc is unavailable or the output cannot be parsed.
+  function! s:version()
+    if !executable('pandoc')
+      return ''
+    endif
+    let pandoc_v = get(split(system('pandoc --version'), "\n"), 0, '')
+    if empty(pandoc_v)
+      return ''
+    endif
+    return get(split(pandoc_v), 1, '')
+  endfunction
+endif
+
 if !exists('*s:make')
   function! s:make(ft)
     if empty(a:ft)
@@ -23,6 +38,13 @@ if !exists('*s:make')
       return
     elseif !executable('pandoc')
       echomsg 'pandoc is not in $PATH'
+      return
+    endif
+
+    let pandoc_v = split(s:version(), '\.')
+
+    if len(pandoc_v) < 2
+      echomsg '"pandoc --version" returned invalid output'
       return
     endif
 
@@ -35,6 +57,11 @@ if !exists('*s:make')
 
     let output = fnamemodify(cur_file, ':r') . '.' . a:ft
     let job_cmd = ['pandoc']
+
+    " Data Path should be the file directory, not working directory
+    if str2nr(pandoc_v[0]) >= 2
+      call extend(job_cmd, ['--resource-path', fnamemodify(cur_file, ':h')])
+    endif
 
     if executable('pandoc-citeproc')
       call extend(job_cmd, ['--filter', 'pandoc-citeproc'])
