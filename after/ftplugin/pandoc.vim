@@ -58,9 +58,14 @@ if !exists('*s:make')
     let output = fnamemodify(cur_file, ':r') . '.' . a:ft
     let job_cmd = ['pandoc']
 
-    " Data Path should be the file directory, not working directory
     if str2nr(pandoc_v[0]) >= 2
+      " Data Path should be the file directory, not working directory
       call extend(job_cmd, ['--resource-path', fnamemodify(cur_file, ':h')])
+
+      if str2nr(pandoc_v[1]) >= 1
+        " Required for eps-to-pdf conversion
+        call extend(job_cmd, ['--pdf-engine-opt=-shell-escape'])
+      endif
     endif
 
     if executable('pandoc-citeproc')
