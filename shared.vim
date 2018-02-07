@@ -223,6 +223,10 @@ if has('user_commands')
   command! SpaceToTab setlocal noexpandtab | retab!
   command! TabToSpace setlocal expandtab | retab
 
+  if has('syntax')
+    command! SynName echo synIDattr(synID(line('.'), col('.'), 1), 'name')
+  endif
+
   if exists('*s:toggle_spell')
     command! ToggleSpell call <SID>toggle_spell()
   endif
