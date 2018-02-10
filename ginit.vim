@@ -16,13 +16,7 @@ let $MYGVIMRC = expand('<sfile>:p')
 set mouse=a
 
 " neovim-qt
-if exists(':GuiFont') == 2
-  if has('win32')
-    GuiFont! Consolas:h12
-  elseif has('unix') && !has('win32unix')
-    GuiFont! Monospace:h12
-  endif
-endif
+call gui#init()
 
 " Unset ConEmu env vars so terminal Vim does not break in winpty
 if !empty($ConEmuANSI)

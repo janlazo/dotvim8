@@ -12,6 +12,10 @@
 " See the License for the specific language governing permissions and
 " limitations under the License.
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+if !has('gui_running')
+  finish
+endif
+
 if has('multi_byte')
   if &encoding ==# 'latin1'
     set encoding=utf-8
@@ -20,19 +24,20 @@ endif
 
 if has('win32')
   behave mswin
-  set guifont=Consolas:h12:cANSI:qANTIALIASED
 
   if has('directx')
     set renderoptions=
   endif
 elseif has('unix') && !has('win32unix')
   behave xterm
-  set guifont=Monospace\ 12
 endif
+
+call gui#init()
 
 " remove all GUI bloat taking up screen space
 set guioptions=cegLRv
 
-if 1
+if has('linebreak')
+  " Guarantee 80 characters are visible
   let &columns = 81 + &numberwidth
 endif
