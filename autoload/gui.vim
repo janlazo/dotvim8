@@ -76,6 +76,14 @@ function! gui#init()
   call gui#update_fontsize(0)
   nnoremap <silent> <A-=> :call gui#update_fontsize(1)<CR>
   nnoremap <silent> <A--> :call gui#update_fontsize(-1)<CR>
+
+  if has('nvim')
+    if exists(':GuiLinespace') == 2
+      GuiLinespace 1
+    endif
+  else
+    set linespace=1
+  endif
 endfunction
 
 let &cpoptions = s:cpoptions
