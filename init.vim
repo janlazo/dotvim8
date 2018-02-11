@@ -16,7 +16,7 @@ let s:base_dir = expand('<sfile>:p:h')
 
 if has('win32')
   " neovim-qt mangles the runtimepath so revert to Vim defaults
-  if !isdirectory($NVIM_QT_RUNTIMEPATH)
+  if !isdirectory($NVIM_QT_RUNTIME_PATH)
     set runtimepath&vim
   endif
 endif
