@@ -21,13 +21,16 @@ Vim 8+ / Neovim 0.2+ config folder for Windows support and async jobs.
         - inccommand
     - vim:
         - set terminal options and fix mappings for ConEmu
-- gvimrc and ginit.vim for GUI-specific configs (e.g. fonts, columns)
+- gvimrc and ginit.vim for GUI-specific configs (e.g. columns)
+    - shared settings in autoload/gui.vim
+        - fonts
+        - linespace
 - [vim-plug] as package manager for bundles in Github
 - [go-vimlparser] for linting Vimscript
 - [dotvim8.vim] resolves idiosyncrasies in Vim and Neovim
     - based on my contributions for Vim plugin of [fzf] on Windows
-    - `dotvim8#shellescape` is based on `fzf#shellescape`
-    - `dotvim8#bang` is based on the `s:execute` functions
+        - `dotvim8#shellescape` is based on `fzf#shellescape`
+        - `dotvim8#bang` is based on the `s:execute` functions
 
 Vimscript files in this repo use folds which slows down terminal Vim.
 For performance, use GUIs when navigating or editing inside folds.
