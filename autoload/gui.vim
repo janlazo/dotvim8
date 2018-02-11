@@ -76,6 +76,10 @@ function! gui#init()
   call gui#update_fontsize(0)
   nnoremap <silent> <A-=> :call gui#update_fontsize(1)<CR>
   nnoremap <silent> <A--> :call gui#update_fontsize(-1)<CR>
+  if has('nvim') || (has('unix') && !has('win32unix'))
+    nnoremap <silent> <C-ScrollWheelUp>   :call gui#update_fontsize(1)<CR>
+    nnoremap <silent> <C-ScrollWheelDown> :call gui#update_fontsize(-1)<CR>
+  endif
 
   if has('nvim')
     if exists(':GuiLinespace') == 2
