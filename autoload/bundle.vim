@@ -153,6 +153,9 @@ function! bundle#init() abort
   Plug 'rust-lang/rust.vim'
   Plug 'tbastos/vim-lua'
   " }}}plug-ft
+  Plug 'daa84/neovim-gtk', exists('g:GtkGuiLoaded') ? {
+  \ 'rtp': 'runtime'
+  \ } : plug_disable
   call plug#end()
   try
     call echodoc#enable()

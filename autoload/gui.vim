@@ -18,7 +18,9 @@ endif
 let g:loaded_autoload_gui = 1
 let s:cpoptions = &cpoptions
 set cpoptions&vim
-let s:has_gui = has('nvim') ? exists('g:GuiLoaded') : has('gui_running')
+let s:has_gui = has('nvim') ?
+                \ exists('g:GuiLoaded') || exists('g:GtkGuiLoaded') :
+                \ has('gui_running')
 
 let s:fontsize = {'min': 10, 'max': 72, 'cur': 12}
 if has('win32')
@@ -59,8 +61,8 @@ function! gui#update_fontsize(increment)
 
   let font = join(add(copy(s:font.type), s:font.size_prefix . s:fontsize.cur), s:font.sep)
   if has('nvim')
-    if exists(':GuiFont') == 2
-      execute 'GuiFont!' font
+    if exists('*GuiFont')
+      call GuiFont(font, 1)
     endif
   else
     let &guifont = font
