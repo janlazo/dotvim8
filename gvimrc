@@ -34,9 +34,6 @@ endif
 
 call gui#init()
 
-" remove all GUI bloat taking up screen space
-set guioptions=cegLRv
-
 if has('linebreak')
   " Guarantee 80 characters are visible
   let &columns = 81 + &numberwidth

@@ -53,6 +53,11 @@ endif
 
 runtime shared.vim
 
+if has('gui_running')
+  " remove all GUI bloat taking up screen space
+  set guioptions=cegLRv
+endif
+
 if has('autocmd')
   call bundle#init()
 endif
