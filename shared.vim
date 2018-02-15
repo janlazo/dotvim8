@@ -274,7 +274,7 @@ if has('win32')
     endfunction
   endif
 
-  let &grepprg = executable('findstr.exe') ? 'findstr /n $* nul' : ''
+  let &grepprg = executable('findstr.exe') ? 'findstr /s /n $* nul' : ''
 
   " cmd.exe uses %PROMPT% to set its prompt
   " default prompt is not user-friendly
