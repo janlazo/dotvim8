@@ -17,7 +17,7 @@ if has('autocmd')
   \ 'coffee': ['*.cson'],
   \ 'csv': ['*.csv'],
   \ 'dosini': ['.npmrc'],
-  \ 'json': ['*.json', '.bowerrc', 'composer.lock'],
+  \ 'json': ['*.json', '.babelrc', '.bowerrc', 'composer.lock'],
   \ 'bib': ['*.bibtex', '*.biblatex'],
   \ 'pandoc': ['*.pandoc']
   \ }
