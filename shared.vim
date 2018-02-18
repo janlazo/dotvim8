@@ -53,6 +53,25 @@ if 1
     set list listchars=tab:>\ ,trail:-,nbsp:+
   endif
 
+  " Compare 2 version strings, both in semver format.
+  " If a >  b, return 1.
+  " If a == b, return 0.
+  " If a <  b, return -1
+  function! CompareSemver(a, b)
+    let a = split(a:a, '\.', 0)
+    let b = split(a:b, '\.', 0)
+
+    for i in range(max([len(a), len(b)]))
+      if str2nr(get(a, i, 0)) > str2nr(get(b, i, 0))
+        return 1
+      elseif str2nr(get(a, i, 0)) < str2nr(get(b, i, 0))
+        return -1
+      endif
+    endfor
+
+    return 0
+  endfunction
+
   function! s:remove_trailing_spaces()
     let cur_view = winsaveview()
     %s/\s\+$//ge

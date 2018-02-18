@@ -41,9 +41,9 @@ if !exists('*s:make')
       return
     endif
 
-    let pandoc_v = split(s:version(), '\.')
+    let pandoc_v = s:version()
 
-    if len(pandoc_v) < 2
+    if pandoc_v !~# '^[0-9]\.[0-9]'
       echomsg '"pandoc --version" returned invalid output'
       return
     endif
@@ -58,14 +58,14 @@ if !exists('*s:make')
     let output = fnamemodify(cur_file, ':r') . '.' . a:ft
     let job_cmd = ['pandoc']
 
-    if str2nr(pandoc_v[0]) >= 2
-      " Data Path should be the file directory, not working directory
+    " Data Path should be the file directory, not working directory
+    if CompareSemver(pandoc_v, '2.0.0') >= 0
       call extend(job_cmd, ['--resource-path', fnamemodify(cur_file, ':h')])
+    endif
 
-      if str2nr(pandoc_v[1]) >= 1
-        " Required for eps-to-pdf conversion
-        call extend(job_cmd, ['--pdf-engine-opt=-shell-escape'])
-      endif
+    " Required for eps-to-pdf conversion
+    if CompareSemver(pandoc_v, '2.0.5') >= 0
+      call extend(job_cmd, ['--pdf-engine-opt=-shell-escape'])
     endif
 
     if executable('pandoc-citeproc')
