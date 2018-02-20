@@ -52,14 +52,17 @@ function! bundle#init() abort
     let g:rooter_silent_chdir = 1
     let g:rooter_targets = '*'
     let g:rooter_change_directory_for_non_project_files = 'current'
-    " Version Control
-    let g:rooter_patterns = ['.git/', '.hg/', '.svn/']
+    let g:rooter_patterns = []
+    " C/C++
+    call extend(g:rooter_patterns, ['Makefile'])
     " Javascript
     call extend(g:rooter_patterns, ['package.json'])
     " PHP
     call extend(g:rooter_patterns, ['composer.json'])
     " Java
     call extend(g:rooter_patterns, ['pom.xml'])
+    " Version Control
+    call extend(g:rooter_patterns, ['.git/', '.hg/', '.svn/'])
   Plug 'tommcdo/vim-lion'
   Plug 'Shougo/echodoc.vim', has('patch-7.4.774') ? {
   \ 'do': ':call echodoc#enable()'
