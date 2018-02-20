@@ -39,6 +39,9 @@ if !exists('*s:make')
     elseif !executable('pandoc')
       echomsg 'pandoc is not in $PATH'
       return
+    elseif !exists('*CompareSemver')
+      echomsg 'CompareSemver() required to compare versions'
+      return
     endif
 
     let pandoc_v = s:version()
@@ -50,8 +53,8 @@ if !exists('*s:make')
 
     let cur_file = expand('%:p')
 
-    if empty(cur_file)
-      echomsg 'Cannot get absolute filepath in buffer'
+    if empty(cur_file) || !filereadable(cur_file)
+      echomsg 'File in current buffer does not exist'
       return
     endif
 
