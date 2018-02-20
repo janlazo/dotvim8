@@ -32,7 +32,7 @@ set shiftwidth=4 smarttab expandtab
 set autoindent shiftround
 
 " Line Wrap
-set textwidth=72 formatoptions=rl
+set textwidth=72 formatoptions=l
 
 " UI
 set number
