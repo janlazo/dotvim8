@@ -295,7 +295,7 @@ if has('win32')
   endif
 
   " FIXME - findstr requires prepending /c: to the regex
-  let &grepprg = executable('findstr.exe') ? 'findstr /s /R /n $* nul' : ''
+  let &grepprg = executable('findstr.exe') ? 'findstr /s /r /p /n $* nul' : ''
 
   " cmd.exe uses %PROMPT% to set its prompt
   " default prompt is not user-friendly
