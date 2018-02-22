@@ -31,6 +31,15 @@ if !exists('*s:version')
   endfunction
 endif
 
+if !exists('*s:job_exit')
+  function! s:job_exit(id, data, ...)
+    unlet s:pandoc_job
+    if exists('b:pandoc_job')
+      unlet b:pandoc_job
+    endif
+  endfunction
+endif
+
 if !exists('*s:make')
   function! s:make(ft)
     if empty(a:ft)
@@ -41,6 +50,9 @@ if !exists('*s:make')
       return
     elseif !exists('*CompareSemver')
       echomsg 'CompareSemver() required to compare versions'
+      return
+    elseif exists('s:pandoc_job')
+      echomsg 'Check b:pandoc_job for current pandoc job'
       return
     endif
 
@@ -75,7 +87,16 @@ if !exists('*s:make')
       call extend(job_cmd, ['--filter', 'pandoc-citeproc'])
     endif
 
-    call dotvim8#jobstart(extend(job_cmd, ['-so', output, cur_file]))
+    call extend(job_cmd, ['-so', output, cur_file])
+
+    let job_opts = {}
+    let job_opts[has('nvim') ? 'on_exit' : 'exit_cb'] = function('s:job_exit')
+
+    let pandoc_job = dotvim8#jobstart(job_cmd, job_opts)
+    if !empty(pandoc_job)
+      let s:pandoc_job = pandoc_job
+      let b:pandoc_job = pandoc_job
+    endif
   endfunction
 endif
 
