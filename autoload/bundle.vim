@@ -140,7 +140,7 @@ function! bundle#init() abort
   Plug 'hail2u/vim-css3-syntax'
   Plug 'othree/csscomplete.vim'
   Plug 'othree/javascript-libraries-syntax.vim'
-    let g:used_javascript_libs = 'jquery'
+    let g:used_javascript_libs = 'jquery,vue'
   Plug 'othree/yajs.vim'
   Plug 'kchmck/vim-coffee-script'
   Plug 'leafgarland/typescript-vim'
