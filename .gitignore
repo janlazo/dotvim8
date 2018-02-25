@@ -2,14 +2,15 @@
 tags
 *[._]s[a-w][a-z]
 Session.vim
-spell/
 
 # Neovim
 rplugin.vim
 
 # vim-plug
-plug.vim.old
+autoload/plug.vim.old
 
 # user-defined
-bundle/
 .undodir/
+.viminfo
+bundle/
+spell/

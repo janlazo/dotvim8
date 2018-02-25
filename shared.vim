@@ -238,6 +238,10 @@ if has('folding')
   set nofoldenable
 endif
 
+if has('viminfo') && exists('+viminfofile') && exists('s:base_dir')
+  let &viminfofile = expand(s:base_dir . '/.viminfo')
+endif
+
 if has('user_commands')
   command! SpaceToTab setlocal noexpandtab | retab!
   command! TabToSpace setlocal expandtab | retab
