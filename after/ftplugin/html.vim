@@ -16,6 +16,12 @@ let s:cpoptions = &cpoptions
 set cpoptions&vim
 setlocal commentstring=<!--%s-->
 
+if has('patch-8.0.60')
+  setlocal keywordprg=:BrowseMDN
+else
+  nnoremap <silent> <buffer> K :execute ':BrowseMDN' expand('<cword>')<CR>
+endif
+
 if !exists('*s:update_commentstring')
   function s:update_commentstring()
     let syntax_name = synIDattr(synID(line('.'), col('.'), 1), 'name')
