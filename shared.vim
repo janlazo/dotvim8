@@ -292,7 +292,7 @@ if has('win32')
   " Vim uses HOME environment variable to point here (unreliable in Windows)
   " Neovim uses hardcoded XDG directories
   " Hijack the function that outputs these directories to point here
-  if exists('s:base_dir')
+  if exists('s:base_dir') && !has('patch-8.0.1378')
     function! spellfile#WritableSpellDir()
       return expand(s:base_dir . '/spell')
     endfunction
