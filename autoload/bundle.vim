@@ -64,9 +64,6 @@ function! bundle#init() abort
     " Version Control
     call extend(g:rooter_patterns, ['.git/', '.hg/', '.svn/'])
   Plug 'tommcdo/vim-lion'
-  Plug 'Shougo/echodoc.vim', has('patch-7.4.774') ? {
-  \ 'do': ':call echodoc#enable()'
-  \ } : plug_disable
 
   let fzf_path = expand('~/.fzf')
 
@@ -82,6 +79,26 @@ function! bundle#init() abort
   Plug 'janlazo/fzf.vim'
     let g:fzf_command_prefix = 'Fzf'
   Plug 'tpope/vim-fugitive'
+
+  Plug 'Shougo/echodoc.vim', has('patch-7.4.774') ? {
+  \ 'do': ':call echodoc#enable()'
+  \ } : plug_disable
+  Plug 'prabirshrestha/asyncomplete.vim'
+    function! s:complete_cr() abort
+      return (pumvisible() ? "\<C-y>" : '') . "\<CR>"
+    endfunction
+
+    inoremap <silent><expr> <TAB>   pumvisible() ? "\<C-n>" : "\<TAB>"
+    inoremap <silent><expr> <S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
+    inoremap <silent><expr> <CR>    <C-R>=<SID>complete_cr()<CR>
+  Plug 'Shougo/neco-vim'
+  Plug 'prabirshrestha/asyncomplete-necovim.vim'
+    autocmd User asyncomplete_setup
+    \ call asyncomplete#register_source(asyncomplete#sources#necovim#get_source_options({
+    \ 'name': 'necovim',
+    \ 'whitelist': ['vim'],
+    \ 'completor': function('asyncomplete#sources#necovim#completor')
+    \ }))
   " }}}plug-core
   " {{{plug-python
   let base_cond = has('python') || has('python3')
@@ -91,23 +108,6 @@ function! bundle#init() abort
     let g:EditorConfig_exclude_patterns = ['scp://.*', 'fugitive://.*']
   Plug 'Valloric/MatchTagAlways', base_cond ? {} : plug_disable
     let g:mta_filetypes = {'html': 1, 'xml': 1, 'xhtml': 1, 'php': 1}
-
-  let base_cond = base_cond && has('nvim')
-  Plug 'Shougo/deoplete.nvim', base_cond ? {
-  \ 'do': ':UpdateRemotePlugins'
-  \ } : plug_disable
-    let g:deoplete#enable_at_startup = 1
-    inoremap <silent><expr> <TAB>   pumvisible() ? '<C-n>' : '<TAB>'
-    inoremap <silent><expr> <S-TAB> pumvisible() ? '<C-p>' : '<S-TAB>'
-
-    if base_cond
-      function! s:deoplete_cr() abort
-        return deoplete#close_popup() . "\<CR>"
-      endfunction
-
-      inoremap <silent> <CR> <C-R>=<SID>deoplete_cr()<CR>
-    endif
-  Plug 'Shougo/neco-vim', base_cond ? {} : plug_disable
   " }}}plug-python
   " {{{plug-color
   Plug 'ap/vim-css-color'
