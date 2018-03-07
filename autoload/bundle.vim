@@ -83,7 +83,9 @@ function! bundle#init() abort
   Plug 'Shougo/echodoc.vim', has('patch-7.4.774') ? {
   \ 'do': ':call echodoc#enable()'
   \ } : plug_disable
-  Plug 'prabirshrestha/asyncomplete.vim'
+  let base_cond = has('timers')
+  Plug 'prabirshrestha/asyncomplete.vim', base_cond ? {} : plug_disable
+  if base_cond
     function! s:complete_cr() abort
       return (pumvisible() ? "\<C-y>" : '') . "\<CR>"
     endfunction
@@ -91,14 +93,17 @@ function! bundle#init() abort
     inoremap <silent><expr> <TAB>   pumvisible() ? "\<C-n>" : "\<TAB>"
     inoremap <silent><expr> <S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
     inoremap <silent><expr> <CR>    <C-R>=<SID>complete_cr()<CR>
+  endif
   Plug 'Shougo/neco-vim'
-  Plug 'prabirshrestha/asyncomplete-necovim.vim'
+  Plug 'prabirshrestha/asyncomplete-necovim.vim', base_cond ? {} : plug_disable
+  if base_cond
     autocmd User asyncomplete_setup
     \ call asyncomplete#register_source(asyncomplete#sources#necovim#get_source_options({
     \ 'name': 'necovim',
     \ 'whitelist': ['vim'],
     \ 'completor': function('asyncomplete#sources#necovim#completor')
     \ }))
+  endif
   " }}}plug-core
   " {{{plug-python
   let base_cond = has('python') || has('python3')
