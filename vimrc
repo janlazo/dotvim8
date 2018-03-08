@@ -55,7 +55,7 @@ runtime shared.vim
 
 if has('gui_running')
   " remove all GUI bloat taking up screen space
-  set guioptions=cegLRv
+  set guioptions=cMgRLv
 endif
 
 if has('autocmd')
