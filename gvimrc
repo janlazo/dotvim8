@@ -22,14 +22,10 @@ if has('multi_byte')
   endif
 endif
 
-if has('win32')
-  behave mswin
+behave xterm
 
-  if has('directx')
-    set renderoptions=
-  endif
-elseif has('unix') && !has('win32unix')
-  behave xterm
+if has('directx')
+  set renderoptions=
 endif
 
 call gui#init()
