@@ -148,6 +148,8 @@ function! bundle#init() abort
   Plug 'othree/es.next.syntax.vim'
   Plug 'kchmck/vim-coffee-script'
   Plug 'leafgarland/typescript-vim'
+  Plug 'mxw/vim-jsx'
+    let g:jsx_ext_required = 1
 
   " Database
   Plug 'exu/pgsql.vim'
