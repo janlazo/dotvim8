@@ -256,11 +256,22 @@ if has('user_commands')
 endif
 
 if has('autocmd')
+  " Vim
   let g:vimsyn_embed = ''
   let g:vim_indent_cont = 0
+
+  " Tex
   let g:tex_flavor = 'latex'
+
+  " Netrw
   let g:netrw_dirhistmax = 0
+
+  " Shell
   let g:is_posix = 1
+
+  " HTML
+  let g:html_indent_script1 = "auto"
+  let g:html_indent_style1 = "auto"
 endif
 " }}}normal
 " {{{big
