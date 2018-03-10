@@ -172,9 +172,10 @@ function! bundle#init() abort
   endtry
 
   " {{{set-color
-  if has('termguicolors')
+  if has('termguicolors') &&
+     \ (has('nvim') || !has('win32') || !has('patch-8.0.1531') || has('vcon'))
     if (has('nvim-0.1.6') || (has('patch-8.0.142') && has('patch-8.0.146'))) &&
-        \ &t_Co == 256 && empty($TMUX)
+       \ &t_Co == 256 && empty($TMUX)
       set termguicolors
     else
       set notermguicolors
