@@ -5,22 +5,20 @@
 Vim 8+ / Neovim 0.2+ config folder for Windows support and async jobs.
 
 - `shared.vim` to handle shared options and mappings
-    - validate in vim 7+, mainly `vim-tiny`, in Ubuntu 16.04 and Windows 7
     - check features and options to avoid vimscript errors
     - acts as a self-contained vimrc, independent of the entire repo
     - assumes `set nocompatible` is set by Vim/Neovim or the user
 - vimrc and init.vim are hooks to bootstrap the editor
     - both:
         - fix initial runtimepath
-        - fix spell directory
         - load Vim packages
-        - use upstream matchit plugin in Vim 8 or Neovim
-            - use the default if v:version < 800
     - neovim:
         - language providers
         - inccommand
     - vim:
         - set terminal options and fix mappings for ConEmu
+        - use sh.exe as default shell on cygwin/msys2
+        - `guioptions` for gvim
 - gvimrc and ginit.vim for GUI-specific configs (e.g. columns)
     - shared settings in autoload/gui.vim
         - fonts
