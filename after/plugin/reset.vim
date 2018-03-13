@@ -21,9 +21,10 @@ set cpoptions&vim
 
 let s:formatoptions = &formatoptions
 
-" Reset Vim options misconfigured by ftplugin and syntax files
+" Reset Vim options misconfigured by files in ftplugin/,indent/,syntax/
 function! s:reset_opts()
   let &formatoptions = s:formatoptions
+  set nosmartindent
 endfunction
 
 augroup dotvim8_reset
