@@ -142,6 +142,7 @@ function! bundle#init() abort
   Plug 'aklt/plantuml-syntax'
 
   " Web
+  Plug 'othree/html5.vim'
   Plug 'hail2u/vim-css3-syntax'
   Plug 'othree/csscomplete.vim'
   Plug 'othree/yajs.vim'
@@ -159,6 +160,7 @@ function! bundle#init() abort
   Plug 'cespare/vim-toml'
 
   " System
+  Plug 'OrangeT/vim-csharp'
   Plug 'rust-lang/rust.vim'
   Plug 'tbastos/vim-lua'
   " }}}plug-ft
