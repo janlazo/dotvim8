@@ -78,9 +78,11 @@ if !exists('*s:make')
       call extend(job_cmd, ['--resource-path', fnamemodify(cur_file, ':h')])
     endif
 
-    " Required for eps-to-pdf conversion
-    if CompareSemver(pandoc_v, '2.0.5') >= 0
-      call extend(job_cmd, ['--pdf-engine-opt=-shell-escape'])
+    if a:ft ==# 'pdf'
+      " Required for eps-to-pdf conversion
+      if CompareSemver(pandoc_v, '2.0.5') >= 0
+        call extend(job_cmd, ['--pdf-engine-opt=-shell-escape'])
+      endif
     endif
 
     if executable('pandoc-citeproc')
