@@ -103,6 +103,58 @@ endif
 " {{{normal
 if has('modify_fname')
   let s:base_dir = expand('<sfile>:p:h')
+
+  function! s:set_shell(shell)
+    if !executable(a:shell)
+      echoerr '&shell is not executable'
+      return
+    endif
+
+    let shell = fnamemodify(a:shell, ':t')
+
+    if shell ==# 'cmd.exe'
+      let &shell = a:shell
+      let &shellredir = '>%s 2>&1'
+      set shellquote=
+
+      if has('nvim')
+        let &shellcmdflag = '/s /c'
+        let &shellxquote= '"'
+        set shellxescape=
+      else
+        set shellcmdflag=/c shellxquote&vim shellxescape&vim
+      endif
+    elseif shell =~# '^powershell'
+      let &shell = a:shell
+      let &shellcmdflag = '-NoProfile -NoLogo -ExecutionPolicy RemoteSigned -Command'
+      set shellxescape=
+      let &shellpipe = '|'
+      let &shellredir = '>'
+
+      if has('nvim')
+        set shellxquote=
+        let &shellquote = '('
+      else
+        let &shellxquote = has('win32') ? '"' : ''
+        set shellquote=
+      endif
+    elseif shell =~# '^wsl'
+      let &shell = a:shell
+      let &shellcmdflag = 'bash --login -c'
+      let &shellredir = '>%s 2>&1'
+      set shellxquote=\" shellxescape= shellquote=
+    elseif shell =~# '^sh' || shell =~# '^bash'
+      let &shell = a:shell
+      set shellcmdflag=-c shellxescape= shellquote=
+      let &shellredir = '>%s 2>&1'
+
+      if !has('nvim') && has('win32')
+        let &shellxquote = '"'
+      else
+        set shellxquote=
+      endif
+    endif
+  endfunction
 endif
 
 if has('linebreak')
@@ -246,11 +298,12 @@ if has('user_commands')
   command! SpaceToTab setlocal noexpandtab | retab!
   command! TabToSpace setlocal expandtab | retab
 
-  if has('syntax')
-    command! SynName echo synIDattr(synID(line('.'), col('.'), 1), 'name')
+  if has('modify_fname')
+    command! -nargs=1 SetShell call s:set_shell(<f-args>)
   endif
 
-  if exists('*s:toggle_spell')
+  if has('syntax')
+    command! SynName echo synIDattr(synID(line('.'), col('.'), 1), 'name')
     command! ToggleSpell call <SID>toggle_spell()
   endif
 endif
@@ -291,15 +344,7 @@ endif
 " }}}big
 " {{{huge
 if has('win32')
-  set shell=cmd.exe shellredir=>%s\ 2>&1
-
-  if has('nvim')
-    " Force dequoting in cmd.exe to escape the entire command.
-    " The command must be escaped as if it's run in an interactive session.
-    set shellcmdflag=/s/c shellxquote=\"
-  else
-    set shellcmdflag=/c shellxquote=(
-  endif
+  call s:set_shell(empty($COMSPEC) ? 'cmd.exe' : $COMSPEC)
 
   " Vim uses HOME environment variable to point here (unreliable in Windows)
   " Neovim uses hardcoded XDG directories

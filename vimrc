@@ -42,13 +42,11 @@ if has('win32')
   endif
 endif
 
-if has('win32unix')
-  if !empty($SHELL)
-    set shell=sh shellredir=>%s\ 2>&1
-  endif
-endif
-
 runtime shared.vim
+
+if has('win32unix')
+  SetShell sh
+endif
 
 if has('gui_running')
   " remove all GUI bloat taking up screen space

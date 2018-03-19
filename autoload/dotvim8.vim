@@ -44,60 +44,6 @@ function! s:shellesc_ps1(arg)
   return "'".substitute(a:arg, "'", "''", 'g')."'"
 endfunction
 
-" Pass an executable shell to set all shell options for the following:
-" system(), :!, job, terminal
-function! dotvim8#set_shell(shell)
-  if !executable(a:shell)
-    echomsg '''shell'' is not executable'
-    return
-  endif
-
-  let shell = fnamemodify(a:shell, ':t')
-
-  if shell ==# 'cmd.exe'
-    let &shell = a:shell
-    let &shellredir = '>%s 2>&1'
-    set shellquote=
-
-    if has('nvim')
-      let &shellcmdflag = '/s /c'
-      let &shellxquote= '"'
-      set shellxescape=
-    else
-      set shellcmdflag=/c shellxquote&vim shellxescape&vim
-    endif
-  elseif shell =~# '^powershell'
-    let &shell = a:shell
-    let &shellcmdflag = '-NoProfile -NoLogo -ExecutionPolicy RemoteSigned -Command'
-    set shellxescape=
-    let &shellpipe = '|'
-    let &shellredir = '>'
-
-    if has('nvim')
-      set shellxquote=
-      let &shellquote = '('
-    else
-      let &shellxquote = has('win32') ? '"' : ''
-      set shellquote=
-    endif
-  elseif shell =~# '^wsl'
-    let &shell = a:shell
-    let &shellcmdflag = 'bash --login -c'
-    let &shellredir = '>%s 2>&1'
-    set shellxquote=\" shellxescape= shellquote=
-  elseif shell =~# '^sh' || shell =~# '^bash'
-    let &shell = a:shell
-    set shellcmdflag=-c shellxescape= shellquote=
-    let &shellredir = '>%s 2>&1'
-
-    if !has('nvim') && has('win32')
-      let &shellxquote = '"'
-    else
-      set shellxquote=
-    endif
-  endif
-endfunction
-
 " Fix shellescape for external programs in Windows
 " Try regular shellescape with noshellslash for internal commands in cmd.exe
 function! dotvim8#shellescape(arg, ...)
