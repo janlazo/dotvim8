@@ -22,7 +22,7 @@ set autoread
 set shortmess+=sI
 set backspace=2 whichwrap=<,>,b,s nojoinspaces
 set fileformats=unix,dos
-set nrformats-=octal complete-=i
+set nrformats-=octal
 set notimeout ttimeout ttimeoutlen=100
 set noswapfile updatecount=0 directory=
 set keywordprg=:help
@@ -222,7 +222,7 @@ if has('wildmenu')
 endif
 
 if has('insert_expand')
-  set completeopt=menuone,preview
+  set complete-=i completeopt=menuone,preview
 
   if v:version >= 800
     set completeopt+=noinsert,noselect
@@ -252,10 +252,9 @@ if has('syntax')
   endif
 
   function! s:toggle_spell() abort
-    if &spell
-      setlocal nospell complete-=kspell
-    else
-      setlocal spell complete+=kspell
+    let &l:spell = !&l:spell
+    if has('insert_expand')
+      execute 'setlocal complete'.(&l:spell ? '+' : '-').'=kspell'
     endif
   endfunction
 endif
