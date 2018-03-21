@@ -122,7 +122,7 @@ if has('modify_fname')
         let &shellxquote= '"'
         set shellxescape=
       else
-        set shellcmdflag=/c shellxquote&vim shellxescape&vim
+        set shellcmdflag=/c shellxquote=( shellxescape&vim
       endif
     elseif shell =~# '^powershell'
       let &shell = a:shell
