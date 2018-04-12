@@ -354,12 +354,6 @@ if has('langmap')
     set nolangremap
   endif
 endif
-
-" Neovim GUIs set this before sourcing init.vim so unset it here
-if has('termguicolors') &&
-   \ (has('nvim') || !has('win32') || !has('patch-8.0.1531') || has('vcon'))
-  set notermguicolors
-endif
 " }}}big
 " {{{huge
 if has('win32')
