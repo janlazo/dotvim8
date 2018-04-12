@@ -106,7 +106,7 @@ if has('modify_fname')
 
   function! s:set_shell(shell)
     if !executable(a:shell)
-      echoerr '&shell is not executable'
+      echoerr a:shell 'is not executable'
       return
     endif
 
