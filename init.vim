@@ -48,6 +48,10 @@ if has('win32')
   endif
 endif
 
+if !has('nvim-0.2.3')
+  let g:loaded_node_provider = 1
+endif
+
 if has('nvim-0.2')
   set inccommand=nosplit
 endif
