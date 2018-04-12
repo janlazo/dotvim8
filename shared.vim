@@ -257,6 +257,26 @@ if has('syntax')
       execute 'setlocal complete'.(&l:spell ? '+' : '-').'=kspell'
     endif
   endfunction
+
+  if exists('s:base_dir')
+    let s:spelldir = expand(s:base_dir . '/spell')
+
+    " spellfile#WritableSpellDir() requires that ~/.vim/spell exists.
+    if !isdirectory(s:spelldir)
+      call mkdir(s:spelldir)
+    endif
+
+    if has('win32') && has('nvim') && !has('nvim-0.2.1') && !has('patch-8.0.1378')
+      " Neovim uses hardcoded XDG directories on Windows but XDG is for Linux.
+      " Redefine spellfile#WritableSpellDir() to point here
+      " Patch 8.0.1378 prevents autoloaded function definition in $MYVIMRC
+      function! spellfile#WritableSpellDir()
+        return s:spelldir
+      endfunction
+    else
+      unlet s:spelldir
+    endif
+  endif
 endif
 
 if has('cmdline_hist')
@@ -344,15 +364,6 @@ endif
 " {{{huge
 if has('win32')
   call s:set_shell(empty($COMSPEC) ? 'cmd.exe' : $COMSPEC)
-
-  " Vim uses HOME environment variable to point here (unreliable in Windows)
-  " Neovim uses hardcoded XDG directories
-  " Hijack the function that outputs these directories to point here
-  if exists('s:base_dir') && !has('patch-8.0.1378')
-    function! spellfile#WritableSpellDir()
-      return expand(s:base_dir . '/spell')
-    endfunction
-  endif
 
   " FIXME - findstr requires prepending /c: to the regex
   let &grepprg = executable('findstr.exe') ? 'findstr /s /r /p /n $* nul' : ''
