@@ -25,21 +25,6 @@ endif
 if has('win32')
   " Fix inconsistent slashes in each filepath
   let &runtimepath = tr(&runtimepath, '/', '\')
-
-  " Force xterm rendering in ConEmu for truecolor
-  if $ConEmuANSI ==# 'ON'
-    if has('gui_running')
-      " Vim (winpty) terminal inherits ConEmu env vars
-      " This breaks terminal Vim in GVim
-      let $ConEmuANSI = ''
-    elseif has('builtin_terms') && $ConEmuTask !~# 'Shells::cmd'
-      set term=xterm t_Co=256
-      let &t_AB = "\e[48;5;%dm"
-      let &t_AF = "\e[38;5;%dm"
-      let &t_kb = nr2char(127)
-      let &t_kD = "^[[3~"
-    endif
-  endif
 endif
 
 runtime shared.vim

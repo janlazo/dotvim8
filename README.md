@@ -16,7 +16,6 @@ Vim 8+ / Neovim 0.2+ config folder for Windows support and async jobs.
         - language providers
         - inccommand
     - vim:
-        - set terminal options and fix mappings for ConEmu
         - use sh.exe as default shell on cygwin/msys2
         - `guioptions` for gvim
 - gvimrc and ginit.vim for GUI-specific configs (e.g. columns)

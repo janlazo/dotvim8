@@ -42,6 +42,7 @@ set laststatus=2 cmdheight=2 showmode
 
 if 1
   let s:fix_ux = !has('win32unix') && $TERM !=# 'cygwin' && empty($TMUX)
+  let s:is_gui = has('gui_running') || exists('g:nyaovim_version')
 
   if v:version > 703
     set formatoptions+=j
@@ -234,7 +235,7 @@ if has('mksession')
 endif
 
 if has('mouse')
-  let &mouse = (has('gui_running') || exists('g:nyaovim_version')) ? 'a' : ''
+  let &mouse = s:is_gui ? 'a' : ''
 endif
 
 if has('syntax')
@@ -366,9 +367,23 @@ if has('win32')
   " default prompt is not user-friendly
   " ConEmu breaks it for winpty so :terminal has garbled prompt
   let $PROMPT = '$P$_$G$S'
+
+  " Force xterm rendering in ConEmu for truecolor
+  " Unset ConEmuANSI in GUIs so that terminal Vim doesn't break.
+  if $ConEmuANSI ==# 'ON'
+    if s:is_gui
+      let $ConEmuANSI = ''
+    elseif !has('nvim') && has('builtin_terms') && $ConEmuTask !~# 'Shells::cmd'
+      set term=xterm t_Co=256
+      let &t_AB = "\e[48;5;%dm"
+      let &t_AF = "\e[38;5;%dm"
+      let &t_kb = nr2char(127)
+      let &t_kD = "^[[3~"
+    endif
+  endif
 endif
 " }}}huge
 
 if 1
-  unlet s:fix_ux
+  unlet s:fix_ux s:is_gui
 endif
