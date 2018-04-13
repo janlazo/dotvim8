@@ -233,8 +233,8 @@ if has('mksession')
   set sessionoptions-=options
 endif
 
-if has('mouse') && !has('gui_running')
-  set mouse=
+if has('mouse')
+  let &mouse = (has('gui_running') || exists('g:nyaovim_version')) ? 'a' : ''
 endif
 
 if has('syntax')

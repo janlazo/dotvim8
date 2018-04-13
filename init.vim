@@ -12,8 +12,6 @@
 " See the License for the specific language governing permissions and
 " limitations under the License.
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let s:base_dir = expand('<sfile>:p:h')
-
 if has('win32')
   " neovim-qt mangles the runtimepath so revert to Vim defaults
   if !isdirectory($NVIM_QT_RUNTIME_PATH)
@@ -54,10 +52,6 @@ endif
 
 if has('nvim-0.2')
   set inccommand=nosplit
-endif
-
-if exists('g:nyaovim_version')
-  set mouse=a
 endif
 
 call bundle#init()
