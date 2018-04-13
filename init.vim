@@ -21,37 +21,28 @@ endif
 
 runtime shared.vim
 
-if has('win32')
-  if has('nvim-0.2')
-    let s:python = exepath('python2.exe')
+if has('nvim-0.2')
+  set inccommand=nosplit
 
-    if !empty(s:python)
-      let g:python_host_prog  = s:python
+  let s:hosts = {
+  \ 'python':  'python2.exe',
+  \ 'python3': 'python3.exe'
+  \ }
+  for [s:key, s:val] in items(s:hosts)
+    let s:val = exepath(s:val)
+    if !empty(s:val)
+      let g:[s:key . '_host_prog'] = s:val
     endif
-
-    let s:python = exepath('python3.exe')
-
-    if !empty(s:python)
-      let g:python3_host_prog = s:python
-    endif
-
-    unlet s:python
-  else
-    let g:loaded_python_provider = 1
-    let g:loaded_python3_provider = 1
-  endif
-
-  if !has('nvim-0.2.3')
-    let g:loaded_ruby_provider = 1
-  endif
+  endfor
+  unlet s:hosts s:key s:val
+else
+  let g:loaded_python_provider = 1
+  let g:loaded_python3_provider = 1
 endif
 
 if !has('nvim-0.2.3')
   let g:loaded_node_provider = 1
-endif
-
-if has('nvim-0.2')
-  set inccommand=nosplit
+  let g:loaded_ruby_provider = 1
 endif
 
 call bundle#init()
