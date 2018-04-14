@@ -91,6 +91,27 @@ if 1
   nnoremap <silent> Q :redraw!<CR>
 endif
 
+"{{{tiny
+" Available since 8.0.1564
+if has('autocmd')
+  " Vim
+  let g:vimsyn_embed = ''
+  let g:vim_indent_cont = 0
+
+  " Tex
+  let g:tex_flavor = 'latex'
+
+  " Netrw
+  let g:netrw_dirhistmax = 0
+
+  " Shell
+  let g:is_posix = 1
+
+  " HTML
+  let g:html_indent_script1 = "auto"
+  let g:html_indent_style1 = "auto"
+endif
+"}}}tiny
 " {{{small
 if has('windows')
   set splitbelow
@@ -326,25 +347,6 @@ if has('user_commands')
     command! SynName echo synIDattr(synID(line('.'), col('.'), 1), 'name')
     command! ToggleSpell call <SID>toggle_spell()
   endif
-endif
-
-if has('autocmd')
-  " Vim
-  let g:vimsyn_embed = ''
-  let g:vim_indent_cont = 0
-
-  " Tex
-  let g:tex_flavor = 'latex'
-
-  " Netrw
-  let g:netrw_dirhistmax = 0
-
-  " Shell
-  let g:is_posix = 1
-
-  " HTML
-  let g:html_indent_script1 = "auto"
-  let g:html_indent_style1 = "auto"
 endif
 " }}}normal
 " {{{big
