@@ -91,8 +91,8 @@ if 1
   nnoremap <silent> Q :redraw!<CR>
 endif
 
-"{{{tiny
-" Available since 8.0.1564
+" {{{tiny
+" Moved from normal to tiny version since 8.0.1564
 if has('autocmd')
   " Vim
   let g:vimsyn_embed = ''
@@ -111,14 +111,22 @@ if has('autocmd')
   let g:html_indent_script1 = "auto"
   let g:html_indent_style1 = "auto"
 endif
-"}}}tiny
-" {{{small
+
+" Moved from small to tiny version since 8.0.1118
 if has('windows')
   set splitbelow
   set showtabline=2
 
   if &tabpagemax < 50
     set tabpagemax=50
+  endif
+endif
+" }}}tiny
+" {{{small
+" Moved from normal to small version since 8.0.1129
+if has('cmdline_hist')
+  if &history < 1000
+    set history=1000
   endif
 endif
 " }}}small
@@ -298,12 +306,6 @@ if has('syntax')
     else
       unlet s:spelldir
     endif
-  endif
-endif
-
-if has('cmdline_hist')
-  if &history < 1000
-    set history=1000
   endif
 endif
 
