@@ -185,6 +185,12 @@ if has('modify_fname')
       endif
     endif
   endfunction
+
+  if has('win32')
+    call s:set_shell(empty($COMSPEC) ? 'cmd.exe' : $COMSPEC)
+  elseif has('win32unix')
+    call s:set_shell('sh')
+  endif
 endif
 
 if has('linebreak')
@@ -337,6 +343,13 @@ if has('viminfo') && exists('+viminfofile') && exists('s:base_dir')
   let &viminfofile = expand(s:base_dir . '/.viminfo')
 endif
 
+if has('quickfix')
+  if has('win32')
+    " FIXME - findstr requires prepending /c: to the regex
+    let &grepprg = executable('findstr.exe') ? 'findstr /s /r /p /n $* nul' : ''
+  endif
+endif
+
 if has('user_commands')
   command! SpaceToTab setlocal noexpandtab | retab!
   command! TabToSpace setlocal expandtab | retab
@@ -362,11 +375,6 @@ endif
 " }}}big
 " {{{huge
 if has('win32')
-  call s:set_shell(empty($COMSPEC) ? 'cmd.exe' : $COMSPEC)
-
-  " FIXME - findstr requires prepending /c: to the regex
-  let &grepprg = executable('findstr.exe') ? 'findstr /s /r /p /n $* nul' : ''
-
   " cmd.exe uses %PROMPT% to set its prompt
   " default prompt is not user-friendly
   " ConEmu breaks it for winpty so :terminal has garbled prompt

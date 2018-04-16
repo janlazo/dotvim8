@@ -29,10 +29,6 @@ endif
 
 runtime shared.vim
 
-if has('win32unix')
-  SetShell sh
-endif
-
 if has('gui_running')
   " remove all GUI bloat taking up screen space
   set guioptions=cMgRLv
