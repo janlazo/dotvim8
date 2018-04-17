@@ -34,7 +34,7 @@ endfunction
 " Escape % and ! to avoid environment variable expansion
 " Return an escaped string, wrapped in ^", so cmd.exe doesn't dequote it yet.
 function! s:shellesc_cmd(arg, script)
-  let escaped = substitute(escaped, '%', (a:script ? '%' : '^') . '&', 'g')
+  let escaped = substitute(a:arg, '%', (a:script ? '%' : '^') . '&', 'g')
   return substitute('"'.escaped.'"', '[&|<>()@^!"]', '^&', 'g')
 endfunction
 
