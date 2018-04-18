@@ -27,8 +27,7 @@ set notimeout ttimeout ttimeoutlen=100
 set noswapfile updatecount=0 directory=
 set keywordprg=:help
 
-" 4-space Indent
-set shiftwidth=4 smarttab expandtab
+" Consistent Indentation
 set autoindent shiftround
 
 " Line Wrap
@@ -44,8 +43,11 @@ if 1
   let s:fix_ux = !has('win32unix') && $TERM !=# 'cygwin' && empty($TMUX)
   let s:is_gui = has('gui_running') || exists('g:nyaovim_version')
 
-  if v:version > 703
+  if v:version >= 704
     set formatoptions+=j
+
+    " 4-space Indent
+    set shiftwidth=4 smarttab expandtab
   endif
 
   if v:version >= 800 || has('nvim-0.1.6')
@@ -248,7 +250,7 @@ endif
 if has('extra_search') && has('reltime')
   set hlsearch incsearch
 
-  if v:version > 703
+  if v:version >= 704
     execute 'nnoremap Q :nohlsearch <Bar>' maparg('Q', 'n')
   endif
 endif
@@ -278,7 +280,7 @@ if has('syntax')
    " optimize for minified files
   set synmaxcol=500
 
-  if v:version > 702
+  if v:version >= 703
     set colorcolumn=
   endif
 
