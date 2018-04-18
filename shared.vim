@@ -73,18 +73,6 @@ if 1
     return 0
   endfunction
 
-  function! s:remove_trailing_spaces()
-    let cur_view = winsaveview()
-    %s/\s\+$//ge
-    call winrestview(cur_view)
-  endfunction
-
-  nnoremap <silent> <Space>rs :call <SID>remove_trailing_spaces()<CR>
-
-  " open vimrc or init.vim in new tab
-  nnoremap <silent> <Space>v :tabedit $MYVIMRC<CR>
-  nnoremap <silent> <Space>gv :tabedit $MYGVIMRC<CR>
-
   " Q defaults to Ex mode but I don't use it
   " $VIMRUNTIME/defaults.vim remaps Q to gq but I don't format comments
   " Remap it to redraw the screen
@@ -120,6 +108,17 @@ if has('windows')
   if &tabpagemax < 50
     set tabpagemax=50
   endif
+
+  function! s:remove_trailing_spaces()
+    let cur_view = winsaveview()
+    %s/\s\+$//ge
+    call winrestview(cur_view)
+  endfunction
+  nnoremap <silent> <Space>rs :call <SID>remove_trailing_spaces()<CR>
+
+  " open vimrc, gvimrc, or init.vim in new tab
+  nnoremap <silent> <Space>v :tabedit $MYVIMRC<CR>
+  nnoremap <silent> <Space>gv :tabedit $MYGVIMRC<CR>
 endif
 " }}}tiny
 " {{{small
