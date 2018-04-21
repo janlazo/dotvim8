@@ -27,6 +27,12 @@ set notimeout ttimeout ttimeoutlen=100
 set noswapfile updatecount=0 directory=
 set keywordprg=:help
 
+" Speedup writes and avoid swap errors by not forcing a flush on every :write
+" Check if the option works because Vim/Neovim may disable/ignore it.
+if exists('+fsync')
+  set nofsync
+endif
+
 " Consistent Indentation
 set autoindent shiftround
 
