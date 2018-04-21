@@ -32,6 +32,9 @@ set keywordprg=:help
 if exists('+fsync')
   set nofsync
 endif
+if exists('+swapsync')
+  set swapsync=
+endif
 
 " Consistent Indentation
 set autoindent shiftround
