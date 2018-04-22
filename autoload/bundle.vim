@@ -133,11 +133,7 @@ function! bundle#init() abort
 
   " Document
   Plug 'tpope/vim-markdown'
-  " amsmath support is broken
-  " https://github.com/lervag/vimtex/issues/1019
-  Plug 'lervag/vimtex', {
-  \ 'commit': 'fe5b4a5b9606230c9cf843b65de4e94e0e63133a'
-  \ }
+  Plug 'lervag/vimtex'
   Plug 'vim-pandoc/vim-pandoc-syntax'
   Plug 'aklt/plantuml-syntax'
 
