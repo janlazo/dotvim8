@@ -351,8 +351,14 @@ if has('folding')
   set nofoldenable
 endif
 
-if has('viminfo') && exists('+viminfofile') && exists('s:base_dir')
-  let &viminfofile = expand(s:base_dir . '/.viminfo')
+if has('viminfo')
+  set viminfo='100,<50,s10,h
+
+  if exists('+viminfofile') && exists('s:base_dir')
+    let &viminfofile = expand(s:base_dir . '/.viminfo')
+  endif
+elseif exists('+shada')
+  set shada='100,<50,s10,h
 endif
 
 if has('quickfix')
