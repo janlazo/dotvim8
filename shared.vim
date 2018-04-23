@@ -395,8 +395,7 @@ if has('langmap')
     set nolangremap
   endif
 endif
-" }}}big
-" {{{huge
+
 if has('win32')
   " cmd.exe uses %PROMPT% to set its prompt
   " default prompt is not user-friendly
@@ -417,7 +416,7 @@ if has('win32')
     endif
   endif
 endif
-" }}}huge
+" }}}big
 
 if 1
   unlet s:fix_ux s:is_gui
