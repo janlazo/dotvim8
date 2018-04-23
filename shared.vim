@@ -278,7 +278,7 @@ if has('insert_expand')
 endif
 
 if has('mksession')
-  set sessionoptions-=options
+  set sessionoptions=blank,buffers,curdir,tabpages,winsize
 endif
 
 if has('mouse')
