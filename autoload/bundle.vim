@@ -49,7 +49,7 @@ function! bundle#init() abort
     let g:rooter_change_directory_for_non_project_files = 'current'
     let g:rooter_patterns = []
     " C/C++
-    call extend(g:rooter_patterns, ['Makefile'])
+    call extend(g:rooter_patterns, ['CMakeLists.txt', 'Makefile'])
     " Javascript
     call extend(g:rooter_patterns, ['package.json'])
     " PHP
