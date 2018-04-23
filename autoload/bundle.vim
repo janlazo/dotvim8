@@ -23,7 +23,7 @@ let s:base_dir = expand('<sfile>:p:h:h')
 function! s:set_color()
   if has('termguicolors') &&
      \ (has('nvim') || !has('win32') || !has('patch-8.0.1531') || has('vcon'))
-    if (has('nvim-0.1.6') || (has('patch-8.0.142') && has('patch-8.0.146'))) &&
+    if (has('nvim-0.2.1') || (has('patch-8.0.142') && has('patch-8.0.146'))) &&
        \ &t_Co == 256 && empty($TMUX)
       set termguicolors
     else
