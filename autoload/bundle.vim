@@ -158,7 +158,7 @@ function! bundle#init() abort
   Plug 'daa84/neovim-gtk', exists('g:GtkGuiLoaded') ? {
   \ 'rtp': 'runtime'
   \ } : plug_disable
-  call plug#end()
+  silent! call plug#end()
   try
     call echodoc#enable()
   catch
@@ -175,22 +175,16 @@ function! bundle#init() abort
     endif
   endif
 
-  try
+  if has('syntax')
     let cur_color = get(g:, 'colors_name', 'default')
-
-    if has('gui_running') || &t_Co == 256
-      if cur_color !=# 'jellybeans'
-        colorscheme jellybeans
-      endif
+    if (has('gui_running') || &t_Co == 256) && cur_color !=# 'jellybeans'
+      silent! colorscheme jellybeans
     endif
-  catch
-  finally
     let cur_color = get(g:, 'colors_name', 'default')
-
     if cur_color ==# 'default'
-      colorscheme torte
+      silent! colorscheme torte
     endif
-  endtry
+  endif
   " }}}set-color
 endfunction
 
