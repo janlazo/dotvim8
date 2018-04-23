@@ -46,7 +46,7 @@ set textwidth=72 formatoptions=l
 set number
 set sidescroll=5 nostartofline
 set scrolloff=1 sidescrolloff=1 display=lastline
-set laststatus=2 cmdheight=2 showmode
+set laststatus=2 cmdheight=2 noshowmode
 
 if 1
   let s:fix_ux = !has('win32unix') && $TERM !=# 'cygwin' && empty($TMUX)
@@ -228,11 +228,8 @@ if has('cmdline_info')
 endif
 
 if has('statusline')
-  set noshowmode rulerformat=
-
-  " {{{lightline
   " basic statusline from github.com/itchyny/lightline.vim
-  let g:statusline_modes = {
+  let s:modes = {
   \ 'n': 'NORMAL',
   \ 'i': 'INSERT',
   \ 'R': 'REPLACE',
@@ -247,17 +244,20 @@ if has('statusline')
   \ 'r': 'PROMPT'
   \ }
 
-  let s:statusline =  ' %{get(g:statusline_modes, mode(), "")}'
-  let s:statusline .= ' | %t'                             " tail of filename
-  let s:statusline .= ' [%R%M]'                           " file status flags
-  let s:statusline .= '%='                                " right align
-  let s:statusline .= '%{strlen(&ft)?&ft:"none"}'         " file type
-  let s:statusline .= ' | %{strlen(&fenc)?&fenc:"none"}'  " file encoding
-  let s:statusline .= ' | %{&ff}'                         " file format
-  let s:statusline .= ' |%4l:%-4c'                        " line, column
-  let &statusline = s:statusline
-  unlet s:statusline
-  " }}}lightline
+  " TODO - support low-width screens (add max width, minimize space)
+  function! Statusline()
+    let lhs = ['%8{"'.get(s:modes, mode(), 'MODE').'"}', '%t [%W%R%M]']
+    let rhs = [&fileformat, '%3l:%-3c']
+    if strlen(&fileencoding)
+      call insert(rhs, &fileencoding)
+    endif
+    if strlen(&filetype)
+      call insert(rhs, &filetype)
+    endif
+    return join(lhs, ' | ').'%='.join(rhs, ' | ')
+  endfunction
+
+  set statusline=%!Statusline()
 endif
 
 " highlight matches, quick-jump to nearest
