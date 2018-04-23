@@ -20,6 +20,11 @@ if 1
   if &compatible
     set nocompatible
   endif
+
+  " Fix for Vim 7.2 (Windows)
+  if empty($MVIMRC)
+    let $MYVIMRC = expand('<sfile>:p')
+  endif
 endif
 
 if has('win32')

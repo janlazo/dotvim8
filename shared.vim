@@ -163,10 +163,14 @@ if has('modify_fname')
         let &shellxquote= '"'
         set shellxescape=
       else
-        set shellcmdflag=/c shellxquote=(
-        let &shellxescape = '"&|<>()@^'
+        set shellcmdflag=/c
+
+        if v:version >= 704
+          set shellxquote=(
+          let &shellxescape = '"&|<>()@^'
+        endif
       endif
-    elseif shell =~# '^powershell'
+    elseif shell =~# '^powershell' && v:version >= 704
       let &shell = a:shell
       let &shellcmdflag = '-NoProfile -NoLogo -ExecutionPolicy RemoteSigned -Command'
       set shellxescape=
@@ -179,7 +183,7 @@ if has('modify_fname')
         let &shellxquote = has('win32') ? '"' : ''
         set shellquote=
       endif
-    elseif shell =~# '^wsl'
+    elseif shell =~# '^wsl' && v:version >= 800
       let &shell = a:shell
       let &shellcmdflag = 'bash --login -c'
       let &shellredir = '>%s 2>&1'
@@ -187,14 +191,15 @@ if has('modify_fname')
       set shellxescape= shellquote=
     elseif shell =~# '^sh' || shell =~# '^bash'
       let &shell = a:shell
-      set shellcmdflag=-c shellxescape= shellquote=
+      set shellcmdflag=-c shellquote=
       let &shellredir = '>%s 2>&1'
 
-      if !has('nvim') && has('win32')
-        let &shellxquote = '"'
-      else
-        set shellxquote=
+      if v:version >= 704
+        set shellxescape=
+        let &shellxquote = (!has('nvim') && has('win32')) ? '"' : ''
       endif
+    else
+      echoerr a:shell 'is not supported in Vim' v:version
     endif
   endfunction
 
@@ -403,7 +408,8 @@ if has('win32')
   if $ConEmuANSI ==# 'ON'
     if s:is_gui
       let $ConEmuANSI = ''
-    elseif !has('nvim') && has('builtin_terms') && $ConEmuTask !~# 'Shells::cmd'
+    elseif v:version >= 704 && !has('nvim') && has('builtin_terms') &&
+           \ $ConEmuTask !~# 'Shells::cmd'
       set term=xterm t_Co=256
       let &t_AB = "\e[48;5;%dm"
       let &t_AF = "\e[38;5;%dm"
