@@ -20,6 +20,29 @@ let s:cpoptions = &cpoptions
 set cpoptions&vim
 let s:base_dir = expand('<sfile>:p:h:h')
 
+function! s:set_color()
+  if has('termguicolors') &&
+     \ (has('nvim') || !has('win32') || !has('patch-8.0.1531') || has('vcon'))
+    if (has('nvim-0.1.6') || (has('patch-8.0.142') && has('patch-8.0.146'))) &&
+       \ &t_Co == 256 && empty($TMUX)
+      set termguicolors
+    else
+      set notermguicolors
+    endif
+  endif
+
+  if has('syntax')
+    let cur_color = get(g:, 'colors_name', 'default')
+    if (has('gui_running') || &t_Co == 256) && cur_color !=# 'jellybeans'
+      silent! colorscheme jellybeans
+    endif
+    let cur_color = get(g:, 'colors_name', 'default')
+    if cur_color ==# 'default'
+      silent! colorscheme torte
+    endif
+  endif
+endfunction
+
 " Call this function after sourcing shared.vim
 " Assume vim 7.2+ (normal/huge version) or nvim 0.1+
 " For Windows, assume vim 7.4+ or nvim 0.2+
@@ -164,28 +187,11 @@ function! bundle#init() abort
   catch
   endtry
 
-  " {{{set-color
-  if has('termguicolors') &&
-     \ (has('nvim') || !has('win32') || !has('patch-8.0.1531') || has('vcon'))
-    if (has('nvim-0.1.6') || (has('patch-8.0.142') && has('patch-8.0.146'))) &&
-       \ &t_Co == 256 && empty($TMUX)
-      set termguicolors
-    else
-      set notermguicolors
-    endif
+  if has('nvim')
+    autocmd VimEnter * call s:set_color()
+  else
+    call s:set_color()
   endif
-
-  if has('syntax')
-    let cur_color = get(g:, 'colors_name', 'default')
-    if (has('gui_running') || &t_Co == 256) && cur_color !=# 'jellybeans'
-      silent! colorscheme jellybeans
-    endif
-    let cur_color = get(g:, 'colors_name', 'default')
-    if cur_color ==# 'default'
-      silent! colorscheme torte
-    endif
-  endif
-  " }}}set-color
 endfunction
 
 let &cpoptions = s:cpoptions
