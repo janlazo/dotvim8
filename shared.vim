@@ -408,8 +408,7 @@ if has('win32')
   if $ConEmuANSI ==# 'ON'
     if s:is_gui
       let $ConEmuANSI = ''
-    elseif v:version >= 704 && !has('nvim') && has('builtin_terms') &&
-           \ $ConEmuTask !~# 'Shells::cmd'
+    elseif v:version >= 704 && !has('nvim') && has('builtin_terms')
       set term=xterm t_Co=256
       let &t_AB = "\e[48;5;%dm"
       let &t_AF = "\e[38;5;%dm"
