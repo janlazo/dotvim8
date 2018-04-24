@@ -104,13 +104,9 @@ function! bundle#init() abort
   let base_cond = has('timers')
   Plug 'prabirshrestha/asyncomplete.vim', base_cond ? {} : plug_disable
   if base_cond
-    function! s:complete_cr() abort
-      return (pumvisible() ? "\<C-y>" : '') . "\<CR>"
-    endfunction
-
-    inoremap <silent><expr> <TAB>   pumvisible() ? "\<C-n>" : "\<TAB>"
-    inoremap <silent><expr> <S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
-    inoremap <silent><expr> <CR>    <C-R>=<SID>complete_cr()<CR>
+    inoremap <silent> <expr> <TAB>   pumvisible() ? "\<C-n>" : "\<TAB>"
+    inoremap <silent> <expr> <S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
+    inoremap <silent> <expr> <CR>    <C-R>=(pumvisible() ? "\<C-y>" : '')<CR><CR>
   endif
   Plug 'Shougo/neco-vim'
   Plug 'prabirshrestha/asyncomplete-necovim.vim', base_cond ? {} : plug_disable
