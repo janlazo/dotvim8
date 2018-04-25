@@ -32,13 +32,9 @@ if has('win32')
   let &runtimepath = tr(&runtimepath, '/', '\')
 endif
 
-runtime shared.vim
-
 if has('gui_running')
   " remove all GUI bloat taking up screen space
   set guioptions=cMgRLv
 endif
 
-if has('autocmd')
-  call bundle#init()
-endif
+runtime shared.vim

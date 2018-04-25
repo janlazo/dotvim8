@@ -8,26 +8,22 @@ Vim 8+ / Neovim 0.2+ config folder for Windows support and async jobs.
     - check features and options to avoid vimscript errors
     - acts as a self-contained vimrc, independent of the entire repo
     - assumes `set nocompatible` is set by Vim/Neovim or the user
+    - [vim-plug] as package manager for bundles in Github
 - vimrc and init.vim are hooks to bootstrap the editor
     - both
         - fix initial runtimepath
-        - load Vim packages
     - neovim
         - language providers
         - inccommand
     - vim
-        - use sh.exe as default shell on cygwin/msys2
         - `guioptions` for gvim
-- gvimrc and ginit.vim for GUIs
-    - shared settings in `autoload/gui.vim`
-        - fonts
-        - linespace
-- [vim-plug] as package manager for bundles in Github
+- gvimrc and ginit.vim for GUIs (see `autoload/gui.vim`)
+    - fonts
+    - linespace
 - [go-vimlparser] for linting Vimscript
-- `autoload/dotvim8.vim` resolves idiosyncrasies in Vim and Neovim
-    - based on my contributions for Vim plugin of [fzf] on Windows
-        - `dotvim8#shellescape` is based on `fzf#shellescape`
-        - `dotvim8#bang` is based on the `s:execute` functions
+- `autoload/dotvim8.vim` resolves idiosyncrasies in Vim and Neovim, based on fzf's Vim plugin
+    - `dotvim8#shellescape` is based on `fzf#shellescape`
+    - `dotvim8#bang` is based on the fzf's `s:execute` functions
 
 Vimscript files in this repo use folds which slows down terminal Vim.
 For performance, use GUIs when navigating or editing inside folds.
@@ -37,6 +33,8 @@ For performance, use GUIs when navigating or editing inside folds.
 - Vim 7.3+ to be compatible with most plugins in Github
     - prioritize Vim 8 builds that support true color in ConEmu
 - Neovim 0.2+ to use fzf and async jobs in Windows
+
+`v:version` and patches are checked for backward compatibility up to Vim 7.2 and Neovim 0.1.6.
 
 ## OS Support
 

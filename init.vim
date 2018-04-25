@@ -19,8 +19,6 @@ if has('win32')
   endif
 endif
 
-runtime shared.vim
-
 if has('nvim-0.2')
   set inccommand=nosplit
 
@@ -45,4 +43,4 @@ if !has('nvim-0.2.3')
   let g:loaded_ruby_provider = 1
 endif
 
-call bundle#init()
+runtime shared.vim
