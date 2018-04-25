@@ -572,7 +572,7 @@ if has('autocmd')
     unlet g:plug_disable g:base_cond
     silent! call plug#end()
 
-    silent! echodoc#enable()
+    silent! call echodoc#enable()
     if has('nvim')
       autocmd VimEnter * call s:set_color()
     else
