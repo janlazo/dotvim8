@@ -17,8 +17,3 @@ set mouse=a
 
 " neovim-qt
 call gui#init()
-
-" Unset ConEmu env vars so terminal Vim does not break in winpty
-if !empty($ConEmuANSI)
-  let $ConEmuANSI = ''
-endif

@@ -184,7 +184,7 @@ if has('modify_fname')
   endfunction
 
   if has('win32')
-    call s:set_shell(empty($COMSPEC) ? 'cmd.exe' : $COMSPEC)
+    call s:set_shell(has('nvim') || empty($COMSPEC) ? 'cmd.exe' : $COMSPEC)
   elseif has('win32unix')
     call s:set_shell('sh')
   endif
@@ -379,21 +379,20 @@ endif
 if has('win32')
   " cmd.exe uses %PROMPT% to set its prompt
   " default prompt is not user-friendly
-  " ConEmu breaks it for winpty so :terminal has garbled prompt
+  " ConEmu's prompt is garbled in winpty
   let $PROMPT = '$P$_$G$S'
 
   " Force xterm rendering in ConEmu for truecolor
-  " Unset ConEmuANSI in GUIs so that terminal Vim doesn't break.
+  " Unset ConEmuANSI so that Vim doesn't break in winpty
   if $ConEmuANSI ==# 'ON'
-    if s:is_gui
-      let $ConEmuANSI = ''
-    elseif v:version >= 704 && !has('nvim') && has('builtin_terms')
+    if v:version >= 704 && !has('gui_running') && !has('nvim') && has('builtin_terms')
       set term=xterm t_Co=256
       let &t_AB = "\e[48;5;%dm"
       let &t_AF = "\e[38;5;%dm"
       let &t_kb = nr2char(127)
       let &t_kD = "^[[3~"
     endif
+    let $ConEmuANSI = ''
   endif
 endif
 " }}}big
