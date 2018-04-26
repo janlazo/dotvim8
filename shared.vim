@@ -443,9 +443,9 @@ if has('autocmd')
       endif
     endfunction
 
-    let g:plug_disable = {'on': []}
+    let s:plug_disable = {'on': []}
     " {{{plug-core
-    Plug 'chrisbra/matchit', (has('syntax') && v:version >= 800) ? {} : g:plug_disable
+    call plug#('chrisbra/matchit', has('syntax') && v:version >= 800 ? {} : s:plug_disable)
       if has('syntax') && v:version < 800 && !has('nvim')
         runtime! macros/matchit.vim
       endif
@@ -477,33 +477,33 @@ if has('autocmd')
       " Version Control
       call extend(g:rooter_patterns, ['.git/', '.hg/', '.svn/'])
 
-    let g:fzf_path = expand('~/.fzf')
-    if isdirectory(g:fzf_path)
-      Plug g:fzf_path
+    let s:fzf_path = expand('~/.fzf')
+    if isdirectory(s:fzf_path)
+      call plug#(s:fzf_path)
     else
-      Plug 'junegunn/fzf', executable('bash') ? {
-      \ 'dir': g:fzf_path,
+      call plug#('junegunn/fzf', executable('bash') ? {
+      \ 'dir': s:fzf_path,
       \ 'do': 'bash ./install --bin'
-      \ } : g:plug_disable
+      \ } : s:plug_disable)
     endif
-    unlet g:fzf_path
+    unlet s:fzf_path
     Plug 'janlazo/fzf.vim'
       let g:fzf_command_prefix = 'Fzf'
     Plug 'tpope/vim-fugitive'
 
-    Plug 'Shougo/echodoc.vim', has('patch-7.4.774') ? {
+    call plug#('Shougo/echodoc.vim', has('patch-7.4.774') ? {
     \ 'do': ':call echodoc#enable()'
-    \ } : g:plug_disable
-    let g:base_cond = has('timers')
-    Plug 'prabirshrestha/asyncomplete.vim', g:base_cond ? {} : g:plug_disable
-      if g:base_cond
+    \ } : s:plug_disable)
+    let s:base_cond = has('timers')
+    call plug#('prabirshrestha/asyncomplete.vim', s:base_cond ? {} : s:plug_disable)
+      if s:base_cond
         inoremap <silent> <expr> <TAB>   pumvisible() ? "\<C-n>" : "\<TAB>"
         inoremap <silent> <expr> <S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
         inoremap <silent> <expr> <CR>    <C-R>=(pumvisible() ? "\<C-y>" : '')<CR><CR>
       endif
     Plug 'Shougo/neco-vim'
-    Plug 'prabirshrestha/asyncomplete-necovim.vim', g:base_cond ? {} : g:plug_disable
-      if g:base_cond
+    call plug#('prabirshrestha/asyncomplete-necovim.vim', s:base_cond ? {} : s:plug_disable)
+      if s:base_cond
         autocmd User asyncomplete_setup
         \ call asyncomplete#register_source(asyncomplete#sources#necovim#get_source_options({
         \ 'name': 'necovim',
@@ -519,12 +519,12 @@ if has('autocmd')
       let g:jellybeans_use_gui_italics = 0
     " }}}plug-core
     " {{{plug-python
-    let g:base_cond = has('python') || has('python3')
-    Plug 'editorconfig/editorconfig-vim', g:base_cond ? {} : g:plug_disable
+    let s:base_cond = has('python') || has('python3')
+    call plug#('editorconfig/editorconfig-vim', s:base_cond ? {} : s:plug_disable)
       let g:EditorConfig_preserve_formatoptions = 1
       let g:EditorConfig_max_line_indicator = 'none'
       let g:EditorConfig_exclude_patterns = ['scp://.*', 'fugitive://.*']
-    Plug 'Valloric/MatchTagAlways', g:base_cond ? {} : g:plug_disable
+    call plug#('Valloric/MatchTagAlways', s:base_cond ? {} : s:plug_disable)
       let g:mta_filetypes = {'html': 1, 'xml': 1, 'xhtml': 1, 'php': 1}
     " }}}plug-python
     " {{{plug-ft
@@ -565,10 +565,10 @@ if has('autocmd')
     Plug 'rust-lang/rust.vim'
     Plug 'tbastos/vim-lua'
     " }}}plug-ft
-    Plug 'daa84/neovim-gtk', exists('g:GtkGuiLoaded') ? {
+    call plug#('daa84/neovim-gtk', exists('g:GtkGuiLoaded') ? {
     \ 'rtp': 'runtime'
-    \ } : g:plug_disable
-    unlet g:plug_disable g:base_cond
+    \ } : s:plug_disable)
+    unlet s:plug_disable s:base_cond
     silent! call plug#end()
 
     silent! call echodoc#enable()
