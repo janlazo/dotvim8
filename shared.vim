@@ -458,7 +458,6 @@ if has('autocmd')
     Plug 'tpope/vim-commentary'
     Plug 'tpope/vim-endwise'
     Plug 'tpope/tpope-vim-abolish'
-    Plug 'tpope/vim-speeddating'
     Plug 'tpope/vim-repeat'
     Plug 'justinmk/vim-dirvish'
     Plug 'AndrewRadev/splitjoin.vim'
