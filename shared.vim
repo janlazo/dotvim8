@@ -407,7 +407,9 @@ if has('autocmd')
   let g:tex_flavor = 'latex'
 
   " Netrw
+  let g:netrw_home = s:base_dir
   let g:netrw_dirhistmax = 0
+  let g:netrw_banner = 0
 
   " Shell
   let g:is_posix = 1
