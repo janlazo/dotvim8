@@ -445,7 +445,7 @@ if has('autocmd')
 
     let s:plug_disable = {'on': []}
     " {{{plug-core
-    let s:base_cond = v:version >= 800
+    let s:base_cond = has('nvim') ? has('nvim-0.3') : v:version >= 800
     call plug#('andymass/vim-matchup', has('syntax') && s:base_cond ? {} : s:plug_disable)
       let g:matchup_matchparen_status_offscreen = 0
       let g:matchup_matchparen_deferred = s:base_cond

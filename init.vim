@@ -38,7 +38,7 @@ else
   let g:loaded_python3_provider = 1
 endif
 
-if !has('nvim-0.2.3')
+if !has('nvim-0.3')
   let g:loaded_node_provider = 1
   let g:loaded_ruby_provider = 1
 endif
