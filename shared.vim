@@ -445,8 +445,11 @@ if has('autocmd')
 
     let s:plug_disable = {'on': []}
     " {{{plug-core
-    call plug#('chrisbra/matchit', has('syntax') && v:version >= 800 ? {} : s:plug_disable)
-      if has('syntax') && v:version < 800 && !has('nvim')
+    let s:base_cond = v:version >= 800
+    call plug#('andymass/vim-matchup', has('syntax') && s:base_cond ? {} : s:plug_disable)
+      let g:matchup_matchparen_status_offscreen = 0
+      let g:matchup_matchparen_deferred = s:base_cond
+      if has('syntax') && !s:base_cond && !has('nvim')
         runtime! macros/matchit.vim
       endif
     Plug 'tpope/vim-scriptease'
@@ -524,8 +527,6 @@ if has('autocmd')
       let g:EditorConfig_preserve_formatoptions = 1
       let g:EditorConfig_max_line_indicator = 'none'
       let g:EditorConfig_exclude_patterns = ['scp://.*', 'fugitive://.*']
-    call plug#('Valloric/MatchTagAlways', s:base_cond ? {} : s:plug_disable)
-      let g:mta_filetypes = {'html': 1, 'xml': 1, 'xhtml': 1, 'php': 1}
     " }}}plug-python
     " {{{plug-ft
     " Vim
