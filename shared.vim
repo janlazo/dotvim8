@@ -423,14 +423,14 @@ if has('autocmd')
   silent! call plug#begin(expand(s:base_dir . '/bundle'))
   if exists('g:loaded_plug')
     function! s:set_color()
-      if has('termguicolors') &&
-         \ (has('nvim-0.1.6') || !has('win32') || !has('patch-8.0.1531') || has('vcon'))
-        if (has('nvim-0.2.1') || (has('patch-8.0.142') && has('patch-8.0.146'))) &&
-           \ &t_Co == 256 && empty($TMUX)
-          set termguicolors
-        else
-          set notermguicolors
-        endif
+      let has_tgc = has('nvim') ?
+      \ has('nvim-0.1.6') :
+      \ (!has('win32') || !has('patch-8.0.1531') || has('vcon'))
+      let use_tgc = has('nvim') ?
+      \ has('nvim-0.2.1') :
+      \ (has('patch-8.0.142') && has('patch-8.0.146'))
+      if has('termguicolors') && has_tgc
+        let &termguicolors = use_tgc && &t_Co == 256 && empty($TMUX)
       endif
 
       if has('syntax')
