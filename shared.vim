@@ -18,22 +18,21 @@
 " Fixes
 set cpoptions-=C cpoptions-=<
 set nomodeline modelines=0
-set autoread
+set autoread fileformats=unix,dos
 set shortmess+=sI
-set backspace=2 whichwrap=<,>,b,s nojoinspaces
-set fileformats=unix,dos
-set nrformats-=octal
+set backspace=2 whichwrap=<,>,b,s nrformats-=octal nojoinspaces
 set notimeout ttimeout ttimeoutlen=100
-set noswapfile updatecount=0 directory=
 set keywordprg=:help
 
-" Speedup writes and avoid swap errors by not forcing a flush on every :write
-" Check if the option works because Vim/Neovim may disable/ignore it.
-if exists('+fsync')
-  set nofsync
-endif
+" Do not create swapfiles.
+set noswapfile updatecount=0 directory=
 if exists('+swapsync')
   set swapsync=
+endif
+
+" Do not force a flush to speedup manual writes.
+if exists('+fsync')
+  set nofsync
 endif
 
 " Consistent Indentation
