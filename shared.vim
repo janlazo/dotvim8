@@ -49,7 +49,6 @@ set scrolloff=1 sidescrolloff=1 display=lastline
 set laststatus=2 cmdheight=2 noshowmode
 
 if 1
-  let s:fix_ux = !has('win32unix') && $TERM !=# 'cygwin' && empty($TMUX)
   let s:is_gui = has('gui_running') || exists('g:nyaovim_version')
 
   if v:version >= 704
@@ -200,11 +199,7 @@ if has('linebreak')
 endif
 
 if has('cmdline_info')
-  " display last command
-  let &showcmd = s:fix_ux
-
-  " obseleted by statusline
-  set noruler
+  set noshowcmd noruler
 endif
 
 if has('statusline')
@@ -279,9 +274,7 @@ if has('syntax')
   endif
 
   if v:version >= 800 || has('nvim-0.1.6')
-    if s:fix_ux
-      let &colorcolumn = &textwidth
-    endif
+    let &colorcolumn = &textwidth
   endif
 
   function! s:toggle_spell() abort
@@ -586,7 +579,7 @@ if has('autocmd')
 endif
 
 if 1
-  unlet s:fix_ux s:is_gui
+  unlet s:is_gui
   if exists('s:base_dir')
     unlet s:base_dir
   endif
