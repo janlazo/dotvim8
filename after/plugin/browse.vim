@@ -61,7 +61,7 @@ command! -nargs=+ BrowseMDN
 command! -nargs=+ BrowsePHP
 \ call s:browse('https://secure.php.net/manual-lookup.php?pattern=', <f-args>)
 command! -nargs=+ BrowseDDG
-\ call s:browse('https://duckduckgo.com/?q=', <f-args>)
+\ call s:browse('https://duckduckgo.com/html?q=', <f-args>)
 
 let &cpoptions = s:cpoptions
 unlet s:cpoptions
