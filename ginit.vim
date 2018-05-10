@@ -17,3 +17,6 @@ set mouse=a
 
 " neovim-qt
 call gui#init()
+if $ConEmuANSI ==# 'ON'
+  let $ConEmuANSI = 'OFF'
+endif

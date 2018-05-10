@@ -48,7 +48,9 @@ set scrolloff=1 sidescrolloff=1 display=lastline
 set laststatus=2 cmdheight=2 noshowmode
 
 if 1
-  let s:is_gui = has('gui_running') || exists('g:nyaovim_version')
+  let s:is_gui = has('nvim') ?
+  \ (exists('g:nyaovim_version') || exists('g:GtkGuiLoaded')) :
+  \ has('gui_running')
 
   if v:version >= 704
     set formatoptions+=j
@@ -386,7 +388,7 @@ if has('win32')
   " Force xterm rendering on ConEmu, not :terminal, for truecolor
   " Detect winpty by checking environment variables for Vim/Neovim server.
   if $ConEmuANSI ==# 'ON' && empty($VIM_SERVERNAME) && empty($NVIM_LISTEN_ADDRESS)
-    if has('gui_running')
+    if s:is_gui
       let $ConEmuANSI = 'OFF'
     elseif v:version >= 704 && !has('nvim') && has('builtin_terms')
       set term=xterm t_Co=256
