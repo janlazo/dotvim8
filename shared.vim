@@ -386,7 +386,9 @@ if has('win32')
   " Force xterm rendering on ConEmu, not :terminal, for truecolor
   " Detect winpty by checking environment variables for Vim/Neovim server.
   if $ConEmuANSI ==# 'ON' && empty($VIM_SERVERNAME) && empty($NVIM_LISTEN_ADDRESS)
-    if v:version >= 704 && !has('gui_running') && !has('nvim') && has('builtin_terms')
+    if has('gui_running')
+      let $ConEmuANSI = 'OFF'
+    elseif v:version >= 704 && !has('nvim') && has('builtin_terms')
       set term=xterm t_Co=256
       let &t_AB = "\e[48;5;%dm"
       let &t_AF = "\e[38;5;%dm"
