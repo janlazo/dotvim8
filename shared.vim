@@ -188,6 +188,14 @@ if has('modify_fname')
   endif
 endif
 
+if has('path_extra')
+  set path=.,, define=
+endif
+
+if has('find_in_path')
+  set include= includeexpr=
+endif
+
 if has('linebreak')
   " 3-digit line number in 80 col terminals
   set numberwidth=4 textwidth=76
