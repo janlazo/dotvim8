@@ -12,37 +12,37 @@
 " See the License for the specific language governing permissions and
 " limitations under the License.
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" options are grouped by feature (:h feature-list)
-" foldmarkers group options by version (:h version)
+" Feature/Version checks group options, variables, functions, mappings
+" folds group these checks by version type (ie. tiny,normal,huge)
+" Vim 7.2 (tiny) and Neovim 0.1.6 are the mimimum supported versions
+" `:h version` for feature checks
+" `v:version`  for release,major,minor version as an integer
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Fixes
+" General
 set cpoptions-=C cpoptions-=<
 set nomodeline modelines=0
-set autoread fileformats=unix,dos
-set shortmess+=sI
+set shortmess+=s shortmess+=I
+
+" Keys
 set backspace=2 whichwrap=<,>,b,s nrformats-=octal nojoinspaces
 set notimeout ttimeout ttimeoutlen=100
 set keywordprg=:help
+set autoindent shiftround
 
-" Do not create swapfiles.
+" File
+set autoread fileformats=unix,dos
 set noswapfile updatecount=0 directory=
+
+" Do not force a memory flush to speedup manual writes.
 if exists('+swapsync')
   set swapsync=
 endif
-
-" Do not force a flush to speedup manual writes.
 if exists('+fsync')
   set nofsync
 endif
 
-" Consistent Indentation
-set autoindent shiftround
-
-" Line Wrap
-set textwidth=72 formatoptions=l
-
 " UI
-set number
+set number textwidth=72 formatoptions=ql
 set sidescroll=5 nostartofline
 set scrolloff=1 sidescrolloff=1 display=lastline
 set laststatus=2 cmdheight=2 noshowmode
@@ -58,7 +58,8 @@ if 1
   endif
 
   if v:version >= 800 || has('nvim-0.1.6')
-    set shortmess+=cF belloff=all
+    set shortmess+=c shortmess+=F
+    set belloff=all
     set nofixendofline
     set list listchars=tab:>\ ,trail:-,nbsp:+
   endif
