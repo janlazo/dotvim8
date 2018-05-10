@@ -383,9 +383,9 @@ if has('win32')
   " ConEmu's prompt is garbled in winpty
   let $PROMPT = '$P$_$G$S'
 
-  " Force xterm rendering in ConEmu for truecolor
-  " Unset ConEmuANSI so that Vim doesn't break in winpty
-  if $ConEmuANSI ==# 'ON'
+  " Force xterm rendering on ConEmu, not :terminal, for truecolor
+  " Detect winpty by checking environment variables for Vim/Neovim server.
+  if $ConEmuANSI ==# 'ON' && empty($VIM_SERVERNAME) && empty($NVIM_LISTEN_ADDRESS)
     if v:version >= 704 && !has('gui_running') && !has('nvim') && has('builtin_terms')
       set term=xterm t_Co=256
       let &t_AB = "\e[48;5;%dm"
@@ -393,7 +393,6 @@ if has('win32')
       let &t_kb = nr2char(127)
       let &t_kD = "^[[3~"
     endif
-    let $ConEmuANSI = ''
   endif
 endif
 " }}}big
