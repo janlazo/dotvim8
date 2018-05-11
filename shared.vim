@@ -433,29 +433,6 @@ if has('autocmd')
   let g:plug_window = 'tabnew'
   silent! call plug#begin(expand(s:base_dir . '/bundle'))
   if exists('g:loaded_plug')
-    function! s:set_color()
-      let has_tgc = has('nvim') ?
-      \ has('nvim-0.1.6') :
-      \ (!has('win32') || !has('patch-8.0.1531') || has('vcon'))
-      let use_tgc = has('nvim') ?
-      \ has('nvim-0.2.1') :
-      \ (has('patch-8.0.142') && has('patch-8.0.146'))
-      if has('termguicolors') && has_tgc
-        let &termguicolors = use_tgc && &t_Co == 256 && empty($TMUX)
-      endif
-
-      if has('syntax')
-        let cur_color = get(g:, 'colors_name', 'default')
-        if (has('gui_running') || &t_Co == 256) && cur_color !=# 'jellybeans'
-          silent! colorscheme jellybeans
-        endif
-        let cur_color = get(g:, 'colors_name', 'default')
-        if cur_color ==# 'default'
-          silent! colorscheme torte
-        endif
-      endif
-    endfunction
-
     let s:plug_disable = {'on': []}
     " {{{plug-core
     let s:base_cond = has('nvim') ? has('nvim-0.3') : v:version >= 800
@@ -587,13 +564,38 @@ if has('autocmd')
     silent! call plug#end()
 
     silent! call echodoc#enable()
+  endif
+  " }}}vim-plug
+  " {{{colorscheme
+  if has('syntax')
+    function! s:set_color()
+      let has_tgc = has('nvim') ?
+      \ has('nvim-0.1.6') :
+      \ (!has('win32') || !has('patch-8.0.1531') || has('vcon'))
+      let use_tgc = has('nvim') ?
+      \ has('nvim-0.2.1') :
+      \ (has('patch-8.0.142') && has('patch-8.0.146'))
+      if has('termguicolors') && has_tgc
+        let &termguicolors = use_tgc && &t_Co == 256 && empty($TMUX)
+      endif
+
+      let cur_color = get(g:, 'colors_name', 'default')
+      if (has('gui_running') || &t_Co == 256) && cur_color !=# 'jellybeans'
+        silent! colorscheme jellybeans
+      endif
+      let cur_color = get(g:, 'colors_name', 'default')
+      if cur_color ==# 'default'
+        silent! colorscheme torte
+      endif
+    endfunction
+
     if has('nvim')
       autocmd VimEnter * call s:set_color()
     else
       call s:set_color()
     endif
   endif
-  " }}}vim-plug
+  "}}}colorscheme
 endif
 
 if 1
