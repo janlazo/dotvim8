@@ -414,10 +414,10 @@ if has('autocmd')
   let g:vimsyn_embed = ''
   let g:vim_indent_cont = 0
 
-  " Tex
-  let g:tex_flavor = 'latex'
-
-  " Netrw
+  " standard-plugin
+  let g:loaded_getscriptPlugin = 1
+  let g:loaded_logiPat = 1
+  let g:loaded_vimballPlugin = 1
   let g:netrw_home = s:base_dir
   let g:netrw_dirhistmax = 0
   let g:netrw_banner = 0
@@ -429,16 +429,19 @@ if has('autocmd')
   let g:html_indent_script1 = "auto"
   let g:html_indent_style1 = "auto"
 
+  " Tex
+  let g:tex_flavor = 'latex'
+
   " {{{vim-plug
   let g:plug_window = 'tabnew'
   silent! call plug#begin(expand(s:base_dir . '/bundle'))
   if exists('g:loaded_plug')
     let s:plug_disable = {'on': []}
     " {{{plug-core
-    let s:base_cond = has('nvim') ? has('nvim-0.3') : v:version >= 800
+    let s:base_cond = v:version >= 800 && has('reltime')
     call plug#('andymass/vim-matchup', has('syntax') && s:base_cond ? {} : s:plug_disable)
       let g:matchup_matchparen_status_offscreen = 0
-      let g:matchup_matchparen_deferred = s:base_cond
+      let g:matchup_matchparen_deferred = s:base_cond && (!has('nvim') || has('nvim-0.3'))
       let g:matchup_matchpref_html_nolists = 1
 
       if has('syntax') && !s:base_cond && !has('nvim')
