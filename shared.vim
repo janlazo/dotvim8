@@ -122,6 +122,12 @@ if has('cmdline_hist')
 endif
 " }}}small
 " {{{normal
+if has('multi_byte') && !has('nvim')
+  if has('win32') || (has('gui_running') && &encoding ==# 'latin1')
+    set encoding=utf-8
+  endif
+endif
+
 if has('modify_fname')
   let s:base_dir = expand('<sfile>:p:h')
 

@@ -16,12 +16,6 @@ if !has('gui_running')
   finish
 endif
 
-if has('multi_byte')
-  if &encoding ==# 'latin1'
-    set encoding=utf-8
-  endif
-endif
-
 behave xterm
 
 if has('directx')
