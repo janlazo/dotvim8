@@ -112,6 +112,11 @@ if has('windows')
   nnoremap <silent> <Space>v :tabedit $MYVIMRC<CR>
   nnoremap <silent> <Space>gv :tabedit $MYGVIMRC<CR>
 endif
+
+" Moved from normal to tiny version since 8.0.1118
+if has('vertsplit')
+  set splitright
+endif
 " }}}tiny
 " {{{small
 " Moved from normal to small version since 8.0.1129
@@ -335,10 +340,6 @@ if has('persistent_undo')
   else
     set undodir=
   endif
-endif
-
-if has('vertsplit')
-  set splitright
 endif
 
 if has('folding')
