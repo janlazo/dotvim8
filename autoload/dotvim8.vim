@@ -45,7 +45,6 @@ function! s:shellesc_ps1(arg)
 endfunction
 
 " Fix shellescape for external programs in Windows
-" Try regular shellescape with noshellslash for internal commands in cmd.exe
 function! dotvim8#shellescape(arg, ...)
   if empty(a:arg)
     return ''
