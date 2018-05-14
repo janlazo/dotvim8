@@ -432,6 +432,13 @@ if has('autocmd')
   " Tex
   let g:tex_flavor = 'latex'
 
+  augroup vimrc
+    autocmd!
+    if has('nvim')
+      autocmd VimEnter * let s:is_gui = s:is_gui || exists('g:GuiLoaded')
+    endif
+  augroup END
+
   " {{{vim-plug
   let g:plug_window = 'tabnew'
   silent! call plug#begin(expand(s:base_dir . '/bundle'))
@@ -501,7 +508,7 @@ if has('autocmd')
     Plug 'Shougo/neco-vim'
     call plug#('prabirshrestha/asyncomplete-necovim.vim', s:base_cond ? {} : s:plug_disable)
       if s:base_cond
-        autocmd User asyncomplete_setup
+        autocmd vimrc User asyncomplete_setup
         \ call asyncomplete#register_source(asyncomplete#sources#necovim#get_source_options({
         \ 'name': 'necovim',
         \ 'whitelist': ['vim'],
@@ -514,6 +521,7 @@ if has('autocmd')
       let g:jellybeans_use_lowcolor_black = 0
       let g:jellybeans_use_term_italics = 0
       let g:jellybeans_use_gui_italics = 0
+    call plug#('lifepillar/vim-gruvbox8', v:version >= 800 ? {} : s:plug_disable)
     " }}}plug-core
     " {{{plug-python
     let s:base_cond = has('python') || has('python3')
@@ -582,18 +590,28 @@ if has('autocmd')
         let &termguicolors = use_tgc && &t_Co == 256 && empty($TMUX)
       endif
 
-      let cur_color = get(g:, 'colors_name', 'default')
-      if (has('gui_running') || &t_Co == 256) && cur_color !=# 'jellybeans'
-        silent! colorscheme jellybeans
+      let colors = ['torte']
+      if s:is_gui || &t_Co == 256
+        call insert(colors, 'jellybeans')
       endif
-      let cur_color = get(g:, 'colors_name', 'default')
-      if cur_color ==# 'default'
-        silent! colorscheme torte
+      if s:is_gui
+        call insert(colors, 'gruvbox8_soft')
+      endif
+      for color in colors
+        if get(g:, 'colors_name', 'default') !=# color
+          execute 'silent! colorscheme' color
+        endif
+        if get(g:, 'colors_name', 'default') ==# color
+          break
+        endif
+      endfor
+      if get(g:, 'colors_name', 'default') =~# '^gruvbox8'
+        set background=light
       endif
     endfunction
 
     if has('nvim')
-      autocmd VimEnter * call s:set_color()
+      autocmd vimrc VimEnter * call s:set_color()
     else
       call s:set_color()
     endif
@@ -602,7 +620,6 @@ if has('autocmd')
 endif
 
 if 1
-  unlet s:is_gui
   if exists('s:base_dir')
     unlet s:base_dir
   endif
