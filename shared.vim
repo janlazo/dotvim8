@@ -418,7 +418,9 @@ if has('autocmd')
   let g:loaded_getscriptPlugin = 1
   let g:loaded_logiPat = 1
   let g:loaded_vimballPlugin = 1
-  let g:netrw_home = s:base_dir
+  if exists('s:base_dir')
+    let g:netrw_home = s:base_dir
+  endif
   let g:netrw_dirhistmax = 0
   let g:netrw_banner = 0
 
