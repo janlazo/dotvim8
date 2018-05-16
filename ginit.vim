@@ -13,10 +13,4 @@
 " limitations under the License.
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let $MYGVIMRC = expand('<sfile>:p')
-set mouse=a
-
-" neovim-qt
 call gui#init()
-if $ConEmuANSI ==# 'ON'
-  let $ConEmuANSI = 'OFF'
-endif

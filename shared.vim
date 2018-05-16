@@ -324,6 +324,33 @@ if has('syntax')
       unlet s:spelldir
     endif
   endif
+
+  function! s:set_color()
+    let has_tgc = has('nvim') ?
+    \ has('nvim-0.1.6') :
+    \ (!has('win32') || !has('patch-8.0.1531') || has('vcon'))
+    let use_tgc = has('nvim') ?
+    \ has('nvim-0.2.1') :
+    \ (has('patch-8.0.142') && has('patch-8.0.146'))
+    if has('termguicolors') && has_tgc
+      let &termguicolors = use_tgc && &t_Co == 256 && empty($TMUX)
+    endif
+
+    if s:is_gui
+      let colors = ['gruvbox8_soft', 'morning']
+    else
+      let colors = ['torte']
+      if &t_Co == 256
+        call insert(colors, 'jellybeans')
+      endif
+    endif
+    for color in colors
+      execute 'silent! colorscheme' color
+      if get(g:, 'colors_name', 'default') ==# color
+        break
+      endif
+    endfor
+  endfunction
 endif
 
 if has('persistent_undo')
@@ -578,48 +605,25 @@ if has('autocmd')
   " }}}vim-plug
 endif
 
-if has('syntax')
-  function! s:set_color()
-    let has_tgc = has('nvim') ?
-    \ has('nvim-0.1.6') :
-    \ (!has('win32') || !has('patch-8.0.1531') || has('vcon'))
-    let use_tgc = has('nvim') ?
-    \ has('nvim-0.2.1') :
-    \ (has('patch-8.0.142') && has('patch-8.0.146'))
-    if has('termguicolors') && has_tgc
-      let &termguicolors = use_tgc && &t_Co == 256 && empty($TMUX)
-    endif
-
-    if s:is_gui
-      let colors = ['gruvbox8_soft', 'morning']
-    else
-      let colors = ['torte']
-      if &t_Co == 256
-        call insert(colors, 'jellybeans')
-      endif
-    endif
-    for color in colors
-      execute 'silent! colorscheme' color
-      if get(g:, 'colors_name', 'default') ==# color
-        break
-      endif
-    endfor
-  endfunction
-
-  if !has('nvim')
-    call s:set_color()
-  endif
-endif
-
 if has('nvim')
   function! s:vim_enter()
     let s:is_gui = s:is_gui || exists('g:GuiLoaded')
-    if s:is_gui && $ConEmuANSI ==# 'ON'
-      let $ConEmuANSI = 'OFF'
+    if s:is_gui
+      set mouse=a
+      if $ConEmuANSI ==# 'ON'
+        let $ConEmuANSI = 'OFF'
+      endif
     endif
     call s:set_color()
   endfunction
   autocmd vimrc VimEnter * call s:vim_enter()
+else
+  if has('gui_running')
+    set background=light
+  endif
+  if has('syntax')
+    call s:set_color()
+  endif
 endif
 
 if 1
