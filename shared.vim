@@ -436,9 +436,6 @@ if has('autocmd')
 
   augroup vimrc
     autocmd!
-    if has('nvim')
-      autocmd VimEnter * let s:is_gui = s:is_gui || exists('g:GuiLoaded')
-    endif
   augroup END
 
   " {{{vim-plug
@@ -579,46 +576,52 @@ if has('autocmd')
     silent! call echodoc#enable()
   endif
   " }}}vim-plug
-  " {{{colorscheme
-  if has('syntax')
-    function! s:set_color()
-      let has_tgc = has('nvim') ?
-      \ has('nvim-0.1.6') :
-      \ (!has('win32') || !has('patch-8.0.1531') || has('vcon'))
-      let use_tgc = has('nvim') ?
-      \ has('nvim-0.2.1') :
-      \ (has('patch-8.0.142') && has('patch-8.0.146'))
-      if has('termguicolors') && has_tgc
-        let &termguicolors = use_tgc && &t_Co == 256 && empty($TMUX)
-      endif
+endif
 
+if has('syntax')
+  function! s:set_color()
+    let has_tgc = has('nvim') ?
+    \ has('nvim-0.1.6') :
+    \ (!has('win32') || !has('patch-8.0.1531') || has('vcon'))
+    let use_tgc = has('nvim') ?
+    \ has('nvim-0.2.1') :
+    \ (has('patch-8.0.142') && has('patch-8.0.146'))
+    if has('termguicolors') && has_tgc
+      let &termguicolors = use_tgc && &t_Co == 256 && empty($TMUX)
+    endif
+
+    if s:is_gui
+      let colors = ['gruvbox8_soft']
+    else
       let colors = ['torte']
-      if s:is_gui || &t_Co == 256
+      if &t_Co == 256
         call insert(colors, 'jellybeans')
       endif
-      if s:is_gui
-        call insert(colors, 'gruvbox8_soft')
-      endif
-      for color in colors
-        if get(g:, 'colors_name', 'default') !=# color
-          execute 'silent! colorscheme' color
-        endif
-        if get(g:, 'colors_name', 'default') ==# color
-          break
-        endif
-      endfor
-      if get(g:, 'colors_name', 'default') =~# '^gruvbox8'
-        set background=light
-      endif
-    endfunction
-
-    if has('nvim')
-      autocmd vimrc VimEnter * call s:set_color()
-    else
-      call s:set_color()
     endif
+    for color in colors
+      if get(g:, 'colors_name', 'default') !=# color
+        execute 'silent! colorscheme' color
+      endif
+      if get(g:, 'colors_name', 'default') ==# color
+        break
+      endif
+    endfor
+  endfunction
+
+  if !has('nvim')
+    call s:set_color()
   endif
-  "}}}colorscheme
+endif
+
+if has('nvim')
+  function! s:vim_enter()
+    let s:is_gui = s:is_gui || exists('g:GuiLoaded')
+    if s:is_gui && $ConEmuANSI ==# 'ON'
+      let $ConEmuANSI = 'OFF'
+    endif
+    call s:set_color()
+  endfunction
+  autocmd vimrc VimEnter * call s:vim_enter()
 endif
 
 if 1

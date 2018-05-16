@@ -16,6 +16,10 @@ if !has('gui_running')
   finish
 endif
 
+if has('syntax')
+  set background=light
+endif
+
 behave xterm
 
 if has('directx')
