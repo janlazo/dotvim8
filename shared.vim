@@ -591,7 +591,7 @@ if has('syntax')
     endif
 
     if s:is_gui
-      let colors = ['gruvbox8_soft']
+      let colors = ['gruvbox8_soft', 'morning']
     else
       let colors = ['torte']
       if &t_Co == 256
@@ -599,9 +599,7 @@ if has('syntax')
       endif
     endif
     for color in colors
-      if get(g:, 'colors_name', 'default') !=# color
-        execute 'silent! colorscheme' color
-      endif
+      execute 'silent! colorscheme' color
       if get(g:, 'colors_name', 'default') ==# color
         break
       endif
