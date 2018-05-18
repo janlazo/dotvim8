@@ -607,13 +607,6 @@ endif
 
 if has('nvim')
   function! s:vim_enter()
-    let s:is_gui = s:is_gui || exists('g:GuiLoaded')
-    if s:is_gui
-      set mouse=a
-      if $ConEmuANSI ==# 'ON'
-        let $ConEmuANSI = 'OFF'
-      endif
-    endif
     call s:set_color()
   endfunction
   autocmd vimrc VimEnter * call s:vim_enter()
