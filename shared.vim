@@ -243,7 +243,7 @@ if has('statusline')
   " TODO - support low-width screens (add max width, minimize space)
   function! Statusline()
     let lhs = ['%8{"'.get(s:modes, mode(), 'MODE').'"}', '%t [%W%R%M]']
-    let rhs = [&fileformat, '%3l:%-3c']
+    let rhs = [&fileformat, '%4l:%-4c']
     if strlen(&fileencoding)
       call insert(rhs, &fileencoding)
     endif
