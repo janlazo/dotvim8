@@ -7,15 +7,22 @@ Vim 8+ / Neovim 0.2+ config folder for Windows support and async jobs.
 - `shared.vim` to handle shared options and mappings
     - check features and options to avoid vimscript errors
     - acts as a self-contained vimrc, independent of the entire repo
-    - assumes `set nocompatible` is set by Vim/Neovim or the user
+    - assumes `set nocompatible` is set by Neovim or the user
     - [vim-plug] as package manager for bundles in Github
 - vimrc and init.vim are hooks to bootstrap the editor
     - both
-        - fix initial runtimepath
+        - fix initial runtimepath (pathsep for Vim, revert to defaults for nvim-qt)
     - neovim
-        - language providers
+        - language providers (0.2 for python, 0.3 for ruby and node.js)
         - inccommand
     - vim
+        - `set nocompatible`
+            - tiny/small builds are compatible by default and don't support `+eval`
+            - maintainers can use system-wide vimrc to include `set compatible`
+            - system-wide vimrc cannot be skipped (no `g:loaded_system_vimrc`)
+            - cannot alias `vim -Nu vimrc` with cmd.exe on Windows
+        - disable defaults.vim
+        - set `$MYVIMRC` if empty
         - `guioptions` for gvim
 - gvimrc and ginit.vim for GUIs (see `autoload/gui.vim`)
     - fonts

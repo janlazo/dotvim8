@@ -12,13 +12,6 @@
 " See the License for the specific language governing permissions and
 " limitations under the License.
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-if has('win32')
-  " neovim-qt mangles the runtimepath so revert to Vim defaults
-  if !isdirectory($NVIM_QT_RUNTIME_PATH)
-    set runtimepath&vim
-  endif
-endif
-
 if has('nvim-0.2')
   set inccommand=nosplit
 
@@ -41,6 +34,10 @@ endif
 if !has('nvim-0.3')
   let g:loaded_node_provider = 1
   let g:loaded_ruby_provider = 1
+
+  if has('win32')
+    set runtimepath&vim
+  endif
 endif
 
 runtime shared.vim

@@ -13,8 +13,4 @@
 " limitations under the License.
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let $MYGVIMRC = expand('<sfile>:p')
-if $ConEmuANSI ==# 'ON'
-  let $ConEmuANSI = 'OFF'
-endif
-set mouse=a
 call gui#init()

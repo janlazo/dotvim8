@@ -12,14 +12,11 @@
 " See the License for the specific language governing permissions and
 " limitations under the License.
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set nocompatible
+
 if 1
   " Disable defaults.vim
   let g:skip_defaults_vim = 1
-
-  " unset 'compatible' in normal/huge versions
-  if &compatible
-    set nocompatible
-  endif
 
   " Fix for Vim 7.2 (Windows)
   if empty($MVIMRC)

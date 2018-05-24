@@ -19,8 +19,9 @@ let g:loaded_autoload_gui = 1
 let s:cpoptions = &cpoptions
 set cpoptions&vim
 let s:has_gui = has('nvim') ?
-                \ exists('g:GtkGuiLoaded') :
-                \ has('gui_running')
+  \ exists('g:GtkGuiLoaded') ||
+  \ (exists('g:GuiLoaded') && has('nvim-0.3')) :
+  \ has('gui_running')
 
 let s:fontsize = {'min': 10, 'max': 72, 'cur': 12}
 if has('win32')
