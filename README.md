@@ -15,6 +15,8 @@ Vim 8+ / Neovim 0.2+ config folder for Windows support and async jobs.
     - neovim
         - language providers (0.2 for python, 0.3 for ruby and node.js)
         - inccommand
+        - `:InstallRemoteHosts`
+            - install python/ruby/node.js hosts for remote plugins in `rplugin/`
     - vim
         - `set nocompatible`
             - tiny/small builds are compatible by default and don't support `+eval`
