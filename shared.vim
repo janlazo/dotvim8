@@ -421,10 +421,23 @@ if has('win32')
 
   " Force xterm rendering on ConEmu, not :terminal, for truecolor
   " Detect winpty by checking environment variables for Vim/Neovim server.
-  if $ConEmuANSI ==# 'ON' && empty($VIM_SERVERNAME) && empty($NVIM_LISTEN_ADDRESS)
+  if $ConEmuANSI ==# 'ON'
     if s:is_gui
       let $ConEmuANSI = 'OFF'
-    elseif v:version >= 704 && !has('nvim') && has('builtin_terms')
+    elseif has('nvim')
+      if has('nvim-0.3') && $TERM =~# 'cygwin' && executable('cygpath.exe')
+        let s:msys_root = get(split(system('cygpath.exe -w /'), "\n"), 0, '')
+        if isdirectory(s:msys_root)
+          let s:terminfo = s:msys_root.'usr\share\terminfo'
+          if empty($TERMINFO) && isdirectory(s:terminfo)
+            let $TERMINFO = s:terminfo
+          endif
+          unlet s:terminfo
+        endif
+        unlet s:msys_root
+      endif
+    elseif v:version >= 704 && has('builtin_terms') &&
+      \ empty($VIM_SERVERNAME) && empty($NVIM_LISTEN_ADDRESS)
       set term=xterm t_Co=256
       let &t_AB = "\e[48;5;%dm"
       let &t_AF = "\e[38;5;%dm"
