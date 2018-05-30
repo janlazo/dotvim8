@@ -424,19 +424,7 @@ if has('win32')
   if $ConEmuANSI ==# 'ON'
     if s:is_gui
       let $ConEmuANSI = 'OFF'
-    elseif has('nvim')
-      if has('nvim-0.3') && $TERM =~# 'cygwin' && executable('cygpath.exe')
-        let s:msys_root = get(split(system('cygpath.exe -w /'), "\n"), 0, '')
-        if isdirectory(s:msys_root)
-          let s:terminfo = s:msys_root.'usr\share\terminfo'
-          if empty($TERMINFO) && isdirectory(s:terminfo)
-            let $TERMINFO = s:terminfo
-          endif
-          unlet s:terminfo
-        endif
-        unlet s:msys_root
-      endif
-    elseif v:version >= 704 && has('builtin_terms') &&
+    elseif v:version >= 704 && !has('nvim') && has('builtin_terms') &&
       \ empty($VIM_SERVERNAME) && empty($NVIM_LISTEN_ADDRESS)
       set term=xterm t_Co=256
       let &t_AB = "\e[48;5;%dm"
