@@ -616,27 +616,29 @@ if has('autocmd')
     silent! call echodoc#enable()
   endif
   " }}}vim-plug
-endif
 
-if has('nvim')
-  function! s:vim_enter()
-    let s:is_gui = s:is_gui || (exists('g:GuiLoaded') && has('nvim-0.3'))
-    if s:is_gui
-      set mouse=a
-      if $ConEmuANSI ==# 'ON'
-        let $ConEmuANSI = 'OFF'
+  if has('nvim')
+    function! s:vim_enter()
+      let s:is_gui = s:is_gui || (exists('g:GuiLoaded') && has('nvim-0.3'))
+      if s:is_gui
+        set mouse=a
+        if $ConEmuANSI ==# 'ON'
+          let $ConEmuANSI = 'OFF'
+        endif
       endif
-    endif
 
-    call s:set_color()
-  endfunction
-  autocmd vimrc VimEnter * call s:vim_enter()
-else
-  if has('gui_running')
-    set background=light
-  endif
-  if has('syntax')
-    call s:set_color()
+      call s:set_color()
+    endfunction
+    autocmd vimrc VimEnter * call s:vim_enter()
+  else
+    if has('gui_running')
+      set background=light
+      behave xterm
+      let &columns = 81 + &numberwidth
+    endif
+    if has('syntax')
+      call s:set_color()
+    endif
   endif
 endif
 

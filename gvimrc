@@ -15,16 +15,4 @@
 if !has('gui_running')
   finish
 endif
-
-behave xterm
-
-if has('directx')
-  set renderoptions=
-endif
-
 call gui#init()
-
-if has('linebreak')
-  " Guarantee 80 characters are visible
-  let &columns = 81 + &numberwidth
-endif
