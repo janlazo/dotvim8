@@ -32,7 +32,7 @@ else
 endif
 
 if has('nvim-0.3')
-  if $TERM =~# 'cygwin' && executable('cygpath.exe')
+  if has('win32') && $TERM =~# 'cygwin' && executable('cygpath.exe')
     let s:msys_root = get(split(system('cygpath.exe -w /'), "\n"), 0, '')
     if isdirectory(s:msys_root)
       let s:terminfo = s:msys_root.'usr\share\terminfo'
