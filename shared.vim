@@ -369,8 +369,13 @@ if has('persistent_undo')
   endif
 endif
 
+if has('comments')
+  set comments=
+endif
+
 if has('folding')
   set nofoldenable
+  set commentstring=
 endif
 
 if has('viminfo')
