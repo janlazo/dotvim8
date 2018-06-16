@@ -16,4 +16,4 @@ if has('unix') && !has('win32unix')
   setlocal keywordprg=man
 endif
 
-setlocal cinkeys-=0#
+setlocal cinkeys-=0# commentstring=/*%s*/
