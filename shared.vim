@@ -30,7 +30,7 @@ set keywordprg=:help
 set autoindent shiftround
 
 " File
-set autoread fileformats=unix,dos
+set autoread fileformats=unix,dos suffixes=
 set noswapfile updatecount=0 directory=
 
 " Do not force a memory flush to speedup manual writes.
