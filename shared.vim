@@ -476,16 +476,17 @@ if has('autocmd')
   silent! call plug#begin(expand(s:base_dir . '/bundle'))
   if exists('g:loaded_plug')
     let s:plug_disable = {'on': []}
+    let s:base_cond = 1
     " {{{plug-core
-    let s:base_cond = v:version >= 800 && has('reltime')
-    call plug#('andymass/vim-matchup', has('syntax') && s:base_cond ? {} : s:plug_disable)
+    let s:base_cond = v:version >= 800 && has('syntax') && has('reltime')
+    call plug#('andymass/vim-matchup', s:base_cond ? {} : s:plug_disable)
+    if s:base_cond
       let g:matchup_matchparen_status_offscreen = 0
-      let g:matchup_matchparen_deferred = s:base_cond && (!has('nvim') || has('nvim-0.3'))
+      let g:matchup_matchparen_deferred = !has('nvim') || has('nvim-0.3')
       let g:matchup_matchpref_html_nolists = 1
-
-      if has('syntax') && !s:base_cond && !has('nvim')
-        runtime! macros/matchit.vim
-      endif
+    elseif has('syntax') && !has('nvim')
+      runtime! macros/matchit.vim
+    endif
     Plug 'tpope/vim-scriptease'
     Plug 'tpope/vim-unimpaired'
     Plug 'tpope/vim-surround'
@@ -532,21 +533,21 @@ if has('autocmd')
     \ } : s:plug_disable)
     let s:base_cond = has('timers')
     call plug#('prabirshrestha/asyncomplete.vim', s:base_cond ? {} : s:plug_disable)
-      if s:base_cond
-        inoremap <silent> <expr> <TAB>   pumvisible() ? "\<C-n>" : "\<TAB>"
-        inoremap <silent> <expr> <S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
-        inoremap <silent> <expr> <CR>    <C-R>=(pumvisible() ? "\<C-y>" : '')<CR><CR>
-      endif
+    if s:base_cond
+      inoremap <silent> <expr> <TAB>   pumvisible() ? "\<C-n>" : "\<TAB>"
+      inoremap <silent> <expr> <S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
+      inoremap <silent> <expr> <CR>    <C-R>=(pumvisible() ? "\<C-y>" : '')<CR><CR>
+    endif
     Plug 'Shougo/neco-vim'
     call plug#('prabirshrestha/asyncomplete-necovim.vim', s:base_cond ? {} : s:plug_disable)
-      if s:base_cond
-        autocmd vimrc User asyncomplete_setup
-        \ call asyncomplete#register_source(asyncomplete#sources#necovim#get_source_options({
-        \ 'name': 'necovim',
-        \ 'whitelist': ['vim'],
-        \ 'completor': function('asyncomplete#sources#necovim#completor')
-        \ }))
-      endif
+    if s:base_cond
+      autocmd vimrc User asyncomplete_setup
+      \ call asyncomplete#register_source(asyncomplete#sources#necovim#get_source_options({
+      \ 'name': 'necovim',
+      \ 'whitelist': ['vim'],
+      \ 'completor': function('asyncomplete#sources#necovim#completor')
+      \ }))
+    endif
 
     Plug 'nanotech/jellybeans.vim'
       " Windows' default terminal doesn't use ANSI in 8-16 color terminals
@@ -558,9 +559,11 @@ if has('autocmd')
     " {{{plug-python
     let s:base_cond = has('python') || has('python3')
     call plug#('editorconfig/editorconfig-vim', s:base_cond ? {} : s:plug_disable)
+    if s:base_cond
       let g:EditorConfig_preserve_formatoptions = 1
       let g:EditorConfig_max_line_indicator = 'none'
       let g:EditorConfig_exclude_patterns = ['scp://.*', 'fugitive://.*']
+    endif
     " }}}plug-python
     " {{{plug-ft
     " Vim
