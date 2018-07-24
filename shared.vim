@@ -570,7 +570,7 @@ if has('autocmd')
     Plug 'junegunn/vader.vim'
 
     " Shell
-    Plug 'keith/tmux.vim'
+    Plug 'ericpruitt/tmux.vim', {'rtp': 'vim'}
     Plug 'PProvost/vim-ps1'
 
     " Document
