@@ -12,4 +12,8 @@
 " See the License for the specific language governing permissions and
 " limitations under the License.
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+if has('unix') && !has('win32unix')
+  nnoremap <silent> <buffer> K :call dotvim8#bang('man ' . expand('<cword>'))<CR>
+endif
+
 setlocal commentstring=//%s

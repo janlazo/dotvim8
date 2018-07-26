@@ -110,7 +110,8 @@ function! dotvim8#bang(cmd)
     call jobstart('start /wait cmd /s /c "' . a:cmd . '"')
   else
     if has('gui_running')
-      let cmd = a:cmd
+      let cmd = (has('unix') && executable('x-terminal-emulator')) ?
+                \ 'x-terminal-emulator -e ' . shellescape(a:cmd) : a:cmd
     else
       let cls = &shell =~# 'cmd.exe$' || &shell =~# 'powershell.exe$' ?
                 \ 'cls' : 'clear'
