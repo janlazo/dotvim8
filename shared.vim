@@ -91,6 +91,28 @@ if 1
   nnoremap <silent> Q :redraw!<CR>
 endif
 
+if has('win32')
+  " cmd.exe uses %PROMPT% to set its prompt
+  " default prompt is not user-friendly
+  " ConEmu's prompt is garbled in winpty
+  let $PROMPT = '$P$_$G$S'
+
+  " Force xterm rendering on ConEmu, not :terminal, for truecolor
+  " Detect winpty by checking environment variables for Vim/Neovim server.
+  if $ConEmuANSI ==# 'ON'
+    if s:is_gui
+      let $ConEmuANSI = 'OFF'
+    elseif v:version >= 704 && !has('nvim') && has('builtin_terms') &&
+      \ empty($VIM_SERVERNAME) && empty($NVIM_LISTEN_ADDRESS)
+      set term=xterm t_Co=256
+      let &t_AB = "\e[48;5;%dm"
+      let &t_AF = "\e[38;5;%dm"
+      let &t_kb = nr2char(127)
+      let &t_kD = "^[[3~"
+    endif
+  endif
+endif
+
 " {{{tiny
 " Moved from small to tiny version since 8.0.1118
 if has('windows')
@@ -415,28 +437,6 @@ if has('langmap')
     set langnoremap
   elseif exists('+langremap')
     set nolangremap
-  endif
-endif
-
-if has('win32')
-  " cmd.exe uses %PROMPT% to set its prompt
-  " default prompt is not user-friendly
-  " ConEmu's prompt is garbled in winpty
-  let $PROMPT = '$P$_$G$S'
-
-  " Force xterm rendering on ConEmu, not :terminal, for truecolor
-  " Detect winpty by checking environment variables for Vim/Neovim server.
-  if $ConEmuANSI ==# 'ON'
-    if s:is_gui
-      let $ConEmuANSI = 'OFF'
-    elseif v:version >= 704 && !has('nvim') && has('builtin_terms') &&
-      \ empty($VIM_SERVERNAME) && empty($NVIM_LISTEN_ADDRESS)
-      set term=xterm t_Co=256
-      let &t_AB = "\e[48;5;%dm"
-      let &t_AF = "\e[38;5;%dm"
-      let &t_kb = nr2char(127)
-      let &t_kD = "^[[3~"
-    endif
   endif
 endif
 " }}}big
