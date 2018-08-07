@@ -12,11 +12,11 @@
 " See the License for the specific language governing permissions and
 " limitations under the License.
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Feature/Version checks group options, variables, functions, mappings
-" folds group these checks by version type (ie. tiny,normal,huge)
-" Vim 7.2 (tiny) and Neovim 0.1.6 are the mimimum supported versions
-" `:h version` for feature checks
-" `v:version`  for release,major,minor version as an integer
+" Feature/Version checks group options, variables, functions, mappings.
+" Folds group these checks by version type (ie. tiny,normal,huge).
+" Vim 7.2 (tiny) and Neovim 0.1.6 are the mimimum supported versions.
+" See `:h version` for feature checks.
+" Check `v:version` for release + major version as an integer.
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " General
 set cpoptions-=C cpoptions-=<
@@ -69,7 +69,7 @@ if 1
   " Compare 2 version strings, both in semver format.
   " If a >  b, return 1.
   " If a == b, return 0.
-  " If a <  b, return -1
+  " If a <  b, return -1.
   function! CompareSemver(a, b)
     let a = split(a:a, '\.', 0)
     let b = split(a:b, '\.', 0)
@@ -85,19 +85,19 @@ if 1
     return 0
   endfunction
 
-  " Q defaults to Ex mode but I don't use it
-  " $VIMRUNTIME/defaults.vim remaps Q to gq but I don't format comments
-  " Remap it to redraw the screen
+  " Q defaults to Ex mode but I don't use it.
+  " $VIMRUNTIME/defaults.vim remaps Q to gq but I don't format comments.
+  " Remap it to redraw the screen.
   nnoremap <silent> Q :redraw!<CR>
 endif
 
 if has('win32')
-  " cmd.exe uses %PROMPT% to set its prompt
-  " default prompt is not user-friendly
-  " ConEmu's prompt is garbled in winpty
+  " cmd.exe uses %PROMPT% to set its prompt.
+  " Default prompt is not user-friendly.
+  " ConEmu's prompt is garbled in winpty.
   let $PROMPT = '$P$_$G$S'
 
-  " Force xterm rendering on ConEmu, not :terminal, for truecolor
+  " Force xterm rendering on ConEmu, not :terminal, for truecolor.
   " Detect winpty by checking environment variables for Vim/Neovim server.
   if $ConEmuANSI ==# 'ON'
     if s:is_gui
@@ -130,7 +130,7 @@ if has('windows')
   endfunction
   nnoremap <silent> <Space>rs :call <SID>remove_trailing_spaces()<CR>
 
-  " open vimrc, gvimrc, or init.vim in new tab
+  " Open vimrc, gvimrc, or init.vim in new tab.
   nnoremap <silent> <Space>v :tabedit $MYVIMRC<CR>
   nnoremap <silent> <Space>gv :tabedit $MYGVIMRC<CR>
 endif
@@ -278,8 +278,8 @@ if has('statusline')
   set statusline=%!Statusline()
 endif
 
-" highlight matches, quick-jump to nearest
 if has('extra_search') && has('reltime')
+  " highlight matches, quick-jump to nearest
   set hlsearch incsearch
 
   if v:version >= 704
@@ -287,8 +287,8 @@ if has('extra_search') && has('reltime')
   endif
 endif
 
-" Display hints, complete with selection via tab
 if has('wildmenu')
+  " Display hints, complete with selection via tab
   set wildmenu wildmode=longest:full,full
 endif
 
@@ -336,9 +336,9 @@ if has('syntax')
     endif
 
     if has('win32') && has('nvim') && !has('nvim-0.2.1') && !has('patch-8.0.1378')
-      " Neovim uses hardcoded XDG directories on Windows but XDG is for Linux.
-      " Redefine spellfile#WritableSpellDir() to point here
-      " Patch 8.0.1378 prevents autoloaded function definition in $MYVIMRC
+      " Neovim uses hardcoded XDG paths on Windows but XDG is for Linux.
+      " Redefine spellfile#WritableSpellDir() to point here.
+      " Patch 8.0.1378 prevents autoloaded function definition in $MYVIMRC.
       function! spellfile#WritableSpellDir()
         return s:spelldir
       endfunction
@@ -376,18 +376,14 @@ if has('syntax')
 endif
 
 if has('persistent_undo')
-  set noundofile
-
   if exists('s:base_dir')
     let &undodir = expand(s:base_dir . '/.undodir')
 
     if !isdirectory(&undodir)
       call mkdir(&undodir, 'p')
     endif
-
-    set undofile
   else
-    set undodir=
+    set noundofile undodir=
   endif
 endif
 
