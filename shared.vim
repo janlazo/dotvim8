@@ -158,7 +158,6 @@ endif
 if has('modify_fname')
   let s:base_dir = expand('<sfile>:p:h')
 
-  " TODO - set shellpipe (depends on +quickfix)
   function! s:set_shell(shell)
     if !executable(a:shell)
       echoerr a:shell 'is not executable'
@@ -170,6 +169,9 @@ if has('modify_fname')
     if shell ==# 'cmd.exe'
       let &shell = a:shell
       let &shellredir = '>%s 2>&1'
+      if has('quickfix')
+        let &shellpipe = &shellredir
+      endif
       set shellquote=
 
       if has('nvim')
@@ -189,6 +191,9 @@ if has('modify_fname')
       let &shellcmdflag = '-NoProfile -NoLogo -ExecutionPolicy RemoteSigned -Command'
       set shellxescape=
       let &shellredir = '>'
+      if has('quickfix')
+        let &shellpipe = '|'
+      endif
 
       if has('nvim')
         set shellxquote=
@@ -201,12 +206,18 @@ if has('modify_fname')
       let &shell = a:shell
       let &shellcmdflag = 'bash --login -c'
       let &shellredir = '>%s 2>&1'
+      if has('quickfix')
+        let &shellpipe = '2>&1 | tee'
+      endif
       let &shellxquote = '"'
       set shellxescape= shellquote=
     elseif shell =~# '^sh' || shell =~# '^bash'
       let &shell = a:shell
       set shellcmdflag=-c shellquote=
       let &shellredir = '>%s 2>&1'
+      if has('quickfix')
+        let &shellpipe = '2>&1 | tee'
+      endif
 
       if v:version >= 704
         set shellxescape=
