@@ -129,10 +129,6 @@ if has('windows')
     call winrestview(cur_view)
   endfunction
   nnoremap <silent> <Space>rs :call <SID>remove_trailing_spaces()<CR>
-
-  " Open vimrc, gvimrc, or init.vim in new tab.
-  nnoremap <silent> <Space>v :tabedit $MYVIMRC<CR>
-  nnoremap <silent> <Space>gv :tabedit $MYGVIMRC<CR>
 endif
 
 " Moved from normal to tiny version since 8.0.1118
@@ -349,7 +345,7 @@ if has('syntax')
     if has('win32') && has('nvim') && !has('nvim-0.2.1') && !has('patch-8.0.1378')
       " Neovim uses hardcoded XDG paths on Windows but XDG is for Linux.
       " Redefine spellfile#WritableSpellDir() to point here.
-      " Patch 8.0.1378 prevents autoloaded function definition in $MYVIMRC.
+      " Patch 8.0.1378 prevents autoloaded function definition.
       function! spellfile#WritableSpellDir()
         return s:spelldir
       endfunction

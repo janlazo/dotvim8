@@ -24,7 +24,6 @@ Vim 8+ / Neovim 0.2+ config folder for Windows support and async jobs.
             - system-wide vimrc cannot be skipped (no `g:loaded_system_vimrc`)
             - cannot alias `vim -Nu vimrc` with cmd.exe on Windows
         - disable defaults.vim
-        - set `$MYVIMRC` if empty
         - `guioptions` for gvim
 - gvimrc and ginit.vim for GUIs (see `autoload/gui.vim`)
     - fonts

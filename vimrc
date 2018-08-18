@@ -17,11 +17,6 @@ set nocompatible
 if 1
   " Disable defaults.vim
   let g:skip_defaults_vim = 1
-
-  " Fix for Vim 7.2 (Windows)
-  if empty($MVIMRC)
-    let $MYVIMRC = expand('<sfile>:p')
-  endif
 endif
 
 if has('win32')
