@@ -49,7 +49,9 @@ set laststatus=2 cmdheight=2 noshowmode
 
 if 1
   let s:is_gui = has('nvim') ?
-  \ (exists('g:nyaovim_version') || exists('g:GtkGuiLoaded')) :
+  \ (exists('g:nyaovim_version') ||
+    \ exists('g:GtkGuiLoaded') ||
+    \ exists('g:gui_oni')) :
   \ has('gui_running')
 
   if v:version >= 704
