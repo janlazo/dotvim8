@@ -14,18 +14,6 @@
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 if has('nvim-0.2')
   set inccommand=nosplit
-
-  let s:hosts = {
-  \ 'python':  'python2.exe',
-  \ 'python3': 'python3.exe'
-  \ }
-  for [s:key, s:val] in items(s:hosts)
-    let s:val = exepath(s:val)
-    if !empty(s:val)
-      let g:[s:key . '_host_prog'] = s:val
-    endif
-  endfor
-  unlet s:hosts s:key s:val
 else
   let g:loaded_python_provider = 1
   let g:loaded_python3_provider = 1
@@ -43,49 +31,6 @@ if has('nvim-0.3')
     endif
     unlet s:msys_root
   endif
-
-  " Required for remote plugins (ie. deoplete) in rplugin/
-  function! s:install_hosts()
-    let cmds = []
-
-    " https://github.com/neovim/python-client
-    for pip in ['pip2', 'pip3']
-      if executable(pip)
-        call add(cmds, pip . ' install --user neovim')
-      endif
-    endfor
-
-    " https://github.com/alexgenco/neovim-ruby
-    " Need 0.6.2+ on Windows
-    if executable('gem')
-      call add(cmds, (has('win32') ? 'cmd.exe /c ' : '').'gem install --conservative neovim')
-    endif
-
-    " https://github.com/neovim/node-client
-    " Need 3.5.2+ on Windows
-    if executable('npm')
-      call add(cmds, (has('win32') ? 'cmd.exe /c ' : '').'npm install -g neovim')
-    endif
-
-    if empty(cmds)
-      echoerr 'No hosts to update'
-      return
-    endif
-
-    " Write all commands in a temporary script and run it on the terminal
-    let term_opts = {'script': tempname()}
-    if has('win32')
-      let term_opts.script .= '.bat'
-    endif
-    call writefile(cmds, term_opts.script)
-    function! term_opts.on_exit(id, data, event) dict
-      call delete(self.script)
-    endfunction
-    enew
-    call termopen(term_opts.script, term_opts)
-    startinsert
-  endfunction
-  command! InstallRemoteHosts call s:install_hosts()
 else
   let g:loaded_node_provider = 1
   let g:loaded_ruby_provider = 1

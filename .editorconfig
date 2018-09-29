@@ -4,17 +4,12 @@ root = true
 charset = utf-8
 end_of_line = lf
 indent_style = space
-indent_size = 4
+indent_size = 2
 tab_width = 8
 insert_final_newline = true
 trim_trailing_whitespace = true
 
 [*.md]
 # Github Flavored Markdown is sensitive to trailing whitespaces
+indent_size = 4
 trim_trailing_whitespace = false
-
-[{.vimrc,vimrc,gvimrc,*.vim}]
-indent_size = 2
-
-[*.{json,yml,yaml}]
-indent_size = 2
