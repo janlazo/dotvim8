@@ -15,8 +15,6 @@ Vim 8+ / Neovim 0.2+ config folder for Windows support and async jobs.
     - neovim
         - language providers (0.2 for python, 0.3 for ruby and node.js)
         - inccommand
-        - `:InstallRemoteHosts`
-            - install python/ruby/node.js hosts for remote plugins in `rplugin/`
     - vim
         - `set nocompatible`
             - tiny/small builds are compatible by default and don't support `+eval`
@@ -32,6 +30,7 @@ Vim 8+ / Neovim 0.2+ config folder for Windows support and async jobs.
 - `autoload/dotvim8.vim` resolves idiosyncrasies in Vim and Neovim, based on fzf's Vim plugin
     - `dotvim8#shellescape` is based on `fzf#shellescape`
     - `dotvim8#bang` is based on the fzf's `s:execute` functions
+- `install_hosts.sh` to install language providers for neovim
 
 Vimscript files in this repo use folds which slows down terminal Vim.
 For performance, use GUIs when navigating or editing inside folds.
@@ -60,14 +59,11 @@ Apache License Version 2.0 (ALv2)
 
 ## TODO
 - terminal config for Vim 8 and Neovim
-    - mappings?
-    - plugins?
 - setup linting that works in Windows
     - ale?
     - `makeprg` and `errorformat` are unacceptable so `:compiler` is out
 - make an async `:Grep`
     - `:grep` is blocking and `shellescape` for cmd.exe is insufficient for arbitrary text
-    - Windows support in vim-grepper is an afterthought
 
 [Travis]: https://travis-ci.org/janlazo/dotvim8
 [Travis-Status]: https://travis-ci.org/janlazo/dotvim8.svg?branch=master
