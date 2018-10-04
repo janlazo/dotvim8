@@ -587,7 +587,7 @@ if has('autocmd')
     " Web
     Plug 'othree/html5.vim'
     Plug 'ap/vim-css-color'
-    Plug 'hail2u/vim-css3-syntax'
+    Plug 'JulesWang/css.vim'
     Plug 'othree/csscomplete.vim'
     Plug 'othree/yajs.vim'
     Plug 'othree/es.next.syntax.vim'
