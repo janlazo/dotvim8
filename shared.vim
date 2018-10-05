@@ -604,6 +604,7 @@ if has('autocmd')
     Plug 'cespare/vim-toml'
 
     " System
+    Plug 'StanAngeloff/php.vim'
     Plug 'OrangeT/vim-csharp'
     Plug 'rust-lang/rust.vim'
     Plug 'tbastos/vim-lua'
