@@ -102,18 +102,6 @@ if !exists('*s:make')
   endfunction
 endif
 
-if !exists('*s:update_commentstring')
-  function s:update_commentstring()
-    let syntax_name = synIDattr(synID(line('.'), col('.'), 1), 'name')
-    if (syntax_name !=# 'yamlDocumentStart' && syntax_name =~? 'yaml')
-      setlocal commentstring=#%s
-    else
-      setlocal commentstring=<!--%s-->
-    endif
-  endfunction
-endif
-
 command! -buffer -nargs=1 -complete=filetype Pandoc call s:make(<f-args>)
-autocmd CursorMoved <buffer> call s:update_commentstring()
 let &cpoptions = s:cpoptions
 unlet s:cpoptions

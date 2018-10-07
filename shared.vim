@@ -496,6 +496,25 @@ if has('autocmd')
     Plug 'tpope/vim-unimpaired'
     Plug 'tpope/vim-surround'
     Plug 'tpope/vim-commentary'
+    if has('syntax')
+      " Change comment format based on syntax group
+      " Required for html, pandoc
+      function! s:update_commentstring()
+        let syntax_name = synIDattr(synID(line('.'), col('.'), 1), 'name')
+        if syntax_name =~# '^css'
+          let b:commentary_format = '/*%s*/'
+        elseif syntax_name =~# '^javascript' || syntax_name =~# '^php'
+          let b:commentary_format = '//%s'
+        elseif syntax_name =~# '^html'
+          let b:commentary_format = '<!--%s-->'
+        elseif (syntax_name !=# 'yamlDocumentStart' && syntax_name =~? 'yaml')
+          let b:commentary_format = '#%s'
+        elseif exists('b:commentary_format')
+          unlet b:commentary_format
+        endif
+      endfunction
+      autocmd vimrc CursorMoved * call s:update_commentstring()
+    endif
     Plug 'tpope/vim-endwise'
     Plug 'tpope/tpope-vim-abolish'
     Plug 'tpope/vim-repeat'

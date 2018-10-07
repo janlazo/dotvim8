@@ -22,21 +22,5 @@ else
   nnoremap <silent> <buffer> K :execute ':BrowseMDN' expand('<cword>')<CR>
 endif
 
-if !exists('*s:update_commentstring')
-  function s:update_commentstring()
-    let syntax_name = synIDattr(synID(line('.'), col('.'), 1), 'name')
-    if syntax_name =~# '^css'
-      let b:commentary_format = '/*%s*/'
-    elseif syntax_name =~# '^javascript' || syntax_name =~# '^php'
-      let b:commentary_format = '//%s'
-    elseif syntax_name =~# '^html'
-      let b:commentary_format = '<!--%s-->'
-    elseif exists('b:commentary_format')
-      unlet b:commentary_format
-    endif
-  endfunction
-endif
-
-autocmd CursorMoved <buffer> call s:update_commentstring()
 let &cpoptions = s:cpoptions
 unlet s:cpoptions
