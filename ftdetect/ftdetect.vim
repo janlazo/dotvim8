@@ -14,12 +14,13 @@
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 if has('autocmd')
   let s:globs = {
+  \ 'bib': ['*.bibtex', '*.biblatex'],
   \ 'coffee': ['*.cson'],
-  \ 'html':   ['*.vue'],
   \ 'csv': ['*.csv'],
   \ 'dosini': ['.npmrc'],
+  \ 'html':   ['*.vue'],
   \ 'json': ['*.json', '.babelrc', '.bowerrc', 'composer.lock'],
-  \ 'bib': ['*.bibtex', '*.biblatex'],
+  \ 'ruby': ['Vagrantfile'],
   \ 'pandoc': ['*.pandoc']
   \ }
 
