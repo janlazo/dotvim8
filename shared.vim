@@ -383,6 +383,10 @@ if has('syntax')
       endif
     endfor
   endfunction
+
+  function! s:synname()
+    return synIDattr(synID(line('.'), col('.'), 1), 'name')
+  endfunction
 endif
 
 if has('persistent_undo')
@@ -432,7 +436,7 @@ if has('user_commands')
   endif
 
   if has('syntax')
-    command! SynName echo synIDattr(synID(line('.'), col('.'), 1), 'name')
+    command! SynName echo s:synname()
     command! ToggleSpell call <SID>toggle_spell()
   endif
 endif
@@ -501,7 +505,7 @@ if has('autocmd')
       " Change comment format based on syntax group
       " Required for html, pandoc
       function! s:update_commentstring()
-        let syntax_name = synIDattr(synID(line('.'), col('.'), 1), 'name')
+        let syntax_name = s:synname()
         if syntax_name =~# '^css'
           let b:commentary_format = '/*%s*/'
         elseif syntax_name =~# '^javascript' || syntax_name =~# '^php'
