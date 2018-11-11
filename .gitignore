@@ -1,3 +1,6 @@
+# General
+.DS_Store
+
 # Vim
 tags
 *[._]s[a-w][a-z]
