@@ -357,17 +357,18 @@ if has('syntax')
   endif
 
   function! s:set_color()
-    let has_tgc = has('nvim') ?
-    \ has('nvim-0.1.6') :
-    \ (!has('win32') || !has('patch-8.0.1531') || has('vcon'))
-    let use_tgc = has('nvim') ?
-    \ has('nvim-0.2.1') :
-    \ (has('patch-8.0.142') && has('patch-8.0.146'))
-    if has('termguicolors') && has_tgc
-      let &termguicolors = use_tgc && &t_Co == 256 && empty($TMUX)
+    if has('termguicolors') &&
+    \  (has('nvim') ?
+    \   has('nvim-0.1.6') :
+    \   (!has('win32') || !has('patch-8.0.1531') || has('vcon')))
+      let &termguicolors = &t_Co == 256 && empty($TMUX) && !has('mac') &&
+      \ (has('nvim') ?
+      \  has('nvim-0.2.1') :
+      \  (has('patch-8.0.142') && has('patch-8.0.146')))
     endif
 
     if s:is_gui
+      set background=light
       let colors = ['gruvbox8_soft', 'morning']
     else
       let colors = ['torte']
@@ -655,7 +656,6 @@ if has('autocmd')
     autocmd vimrc VimEnter * call s:vim_enter()
   else
     if has('gui_running')
-      set background=light
       behave xterm
       let &columns = 81 + &numberwidth
     endif
