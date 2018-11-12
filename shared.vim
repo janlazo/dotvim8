@@ -361,7 +361,7 @@ if has('syntax')
     \  (has('nvim') ?
     \   has('nvim-0.1.6') :
     \   (!has('win32') || !has('patch-8.0.1531') || has('vcon')))
-      let &termguicolors = &t_Co == 256 && empty($TMUX) && !has('mac') &&
+      let &termguicolors = &t_Co == 256 && empty($TMUX) && !has('osx') &&
       \ (has('nvim') ?
       \  has('nvim-0.2.1') :
       \  (has('patch-8.0.142') && has('patch-8.0.146')))
