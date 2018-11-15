@@ -555,6 +555,9 @@ if has('autocmd')
       \ } : s:plug_disable)
     endif
     unlet s:fzf_path
+    if has('unix') && executable('x-terminal-emulator')
+      let g:fzf_launcher = 'x-terminal-emulator -e bash -ic %s'
+    endif
     Plug 'janlazo/fzf.vim'
       let g:fzf_command_prefix = 'Fzf'
     Plug 'tpope/vim-fugitive'
