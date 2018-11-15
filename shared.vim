@@ -507,13 +507,13 @@ if has('autocmd')
       function! s:update_commentstring()
         let syntax_name = s:synname()
         if syntax_name =~# '^css'
-          let b:commentary_format = '/*%s*/'
+          let b:commentary_format = '/* %s */'
         elseif syntax_name =~# '^javascript' || syntax_name =~# '^php'
-          let b:commentary_format = '//%s'
+          let b:commentary_format = '// %s'
         elseif syntax_name =~# '^html'
-          let b:commentary_format = '<!--%s-->'
+          let b:commentary_format = '<!-- %s -->'
         elseif (syntax_name !=# 'yamlDocumentStart' && syntax_name =~? 'yaml')
-          let b:commentary_format = '#%s'
+          let b:commentary_format = '# %s'
         elseif exists('b:commentary_format')
           unlet b:commentary_format
         endif
