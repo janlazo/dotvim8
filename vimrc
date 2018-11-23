@@ -14,9 +14,14 @@
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set nocompatible
 
-if 1
-  " Disable defaults.vim
+if has('patch-7.4.2111')
   let g:skip_defaults_vim = 1
+endif
+
+if has('multi_byte')
+  if has('win32') || (has('gui_running') && &encoding ==# 'latin1')
+    set encoding=utf-8
+  endif
 endif
 
 if has('win32')
@@ -25,8 +30,12 @@ if has('win32')
 endif
 
 if has('gui_running')
-  " remove all GUI bloat taking up screen space
   set guioptions=cMgRLv
+  behave xterm
 endif
 
 runtime shared.vim
+
+if has('gui_running')
+  let &columns = 81 + &numberwidth
+endif
