@@ -629,6 +629,7 @@ if has('autocmd')
     " System
     Plug 'StanAngeloff/php.vim'
     Plug 'OrangeT/vim-csharp'
+    Plug 'bumaociyuan/vim-swift'
     Plug 'rust-lang/rust.vim'
     Plug 'tbastos/vim-lua'
     " }}}plug-ft
