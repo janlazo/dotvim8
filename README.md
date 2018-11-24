@@ -62,9 +62,6 @@ Apache License Version 2.0 (ALv2)
 
 ## TODO
 - terminal config for Vim 8 and Neovim
-- setup linting that works in Windows
-    - ale?
-    - `makeprg` and `errorformat` are unacceptable so `:compiler` is out
 - make an async `:Grep`
     - `:grep` is blocking and `shellescape` for cmd.exe is insufficient for arbitrary text
 
