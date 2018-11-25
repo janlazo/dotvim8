@@ -1,29 +1,14 @@
 # dotvim8
 
-[Travis] ![Build Status][Travis-Status]
+[![Build Status][Travis-Status]][Travis]
 
 Vim 8+ / Neovim 0.2+ config folder for Windows support and async jobs.
 
-- `shared.vim` to handle shared options and mappings
-    - check features and options to avoid vimscript errors
-    - acts as a self-contained vimrc, independent of the entire repo
-    - assumes `set nocompatible` is set by Neovim or the user
+- `shared.vim` for shared code between Vim and Neovim
+    - backward compatibility up to Vim 7.2 (tiny) and Neovim 0.1.6
+    - self-contained vimrc, independent of the entire repo
     - [vim-plug] as package manager for bundles in Github
-- vimrc and init.vim are hooks to bootstrap the editor
-    - both
-        - fix initial runtimepath (pathsep for Vim, revert to defaults for nvim-qt)
-    - neovim
-        - language providers (0.2 for python, 0.3 for ruby and node.js)
-        - inccommand
-    - vim
-        - `set nocompatible`
-            - tiny/small builds are compatible by default and don't support `+eval`
-            - maintainers can use system-wide vimrc to include `set compatible`
-            - system-wide vimrc cannot be skipped (no `g:loaded_system_vimrc`)
-            - cannot alias `vim -Nu vimrc` with cmd.exe on Windows
-        - disable defaults.vim
-        - `guioptions` for gvim
-- gvimrc and ginit.vim for GUIs (see `autoload/gui.vim`)
+- `autoload/gui.vim` for GUIs
     - fonts
     - linespace
 - [go-vimlparser] for linting Vimscript
@@ -41,18 +26,16 @@ For performance, use GUIs when navigating or editing inside folds.
 ## Editor Support
 
 - Vim 7.3+ to be compatible with most plugins in Github
-    - prioritize Vim 8 builds that support true color in ConEmu
 - Neovim 0.2+ to use fzf and async jobs in Windows
-
-`v:version` and patches are checked for backward compatibility up to Vim 7.2 and Neovim 0.1.6.
 
 ## OS Support
 
 - Linux
-    - distro: latest Ubuntu LTS (Xenial, 16.04), Debian Wheezy (7)
-    - terminal: sakura
+    - os: Ubuntu Xenial 16.04, Debian 7
+    - terminal: sakura, tilda
     - gui: gvim
-- Windows 7, 8.1
+- Windows
+    - os: 7, 8.1, 10
     - terminal: ConEmu for truecolor via `set term=xterm`
     - gui: gvim, [neovim-qt]
 
