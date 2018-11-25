@@ -14,6 +14,4 @@
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 if has('patch-8.0.60')
   setlocal keywordprg=:BrowseMDN
-else
-  nnoremap <silent> <buffer> K :execute ':BrowseMDN' expand('<cword>')<CR>
 endif

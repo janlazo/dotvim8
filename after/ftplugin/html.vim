@@ -12,15 +12,8 @@
 " See the License for the specific language governing permissions and
 " limitations under the License.
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let s:cpoptions = &cpoptions
-set cpoptions&vim
 setlocal commentstring=<!--%s-->
 
 if has('patch-8.0.60')
   setlocal keywordprg=:BrowseMDN
-else
-  nnoremap <silent> <buffer> K :execute ':BrowseMDN' expand('<cword>')<CR>
 endif
-
-let &cpoptions = s:cpoptions
-unlet s:cpoptions
