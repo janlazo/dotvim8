@@ -12,8 +12,10 @@
 " See the License for the specific language governing permissions and
 " limitations under the License.
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let b:match_words = join(map([
-\ ['if', 'elseif', 'else', 'endif'],
-\ ['foreach', 'endforeach'],
-\ ['function', 'endfunction']
-\ ], 'join(map(v:val, ''"\\<".v:val."\\>"''), '':'')'), ',')
+if exists('g:loaded_matchit')
+  let b:match_words = join(map([
+  \ ['if', 'elseif', 'else', 'endif'],
+  \ ['foreach', 'endforeach'],
+  \ ['function', 'endfunction']
+  \ ], 'join(map(v:val, ''"\\<".v:val."\\>"''), '':'')'), ',')
+endif
