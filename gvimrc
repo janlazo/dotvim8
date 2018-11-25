@@ -12,7 +12,6 @@
 " See the License for the specific language governing permissions and
 " limitations under the License.
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-if !has('gui_running')
-  finish
+if has('gui_running')
+  call gui#init()
 endif
-call gui#init()
