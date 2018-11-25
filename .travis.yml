@@ -1,22 +1,30 @@
-dist: xenial
-
 language: go
 go:
   - 1.8
+
+addons:
+  apt:
+    packages:
+      - vim-nox
+
+matrix:
+  include:
+    - dist: xenial
+    - dist: trusty
+    - dist: precise
 
 env:
   global:
     # Do not include subtrees   ex. vim-plug
     - VIM_FILES="vimrc gvimrc $(git ls-files '*.vim' | grep -v 'plug.vim' | tr \\n ' ')"
 
-before_install:
-  - echo $VIM_FILES
-
 install:
   - go get github.com/haya14busa/go-vimlparser/cmd/vimlparser
 
 script:
   - vimlparser $VIM_FILES > /dev/null
+  - 'vim.tiny -ENu vimrc --cmd ''set rtp=$PWD,$VIMRUNTIME,$PWD/after'' -c q'
+  - 'vim -ENu vimrc --cmd ''set rtp=$PWD,$VIMRUNTIME,$PWD/after'' -c "autocmd VimEnter * quit"'
 
 notifications:
   email: false
