@@ -638,13 +638,12 @@ if has('autocmd')
     \ } : s:plug_disable)
     unlet s:plug_disable s:base_cond
     silent! call plug#end()
-
-    silent! call echodoc#enable()
   endif
   " }}}vim-plug
 
-  if has('nvim')
-    function! s:vim_enter()
+  function! s:vim_enter()
+    if has('nvim')
+      " Detect nvim-qt
       let s:is_gui = s:is_gui || (exists('g:GuiLoaded') && has('nvim-0.3'))
       if s:is_gui
         set mouse=a
@@ -652,15 +651,15 @@ if has('autocmd')
           let $ConEmuANSI = 'OFF'
         endif
       endif
-
-      call s:set_color()
-    endfunction
-    autocmd vimrc VimEnter * call s:vim_enter()
-  else
+    endif
     if has('syntax')
       call s:set_color()
     endif
-  endif
+    if exists('g:loaded_echodoc')
+      call echodoc#enable()
+    endif
+  endfunction
+  autocmd vimrc VimEnter * call s:vim_enter()
 endif
 
 if 1
