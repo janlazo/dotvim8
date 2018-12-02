@@ -125,9 +125,14 @@ if has('windows')
     set tabpagemax=50
   endif
 
+  " maktaba#buffer#Substitute()
+  " https://github.com/google/vim-maktaba/blob/master/autoload/maktaba/buffer.vim
   function! s:remove_trailing_spaces()
     let cur_view = winsaveview()
+    let [gdefault, ignorecase, smartcase] = [&gdefault, &ignorecase, &smartcase]
+    set nogdefault noignorecase nosmartcase
     %s/\s\+$//ge
+    let [&gdefault, &ignorecase, &smartcase] = [gdefault, ignorecase, smartcase]
     call winrestview(cur_view)
   endfunction
   nnoremap <silent> <Space>rs :call <SID>remove_trailing_spaces()<CR>
@@ -465,8 +470,8 @@ if has('autocmd')
   let g:is_posix = 1
 
   " HTML
-  let g:html_indent_script1 = "auto"
-  let g:html_indent_style1 = "auto"
+  let g:html_indent_script1 = 'auto'
+  let g:html_indent_style1 = 'auto'
 
   " Tex
   let g:tex_flavor = 'latex'
