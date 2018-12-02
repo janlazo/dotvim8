@@ -6,25 +6,24 @@ addons:
   apt:
     packages:
       - vim-nox
+      - neovim
+    sources:
+      - sourceline: ppa:neovim-ppa/unstable
+  homebrew:
+    packages:
+      - neovim
 
 matrix:
   include:
-    - dist: xenial
-    - dist: trusty
-    - dist: precise
+    - os: linux
+      dist: xenial
+    - os: linux
+      dist: trusty
+    - os: osx
+    - os: windows
 
-env:
-  global:
-    # Do not include subtrees   ex. vim-plug
-    - VIM_FILES="vimrc gvimrc $(git ls-files '*.vim' | grep -v 'plug.vim' | tr \\n ' ')"
-
-install:
-  - go get github.com/haya14busa/go-vimlparser/cmd/vimlparser
-
-script:
-  - vimlparser $VIM_FILES > /dev/null
-  - 'vim.tiny -ENu vimrc --cmd ''set rtp=$PWD,$VIMRUNTIME,$PWD/after'' -c q'
-  - 'vim -ENu vimrc --cmd ''set rtp=$PWD,$VIMRUNTIME,$PWD/after'' -c "autocmd VimEnter * quit"'
+install: ./.ci/install.sh
+script: ./.ci/script.sh
 
 notifications:
   email: false
