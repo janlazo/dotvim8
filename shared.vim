@@ -491,7 +491,8 @@ if has('autocmd')
     call plug#('andymass/vim-matchup', s:base_cond ? {} : s:plug_disable)
     if s:base_cond
       let g:matchup_matchparen_status_offscreen = 0
-      let g:matchup_matchparen_deferred = !has('nvim') || has('nvim-0.3')
+      let g:matchup_matchparen_deferred =
+      \ has('nvim') ? has('nvim-0.3') : has('timers')
       let g:matchup_matchpref_html_nolists = 1
     elseif has('syntax') && !has('nvim')
       runtime! macros/matchit.vim
