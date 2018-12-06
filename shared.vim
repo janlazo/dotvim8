@@ -495,7 +495,11 @@ if has('autocmd')
       \ has('nvim') ? has('nvim-0.3') : has('timers')
       let g:matchup_matchpref_html_nolists = 1
     elseif has('syntax') && !has('nvim')
-      runtime! macros/matchit.vim
+      if has('patch-7.4.1649')
+        packadd matchit
+      else
+        runtime macros/matchit.vim
+      endif
     endif
     Plug 'tpope/vim-scriptease'
     Plug 'tpope/vim-unimpaired'
