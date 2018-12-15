@@ -306,6 +306,10 @@ if has('insert_expand')
   if v:version >= 800
     set completeopt+=noinsert,noselect
   endif
+
+  inoremap <silent> <expr> <TAB>   pumvisible() ? "\<C-n>" : "\<TAB>"
+  inoremap <silent> <expr> <S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
+  inoremap <silent> <expr> <CR>    <C-R>=(pumvisible() ? "\<C-y>" : '')<CR><CR>
 endif
 
 if has('mksession')
@@ -571,11 +575,7 @@ if has('autocmd')
     \ } : s:plug_disable)
     let s:base_cond = has('timers')
     call plug#('prabirshrestha/asyncomplete.vim', s:base_cond ? {} : s:plug_disable)
-    if s:base_cond
-      inoremap <silent> <expr> <TAB>   pumvisible() ? "\<C-n>" : "\<TAB>"
-      inoremap <silent> <expr> <S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
-      inoremap <silent> <expr> <CR>    <C-R>=(pumvisible() ? "\<C-y>" : '')<CR><CR>
-    endif
+      let g:asyncomplete_smart_completion = 0
     Plug 'Shougo/neco-vim'
     call plug#('prabirshrestha/asyncomplete-necovim.vim', s:base_cond ? {} : s:plug_disable)
     if s:base_cond
