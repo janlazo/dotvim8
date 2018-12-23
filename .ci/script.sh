@@ -2,6 +2,10 @@
 set -eu
 cd "$(dirname "$0")/.."
 
+if command -v shellcheck > /dev/null 2>&1; then
+  shellcheck $(git ls-files '*.sh')
+fi
+
 vimlparser vimrc gvimrc $(git ls-files '*.vim' | grep -v plug.vim) > /dev/null
 
 VIM_ARGS="-V2 -Es --cmd 'set rtp=$PWD,\$VIMRUNTIME,$PWD/after'"

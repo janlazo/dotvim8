@@ -5,13 +5,14 @@ go:
 addons:
   apt:
     packages:
-      - vim-nox
       - neovim
+      - vim-nox
     sources:
       - sourceline: ppa:neovim-ppa/unstable
   homebrew:
     packages:
       - neovim
+      - shellcheck
 
 matrix:
   include:
