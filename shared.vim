@@ -539,19 +539,12 @@ if has('autocmd')
       let g:rooter_silent_chdir = 1
       let g:rooter_targets = '*'
       let g:rooter_change_directory_for_non_project_files = 'current'
-      let g:rooter_patterns = []
-      " Javascript
-      call extend(g:rooter_patterns, ['package.json'])
-      " PHP
-      call extend(g:rooter_patterns, ['composer.json'])
-      " Java
-      call extend(g:rooter_patterns, ['pom.xml'])
-      " Android
-      call extend(g:rooter_patterns, ['build.gradle'])
-      " C/C++
-      call extend(g:rooter_patterns, ['Makefile', 'CMakeLists.txt'])
-      " Version Control
-      call extend(g:rooter_patterns, ['.git/', '.hg/', '.svn/'])
+      let g:rooter_patterns = [
+      \ 'package.json', 'composer.json', 'Gemfile',
+      \ 'go.mod', 'Cargo.toml', 'Podfile', 'pom.xml', 'build.gradle',
+      \ 'Makefile', 'CMakeLists.txt',
+      \ '.git/', '.hg/'
+      \ ]
 
     let s:fzf_path = expand('~/.fzf')
     if isdirectory(s:fzf_path)
