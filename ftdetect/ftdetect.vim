@@ -21,7 +21,8 @@ if has('autocmd')
   \ 'html':   ['*.vue'],
   \ 'json': ['*.json', '.babelrc', '.bowerrc', 'composer.lock'],
   \ 'ruby': ['Vagrantfile'],
-  \ 'pandoc': ['*.pandoc']
+  \ 'pandoc': ['*.pandoc'],
+  \ 'perl': ['cpanfile']
   \ }
 
   for s:list in items(s:globs)
