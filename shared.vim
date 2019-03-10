@@ -568,6 +568,7 @@ if has('autocmd')
     \ } : s:plug_disable)
     let s:base_cond = has('timers')
     call plug#('prabirshrestha/asyncomplete.vim', s:base_cond ? {} : s:plug_disable)
+      let g:asyncomplete_auto_completeopt = 0
       let g:asyncomplete_smart_completion = 0
     Plug 'Shougo/neco-vim'
     call plug#('prabirshrestha/asyncomplete-necovim.vim', s:base_cond ? {} : s:plug_disable)
