@@ -563,9 +563,6 @@ if has('autocmd')
       let g:fzf_command_prefix = 'Fzf'
     Plug 'tpope/vim-fugitive'
 
-    call plug#('Shougo/echodoc.vim', has('patch-7.4.774') ? {
-    \ 'do': ':call echodoc#enable()'
-    \ } : s:plug_disable)
     let s:base_cond = has('timers')
     call plug#('prabirshrestha/asyncomplete.vim', s:base_cond ? {} : s:plug_disable)
       let g:asyncomplete_auto_completeopt = 0
@@ -658,9 +655,6 @@ if has('autocmd')
     endif
     if has('syntax')
       call s:set_color()
-    endif
-    if exists('g:loaded_echodoc')
-      call echodoc#enable()
     endif
   endfunction
   autocmd vimrc VimEnter * call s:vim_enter()
