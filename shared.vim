@@ -563,7 +563,7 @@ if has('autocmd')
       let g:fzf_command_prefix = 'Fzf'
     Plug 'tpope/vim-fugitive'
 
-    let s:base_cond = has('timers')
+    let s:base_cond = has('timers') && v:version >= 800
     call plug#('prabirshrestha/asyncomplete.vim', s:base_cond ? {} : s:plug_disable)
       let g:asyncomplete_auto_completeopt = 0
       let g:asyncomplete_smart_completion = 0
@@ -626,6 +626,8 @@ if has('autocmd')
 
     " Data
     Plug 'cespare/vim-toml'
+    Plug 'elzr/vim-json'
+      let g:vim_json_syntax_conceal = 0
 
     " System
     Plug 'StanAngeloff/php.vim'
