@@ -546,20 +546,14 @@ if has('autocmd')
       \ '.git/', '.hg/'
       \ ]
 
-    let s:fzf_path = expand('~/.fzf')
-    if isdirectory(s:fzf_path)
-      call plug#(s:fzf_path)
-    else
-      call plug#('junegunn/fzf', executable('bash') ? {
-      \ 'dir': s:fzf_path,
-      \ 'do': 'bash ./install --bin'
-      \ } : s:plug_disable)
-    endif
-    unlet s:fzf_path
+    call plug#('junegunn/fzf', executable('bash') ? {
+    \ 'dir': expand('~/.fzf'),
+    \ 'do': 'bash ./install --bin'
+    \ } : s:plug_disable)
     if has('unix') && executable('x-terminal-emulator')
       let g:fzf_launcher = 'x-terminal-emulator -e bash -ic %s'
     endif
-    Plug 'janlazo/fzf.vim'
+    Plug 'junegunn/fzf.vim'
       let g:fzf_command_prefix = 'Fzf'
     Plug 'tpope/vim-fugitive'
 
