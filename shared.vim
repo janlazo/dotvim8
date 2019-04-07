@@ -578,7 +578,7 @@ if has('autocmd')
         return
       endif
       call coc#util#install()
-      call coc#util#install_extension('coc-vetur')
+      call coc#util#install_extension('coc-json', 'coc-vetur')
     endfunction
     call plug#('neoclide/coc.nvim', s:base_cond ? {
     \ 'do': function('coc#util#install'),
