@@ -490,6 +490,7 @@ if has('autocmd')
   if exists('g:loaded_plug')
     let s:plug_disable = {'on': []}
     let s:base_cond = 1
+
     " {{{plug-core
     let s:base_cond = v:version >= 800 && has('syntax') && has('reltime')
     call plug#('andymass/vim-matchup', s:base_cond ? {} : s:plug_disable)
@@ -557,21 +558,6 @@ if has('autocmd')
       let g:fzf_command_prefix = 'Fzf'
     Plug 'tpope/vim-fugitive'
 
-    let s:base_cond = has('timers') && v:version >= 800
-    call plug#('prabirshrestha/asyncomplete.vim', s:base_cond ? {} : s:plug_disable)
-      let g:asyncomplete_auto_completeopt = 0
-      let g:asyncomplete_smart_completion = 0
-    Plug 'Shougo/neco-vim'
-    call plug#('prabirshrestha/asyncomplete-necovim.vim', s:base_cond ? {} : s:plug_disable)
-    if s:base_cond
-      autocmd vimrc User asyncomplete_setup
-      \ call asyncomplete#register_source(asyncomplete#sources#necovim#get_source_options({
-      \ 'name': 'necovim',
-      \ 'whitelist': ['vim'],
-      \ 'completor': function('asyncomplete#sources#necovim#completor')
-      \ }))
-    endif
-
     Plug 'nanotech/jellybeans.vim'
       " Windows' default terminal doesn't use ANSI in 8-16 color terminals
       let g:jellybeans_use_lowcolor_black = 0
@@ -579,6 +565,33 @@ if has('autocmd')
       let g:jellybeans_use_gui_italics = 0
     call plug#('lifepillar/vim-gruvbox8', v:version >= 800 ? {} : s:plug_disable)
     " }}}plug-core
+
+    " {{{plug-autocomplete
+    " Shared sources
+    Plug 'Shougo/neco-vim'
+    " Primary
+    let s:base_cond = has('nvim-0.4.0') && executable('node') && executable('yarn')
+    call plug#('neoclide/coc-neco', s:base_cond ? {} : s:plug_disable)
+    call plug#('neoclide/coc.nvim', s:base_cond ? {
+    \ 'do': function('coc#util#install'),
+    \ 'tag': 'v0.0.64'
+    \ } : s:plug_disable)
+    " Fallback
+    let s:base_cond = !s:base_cond && has('timers') && v:version >= 800
+    call plug#('prabirshrestha/asyncomplete.vim', s:base_cond ? {} : s:plug_disable)
+    call plug#('prabirshrestha/asyncomplete-necovim.vim', s:base_cond ? {} : s:plug_disable)
+    if s:base_cond
+      let g:asyncomplete_auto_completeopt = 0
+      let g:asyncomplete_smart_completion = 0
+      autocmd vimrc User asyncomplete_setup
+      \ call asyncomplete#register_source(asyncomplete#sources#necovim#get_source_options({
+      \ 'name': 'necovim',
+      \ 'whitelist': ['vim'],
+      \ 'completor': function('asyncomplete#sources#necovim#completor')
+      \ }))
+    endif
+    " }}}plug-autocomplete
+
     " {{{plug-python
     let s:base_cond = has('python') || has('python3')
     call plug#('editorconfig/editorconfig-vim', s:base_cond ? {} : s:plug_disable)
@@ -588,6 +601,7 @@ if has('autocmd')
       let g:EditorConfig_exclude_patterns = ['scp://.*', 'fugitive://.*']
     endif
     " }}}plug-python
+
     " {{{plug-ft
     " Vim
     Plug 'junegunn/vader.vim'
@@ -630,6 +644,7 @@ if has('autocmd')
     Plug 'rust-lang/rust.vim'
     Plug 'tbastos/vim-lua'
     " }}}plug-ft
+
     call plug#('daa84/neovim-gtk', exists('g:GtkGuiLoaded') ? {
     \ 'rtp': 'runtime'
     \ } : s:plug_disable)
