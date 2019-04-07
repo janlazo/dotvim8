@@ -572,6 +572,14 @@ if has('autocmd')
     " Primary
     let s:base_cond = has('nvim-0.4.0') && executable('node') && executable('yarn')
     call plug#('neoclide/coc-neco', s:base_cond ? {} : s:plug_disable)
+    let s:base_conf = {'tag': 'v0.0.64'}
+    function! s:base_conf.do(info) dict
+      if a:info.status !=# 'installed' && !a:info.force
+        return
+      endif
+      call coc#util#install()
+      call coc#util#install_extension('coc-vetur')
+    endfunction
     call plug#('neoclide/coc.nvim', s:base_cond ? {
     \ 'do': function('coc#util#install'),
     \ 'tag': 'v0.0.64'
@@ -627,6 +635,8 @@ if has('autocmd')
     Plug 'leafgarland/typescript-vim'
     Plug 'mxw/vim-jsx'
       let g:jsx_ext_required = 1
+    Plug 'posva/vim-vue'
+      let g:vue_disable_pre_processors = 1
 
     " Database
     Plug 'exu/pgsql.vim'
