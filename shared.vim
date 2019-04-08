@@ -572,18 +572,13 @@ if has('autocmd')
     " Primary
     let s:base_cond = has('nvim-0.4.0') && executable('node') && executable('yarn')
     call plug#('neoclide/coc-neco', s:base_cond ? {} : s:plug_disable)
-    let s:base_conf = {'tag': 'v0.0.64'}
-    function! s:base_conf.do(info) dict
-      if a:info.status !=# 'installed' && !a:info.force
-        return
-      endif
-      call coc#util#install()
-      call coc#util#install_extension('coc-json', 'coc-vetur')
-    endfunction
     call plug#('neoclide/coc.nvim', s:base_cond ? {
     \ 'do': function('coc#util#install'),
     \ 'tag': 'v0.0.64'
     \ } : s:plug_disable)
+      let g:coc_global_extensions = [
+      \ 'coc-css', 'coc-html', 'coc-json', 'coc-vetur', 'coc-yaml'
+      \ ]
     " Fallback
     let s:base_cond = !s:base_cond && has('timers') && v:version >= 800
     call plug#('prabirshrestha/asyncomplete.vim', s:base_cond ? {} : s:plug_disable)

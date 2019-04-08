@@ -1,5 +1,12 @@
 {
   "coc.preferences.extensionUpdateCheck": "never",
+  "css.filetypes": ["css", "scss"],
+  "html.filetypes": ["html"],
   "json.schemas": [
-  ]
+  ],
+  "less.validate": false,
+  "wxss.validate": false,
+  "yaml.schemas": {
+    "http://json.schemastore.org/gitlab-ci": ".gitlab-ci.yml"
+  }
 }
