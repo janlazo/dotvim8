@@ -577,7 +577,8 @@ if has('autocmd')
     \ 'tag': 'v0.0.64'
     \ } : s:plug_disable)
       let g:coc_global_extensions = [
-      \ 'coc-css', 'coc-html', 'coc-json', 'coc-vetur', 'coc-yaml'
+      \ 'coc-json', 'coc-yaml',
+      \ 'coc-css', 'coc-html', 'coc-tsserver', 'coc-vetur'
       \ ]
     " Fallback
     let s:base_cond = !s:base_cond && has('timers') && v:version >= 800
