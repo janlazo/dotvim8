@@ -570,7 +570,7 @@ if has('autocmd')
     " Shared sources
     Plug 'Shougo/neco-vim'
     " Primary
-    let s:base_cond = has('nvim-0.4.0') && executable('node') && executable('yarn')
+    let s:base_cond = has('nvim-0.4.0') && executable('node') && executable('yarn') && has('unix')
     call plug#('neoclide/coc-neco', s:base_cond ? {} : s:plug_disable)
     call plug#('neoclide/coc.nvim', s:base_cond ? {
     \ 'do': function('coc#util#install'),
