@@ -570,12 +570,30 @@ if has('autocmd')
     " Shared sources
     Plug 'Shougo/neco-vim'
     " Primary
-    let s:base_cond = has('nvim-0.4.0') && executable('node') && executable('yarn') && has('unix')
+    let s:base_cond = has('nvim-0.4.0') &&
+    \ executable('node') && executable('yarn') &&
+    \ executable('curl') && executable('mv') && executable('tar')
     call plug#('neoclide/coc-neco', s:base_cond ? {} : s:plug_disable)
-    call plug#('neoclide/coc.nvim', s:base_cond ? {
-    \ 'do': function('coc#util#install'),
-    \ 'tag': 'v0.0.64'
-    \ } : s:plug_disable)
+    let s:base_config = {'tag': 'v0.0.65'}
+    function! s:base_config.do(info) dict
+      if a:info.status !=# 'installed' && !a:info.force
+        return
+      endif
+      " coc#util#install() does more than downloading the binary.
+      " It does not work on Windows.
+      " It opens a browser if there are no extensions.
+      let file = 'coc.tar.gz'
+      call system(['curl', '-LO', 'https://github.com/neoclide/coc.nvim/releases/download/' . self.tag . '/' . file])
+      if v:shell_error
+        echoerr 'Failed to download coc.nvim compiled script'
+        return
+      endif
+      call system(['tar', '-xzf', file])
+      call mkdir('build')
+      call system(['mv', 'index.js', 'build'])
+      call coc#rpc#restart()
+    endfunction
+    call plug#('neoclide/coc.nvim', s:base_cond ? s:base_config : s:plug_disable)
       let g:coc_global_extensions = [
       \ 'coc-json', 'coc-yaml',
       \ 'coc-css', 'coc-html', 'coc-tsserver', 'coc-vetur'
