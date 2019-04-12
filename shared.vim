@@ -242,7 +242,7 @@ endif
 
 if has('linebreak')
   " 3-digit line number in 80 col terminals
-  set numberwidth=4 textwidth=76
+  set numberwidth=4
 
   if v:version >= 800 || has('nvim-0.1.6')
     set linebreak
@@ -451,6 +451,10 @@ if has('langmap')
   elseif exists('+langremap')
     set nolangremap
   endif
+endif
+
+if has('signs') && has('patch-7.4.2201')
+  set signcolumn=yes
 endif
 " }}}big
 

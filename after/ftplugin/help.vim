@@ -13,3 +13,11 @@
 " limitations under the License.
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 setlocal shiftwidth=8 noexpandtab
+
+if has('signs') && has('patch-7.4.2201')
+  setlocal signcolumn=no
+endif
+
+if has('syntax')
+  setlocal colorcolumn=
+endif
