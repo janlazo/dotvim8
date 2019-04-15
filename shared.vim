@@ -600,7 +600,7 @@ if has('autocmd')
     call plug#('neoclide/coc.nvim', s:base_cond ? s:base_config : s:plug_disable)
       let g:coc_global_extensions = [
       \ 'coc-json', 'coc-yaml',
-      \ 'coc-css', 'coc-html', 'coc-tsserver', 'coc-vetur'
+      \ 'coc-css', 'coc-html', 'coc-tsserver', 'coc-vetur', 'coc-tag'
       \ ]
     " Fallback
     let s:base_cond = !s:base_cond && has('timers') && v:version >= 800
