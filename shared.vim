@@ -575,7 +575,7 @@ if has('autocmd')
     Plug 'Shougo/neco-vim'
     " Primary
     let s:base_cond = has('nvim-0.4.0') &&
-    \ executable('node') && executable('yarn') &&
+    \ executable('node') && executable('npm') && executable('yarn') &&
     \ executable('curl') && executable('mv') && executable('tar')
     call plug#('neoclide/coc-neco', s:base_cond ? {} : s:plug_disable)
     let s:base_config = {'tag': 'v0.0.65'}
@@ -595,6 +595,10 @@ if has('autocmd')
       call system(['tar', '-xzf', file])
       call mkdir('build')
       call system(['mv', 'index.js', 'build'])
+
+      " Install 3rd-party LSP servers before starting coc.nvim
+      call system('npm install -g dockerfile-language-server-nodejs')
+
       call coc#rpc#restart()
     endfunction
     call plug#('neoclide/coc.nvim', s:base_cond ? s:base_config : s:plug_disable)
