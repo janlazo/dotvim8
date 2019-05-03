@@ -660,6 +660,8 @@ if has('autocmd')
       let g:jsx_ext_required = 1
     Plug 'posva/vim-vue'
       let g:vue_disable_pre_processors = 1
+      let g:no_plugin_maps = 1
+      let g:no_vue_maps = 1
 
     " Database
     Plug 'exu/pgsql.vim'
