@@ -31,7 +31,7 @@ set autoindent shiftround
 
 " File
 set autoread fileformats=unix,dos suffixes=
-set noswapfile updatecount=0 directory=
+set noswapfile directory= updatecount=0 updatetime=1000
 
 " Do not force a memory flush to speedup manual writes.
 if exists('+swapsync')
@@ -484,8 +484,24 @@ if has('autocmd')
   " Tex
   let g:tex_flavor = 'latex'
 
+  function! s:vim_enter()
+    if has('nvim')
+      " Detect nvim-qt
+      let s:is_gui = s:is_gui || (exists('g:GuiLoaded') && has('nvim-0.3'))
+      if s:is_gui
+        set mouse=a
+        if $ConEmuANSI ==# 'ON'
+          let $ConEmuANSI = 'OFF'
+        endif
+      endif
+    endif
+    if has('syntax')
+      call s:set_color()
+    endif
+  endfunction
   augroup vimrc
     autocmd!
+    autocmd VimEnter * call s:vim_enter()
   augroup END
 
   " {{{vim-plug
@@ -687,23 +703,6 @@ if has('autocmd')
     silent! call plug#end()
   endif
   " }}}vim-plug
-
-  function! s:vim_enter()
-    if has('nvim')
-      " Detect nvim-qt
-      let s:is_gui = s:is_gui || (exists('g:GuiLoaded') && has('nvim-0.3'))
-      if s:is_gui
-        set mouse=a
-        if $ConEmuANSI ==# 'ON'
-          let $ConEmuANSI = 'OFF'
-        endif
-      endif
-    endif
-    if has('syntax')
-      call s:set_color()
-    endif
-  endfunction
-  autocmd vimrc VimEnter * call s:vim_enter()
 endif
 
 if 1
