@@ -594,7 +594,7 @@ if has('autocmd')
     \ executable('node') && executable('npm') && executable('yarn') &&
     \ executable('curl') && executable('mv') && executable('tar')
     call plug#('neoclide/coc-neco', s:base_cond ? {} : s:plug_disable)
-    let s:base_config = {'tag': 'v0.0.65'}
+    let s:base_config = {'tag': 'v0.0.67'}
     function! s:base_config.do(info) dict
       if a:info.status !=# 'installed' && !a:info.force
         return
@@ -607,6 +607,9 @@ if has('autocmd')
       if v:shell_error
         echoerr 'Failed to download coc.nvim compiled script'
         return
+      endif
+      if isdirectory('build')
+        call delete('build', 'rf')
       endif
       call system(['tar', '-xzf', file])
       call mkdir('build')
