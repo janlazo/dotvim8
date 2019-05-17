@@ -621,11 +621,22 @@ if has('autocmd')
       call coc#rpc#restart()
     endfunction
     call plug#('neoclide/coc.nvim', s:base_cond ? s:base_config : s:plug_disable)
+    if s:base_cond
       let g:coc_global_extensions = [
       \ 'coc-json', 'coc-yaml', 'coc-tag',
       \ 'coc-css', 'coc-html', 'coc-tsserver', 'coc-vetur',
       \ 'coc-vimtex'
       \ ]
+      if executable('python3')
+        call add(g:coc_global_extensions, 'coc-python')
+      endif
+      if executable('ruby') && executable('gem')
+        if !executable('solargraph')
+          call system('gem install --user-install solargraph')
+        endif
+        call add(g:coc_global_extensions, 'coc-solargraph')
+      endif
+    endif
     " Fallback
     let s:base_cond = !s:base_cond && has('timers') && v:version >= 800
     call plug#('prabirshrestha/asyncomplete.vim', s:base_cond ? {} : s:plug_disable)
