@@ -12,7 +12,7 @@ fi
 # Ruby (https://github.com/neovim/neovim-ruby)
 # Need 0.6.2+ on Windows
 if (command -v ruby && command -v gem) > /dev/null 2>&1; then
-  gem install --user-install --conservative neovim
+  gem install --user-install --conservative --minimal-deps --no-suggestions neovim
 fi
 
 # Javascript (https://github.com/neovim/node-client)

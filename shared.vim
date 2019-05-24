@@ -632,9 +632,11 @@ if has('autocmd')
       endif
       if executable('ruby') && executable('gem')
         if !executable('solargraph')
-          call system('gem install --user-install solargraph')
+          call system('gem install --user-install --conservative --minimal-deps --no-suggestions solargraph')
         endif
-        call add(g:coc_global_extensions, 'coc-solargraph')
+        if executable('solargraph')
+          call add(g:coc_global_extensions, 'coc-solargraph')
+        endif
       endif
     endif
     " Fallback
