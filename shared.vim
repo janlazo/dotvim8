@@ -623,9 +623,9 @@ if has('autocmd')
     call plug#('neoclide/coc.nvim', s:base_cond ? s:base_config : s:plug_disable)
     if s:base_cond
       let g:coc_global_extensions = [
-      \ 'coc-json', 'coc-yaml', 'coc-tag',
+      \ 'coc-tag', 'coc-vimtex',
+      \ 'coc-json', 'coc-svg', 'coc-yaml',
       \ 'coc-css', 'coc-html', 'coc-tsserver', 'coc-vetur',
-      \ 'coc-vimtex'
       \ ]
       if executable('python3')
         call add(g:coc_global_extensions, 'coc-python')
