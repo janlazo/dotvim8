@@ -15,7 +15,7 @@ Vim 8+ / Neovim 0.2+ config folder for Windows support and async jobs.
 - `autoload/dotvim8.vim` resolves idiosyncrasies in Vim and Neovim, based on fzf's Vim plugin
     - `dotvim8#shellescape` is based on `fzf#shellescape`
     - `dotvim8#bang` is based on the fzf's `s:execute` functions
-- `bin/install_hosts.sh` to install language providers for neovim
+- `bin/install_deps.sh` to install external dependencies such as language providers for Neovim and [LSP](https://microsoft.github.io/language-server-protocol/) servers for coc.nvim
 - `bin/nvim-qt.cmd` is a batchfile shim to workaround issues with `nvim-qt.exe` on Windows
     - HiDPI scaling (https://github.com/equalsraf/neovim-qt/commit/06967e0ce4da23ca0d973f8e313d3cb9149ff3f1)
     - window size (https://github.com/equalsraf/neovim-qt/issues/251#issuecomment-378936575)

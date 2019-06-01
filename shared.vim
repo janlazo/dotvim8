@@ -614,10 +614,6 @@ if has('autocmd')
       call system(['tar', '-xzf', file])
       call mkdir('build')
       call system(['mv', 'index.js', 'build'])
-
-      " Install 3rd-party LSP servers before starting coc.nvim
-      call system('npm install -g dockerfile-language-server-nodejs')
-
       call coc#rpc#restart()
     endfunction
     call plug#('neoclide/coc.nvim', s:base_cond ? s:base_config : s:plug_disable)
@@ -630,13 +626,8 @@ if has('autocmd')
       if executable('python3')
         call add(g:coc_global_extensions, 'coc-python')
       endif
-      if executable('ruby') && executable('gem')
-        if !executable('solargraph')
-          call system('gem install --user-install --conservative --minimal-deps --no-suggestions solargraph')
-        endif
-        if executable('solargraph')
-          call add(g:coc_global_extensions, 'coc-solargraph')
-        endif
+      if executable('ruby') && executable('solargraph')
+        call add(g:coc_global_extensions, 'coc-solargraph')
       endif
     endif
     " Fallback
