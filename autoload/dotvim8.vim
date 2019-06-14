@@ -41,7 +41,7 @@ endfunction
 " Wrap in single quotes so environment variables are not expanded
 " Double all inner single quotes
 function! s:shellesc_ps1(arg)
-  return "'".substitute(a:arg, "'", "''", 'g')."'"
+  return "'".substitute(escape(a:arg, '\"'), "'", "''", 'g')."'"
 endfunction
 
 " Fix shellescape for external programs in Windows
