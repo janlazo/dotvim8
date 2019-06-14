@@ -16,7 +16,7 @@
     },
     "phan": {
       "command": "phan",
-      "filetypes": ["php"],
+      "filetypes": [],
       "args": [
         "--allow-polyfill-parser",
         "--language-server-on-stdin",
