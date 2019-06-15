@@ -594,7 +594,7 @@ if has('autocmd')
     \ executable('node') && executable('npm') && executable('yarn') &&
     \ executable('curl') && executable('mv') && executable('tar')
     call plug#('neoclide/coc-neco', s:base_cond ? {} : s:plug_disable)
-    let s:base_config = {'tag': 'v0.0.67'}
+    let s:base_config = {'tag': 'v0.0.70'}
     function! s:base_config.do(info) dict
       if a:info.status !=# 'installed' && !a:info.force
         return
