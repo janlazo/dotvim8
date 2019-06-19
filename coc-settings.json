@@ -15,13 +15,14 @@
       "args": ["--stdio"]
     },
     "phan": {
-      "command": "phan",
-      "filetypes": [],
+      "command": "php",
+      "filetypes": ["php"],
       "args": [
+        "vendor/phan/phan/phan",
         "--allow-polyfill-parser",
         "--language-server-on-stdin",
-        "--language-server-allow-missing-pcntl",
-        "--language-server-enable-go-to-definition"
+        "--quick",
+        "--require-config-exists"
       ]
     }
   },
