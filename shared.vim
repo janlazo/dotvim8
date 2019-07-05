@@ -176,10 +176,10 @@ if has('modify_fname')
         let &shellxquote= '"'
         set shellxescape=
       else
-        set shellcmdflag=/c
+        let &shellcmdflag = '/c/'
 
         if v:version >= 704
-          set shellxquote=(
+          let &shellxquote = '('
           let &shellxescape = '"&|<>()@^'
         endif
       endif
@@ -210,7 +210,8 @@ if has('modify_fname')
       set shellxescape= shellquote=
     elseif shell =~# '^sh' || shell =~# '^bash'
       let &shell = a:shell
-      set shellcmdflag=-c shellquote=
+      let &shellcmdflag = '-c'
+      set shellquote=
       let &shellredir = '>%s 2>&1'
       if has('quickfix')
         let &shellpipe = '2>&1 | tee'
