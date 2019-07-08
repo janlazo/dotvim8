@@ -104,13 +104,6 @@ if has('win32')
   if $ConEmuANSI ==# 'ON'
     if s:is_gui
       let $ConEmuANSI = 'OFF'
-    elseif v:version >= 704 && !has('nvim') && has('builtin_terms') &&
-      \ empty($VIM_SERVERNAME) && empty($NVIM_LISTEN_ADDRESS)
-      set term=xterm t_Co=256
-      let &t_AB = "\e[48;5;%dm"
-      let &t_AF = "\e[38;5;%dm"
-      let &t_kb = nr2char(127)
-      let &t_kD = "^[[3~"
     endif
   endif
 endif
@@ -486,16 +479,6 @@ if has('autocmd')
   let g:tex_flavor = 'latex'
 
   function! s:vim_enter()
-    if has('nvim')
-      " Detect nvim-qt
-      let s:is_gui = s:is_gui || (exists('g:GuiLoaded') && has('nvim-0.3'))
-      if s:is_gui
-        set mouse=a
-        if $ConEmuANSI ==# 'ON'
-          let $ConEmuANSI = 'OFF'
-        endif
-      endif
-    endif
     if has('syntax')
       call s:set_color()
     endif

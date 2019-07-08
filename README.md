@@ -36,7 +36,7 @@ For performance, use GUIs when navigating or editing inside folds.
     - gui: gvim
 - Windows
     - os: 7, 8.1, 10
-    - terminal: ConEmu for truecolor via `set term=xterm`
+    - terminal: ConEmu for truecolor (Neovim only)
     - gui: gvim, [neovim-qt]
 
 ## LICENSE
