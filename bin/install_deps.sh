@@ -2,12 +2,12 @@
 # Install language providers for Neovim 0.3+
 
 # Python (https://github.com/neovim/python-client)
-if (command -v python3 && command -v pip3) > /dev/null 2>&1; then
-  pip3 install --user --disable-pip-version-check \
+if command -v python3 > /dev/null 2>&1; then
+  python3 -m pip install --user --disable-pip-version-check \
     pynvim
 fi
-if (command -v python2 && command -v pip2) > /dev/null 2>&1; then
-  pip2 install --user --disable-pip-version-check \
+if command -v python2 > /dev/null 2>&1; then
+  python2 -m pip install --user --disable-pip-version-check \
     pynvim
 fi
 
