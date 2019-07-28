@@ -97,14 +97,6 @@ if has('win32')
   " Default prompt is not user-friendly.
   " ConEmu's prompt is garbled in winpty.
   let $PROMPT = '$P$_$G$S'
-
-  " Force xterm rendering on ConEmu, not :terminal, for truecolor.
-  " Detect winpty by checking environment variables for Vim/Neovim server.
-  if $ConEmuANSI ==# 'ON'
-    if s:is_gui
-      let $ConEmuANSI = 'OFF'
-    endif
-  endif
 endif
 
 " {{{tiny
@@ -310,7 +302,7 @@ if has('mksession')
 endif
 
 if has('mouse')
-  let &mouse = s:is_gui ? 'a' : ''
+  set mouse=
 endif
 
 if has('syntax')
@@ -478,6 +470,25 @@ if has('autocmd')
   let g:tex_flavor = 'latex'
 
   function! s:vim_enter()
+    if has('nvim')
+      " Detect nvim-qt
+      let s:is_gui = s:is_gui || (exists('g:GuiLoaded') && has('nvim-0.3'))
+    endif
+    if s:is_gui
+      set mouse=a
+
+      if $ConEmuANSI ==# 'ON'
+        let $ConEmuANSI = 'OFF'
+      endif
+
+      if has('nvim')
+        if exists(':GuiLinespace') == 2
+          GuiLinespace 1
+        endif
+      else
+        set linespace=1
+      endif
+    endif
     if has('syntax')
       call s:set_color()
     endif
