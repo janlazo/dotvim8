@@ -50,7 +50,6 @@ set laststatus=2 cmdheight=2 noshowmode
 if 1
   let s:is_gui = has('nvim') ?
   \ (exists('g:nyaovim_version') ||
-    \ exists('g:GtkGuiLoaded') ||
     \ exists('g:gui_oni')) :
   \ has('gui_running')
 
@@ -687,9 +686,6 @@ if has('autocmd')
     Plug 'tbastos/vim-lua'
     " }}}plug-ft
 
-    call plug#('daa84/neovim-gtk', exists('g:GtkGuiLoaded') ? {
-    \ 'rtp': 'runtime'
-    \ } : s:plug_disable)
     unlet s:plug_disable s:base_cond
     silent! call plug#end()
   endif
