@@ -469,6 +469,9 @@ if has('autocmd')
   " Tex
   let g:tex_flavor = 'latex'
 
+  " C
+  let g:c_syntax_for_h = 1
+
   function! s:vim_enter()
     if has('nvim')
       " Detect nvim-qt
