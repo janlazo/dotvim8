@@ -633,6 +633,14 @@ if has('autocmd')
       let g:jellybeans_use_term_italics = 0
       let g:jellybeans_use_gui_italics = 0
     call plug#('lifepillar/vim-gruvbox8', v:version >= 800 ? {} : s:plug_disable)
+
+    let s:base_cond = v:version >= 800
+    call plug#('editorconfig/editorconfig-vim', s:base_cond ? {} : s:plug_disable)
+    if s:base_cond
+      let g:EditorConfig_preserve_formatoptions = 1
+      let g:EditorConfig_max_line_indicator = 'none'
+      let g:EditorConfig_exclude_patterns = ['scp://.*', 'fugitive://.*']
+    endif
     " }}}plug-core
 
     " {{{plug-autocomplete
@@ -694,16 +702,6 @@ if has('autocmd')
       \ }))
     endif
     " }}}plug-autocomplete
-
-    " {{{plug-python
-    let s:base_cond = has('python') || has('python3')
-    call plug#('editorconfig/editorconfig-vim', s:base_cond ? {} : s:plug_disable)
-    if s:base_cond
-      let g:EditorConfig_preserve_formatoptions = 1
-      let g:EditorConfig_max_line_indicator = 'none'
-      let g:EditorConfig_exclude_patterns = ['scp://.*', 'fugitive://.*']
-    endif
-    " }}}plug-python
 
     " {{{plug-ft
     " Vim
