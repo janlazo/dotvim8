@@ -18,11 +18,10 @@ if has('autocmd')
   \ 'coffee': ['*.cson'],
   \ 'csv': ['*.csv'],
   \ 'dosini': ['.npmrc'],
-  \ 'json': ['*.json', '.babelrc', '.bowerrc', 'composer.lock'],
+  \ 'json': ['.babelrc', '.bowerrc', 'composer.lock'],
   \ 'ruby': ['Vagrantfile'],
   \ 'pandoc': ['*.pandoc'],
   \ 'perl': ['cpanfile'],
-  \ 'vue':   ['*.vue']
   \ }
 
   for s:list in items(s:globs)
