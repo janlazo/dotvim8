@@ -573,7 +573,9 @@ if has('autocmd')
     endif
     Plug 'junegunn/fzf.vim'
       let g:fzf_command_prefix = 'Fzf'
-    Plug 'tpope/vim-fugitive'
+    call plug#('tpope/vim-fugitive', {
+    \ 'tag': 'v2.5'
+    \ })
 
     Plug 'nanotech/jellybeans.vim'
       " Windows' default terminal doesn't use ANSI in 8-16 color terminals
