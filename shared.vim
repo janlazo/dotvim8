@@ -90,6 +90,51 @@ if 1
   " $VIMRUNTIME/defaults.vim remaps Q to gq but I don't format comments.
   " Remap it to redraw the screen.
   nnoremap <silent> Q :redraw!<CR>
+
+  let s:font = {}
+  let s:fontsize = {'min': 10, 'max': 72, 'cur': 12}
+  if has('win32')
+    let s:font = {
+    \ 'type': ['Consolas'],
+    \ 'size_prefix': 'h',
+    \ 'sep': ':'
+    \ }
+    if !has('nvim')
+      call extend(s:font.type, ['cANSI', 'qANTIALIASED'])
+    endif
+  elseif has('unix') && !has('win32unix')
+    let s:font = {
+    \ 'type': ['Monospace'],
+    \ }
+    if has('nvim')
+      let s:font.size_prefix = 'h'
+      let s:font.sep = ':'
+    else
+      let s:font.size_prefix = ''
+      let s:font.sep = ' '
+    endif
+  endif
+  function! s:update_fontsize(increment)
+    if !s:is_gui || empty(s:font)
+      return
+    endif
+
+    let s:fontsize.cur += a:increment
+    if s:fontsize.cur < s:fontsize.min
+      let s:fontsize.cur = s:fontsize.min
+    elseif s:fontsize.cur > s:fontsize.max
+      let s:fontsize.cur = s:fontsize.max
+    endif
+
+    let font = join(add(copy(s:font.type), s:font.size_prefix . s:fontsize.cur), s:font.sep)
+    if has('nvim')
+      if exists('*GuiFont')
+        call GuiFont(font, 1)
+      endif
+    else
+      let &guifont = font
+    endif
+  endfunction
 endif
 
 if has('win32')
@@ -490,6 +535,14 @@ if has('autocmd')
         endif
       else
         set linespace=1
+      endif
+
+      call s:update_fontsize(0)
+      nnoremap <silent> <A-=> :call <SID>update_fontsize(1)<CR>
+      nnoremap <silent> <A--> :call <SID>update_fontsize(-1)<CR>
+      if has('nvim') || (has('unix') && !has('win32unix'))
+        nnoremap <silent> <C-ScrollWheelUp>   :call <SID>update_fontsize(1)<CR>
+        nnoremap <silent> <C-ScrollWheelDown> :call <SID>update_fontsize(-1)<CR>
       endif
     endif
     if has('syntax')

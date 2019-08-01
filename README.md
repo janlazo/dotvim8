@@ -8,9 +8,6 @@ Vim 8+ / Neovim 0.2+ config folder for Windows support and async jobs.
     - backward compatibility up to Vim 7.2 (tiny) and Neovim 0.1.6
     - self-contained vimrc, independent of the entire repo
     - [vim-plug] as package manager for bundles in Github
-- `autoload/gui.vim` for GUIs
-    - fonts
-    - linespace
 - [go-vimlparser] for linting Vimscript
 - `autoload/dotvim8.vim` resolves idiosyncrasies in Vim and Neovim, based on fzf's Vim plugin
     - `dotvim8#shellescape` is based on `fzf#shellescape`
