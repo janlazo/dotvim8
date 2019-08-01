@@ -733,8 +733,9 @@ if has('autocmd')
     Plug 'leafgarland/typescript-vim'
     Plug 'mxw/vim-jsx'
       let g:jsx_ext_required = 1
-    Plug 'posva/vim-vue'
-      let g:vue_disable_pre_processors = 1
+    let s:base_cond = has('patch-7.4.2071')
+    call plug#('posva/vim-vue', s:base_cond ? {} : s:plug_disable)
+      let g:vue_pre_processors = ['scss']
       let g:no_plugin_maps = 1
       let g:no_vue_maps = 1
 
