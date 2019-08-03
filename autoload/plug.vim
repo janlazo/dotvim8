@@ -350,6 +350,23 @@ if s:is_win
   function! s:is_local_plug(repo)
     return a:repo =~? '^[a-z]:\|^[%~]'
   endfunction
+
+  " Copied from fzf
+  function! s:wrap_cmds(cmds)
+    return map(['@echo off', 'for /f "tokens=4" %%a in (''chcp'') do set origchcp=%%a', 'chcp 65001 > nul'] +
+    \ (type(a:cmds) == type([]) ? a:cmds : [a:cmds]) +
+    \ ['chcp %origchcp% > nul'], 'v:val."\r"')
+  endfunction
+
+  function! s:batchfile(cmd)
+    let batchfile = tempname().'.bat'
+    call writefile(s:wrap_cmds(a:cmd), batchfile)
+    let cmd = s:shellesc(batchfile, {'shell': &shell, 'script': 1})
+    if &shell =~# 'powershell\.exe$'
+      let cmd = '& ' . cmd
+    endif
+    return [batchfile, cmd]
+  endfunction
 else
   function! s:rtp(spec)
     return s:dirpath(a:spec.dir . get(a:spec, 'rtp', ''))
@@ -807,9 +824,7 @@ function! s:bang(cmd, ...)
     "        but it won't work on Windows.
     let cmd = a:0 ? s:with_cd(a:cmd, a:1) : a:cmd
     if s:is_win
-      let batchfile = tempname().'.bat'
-      call writefile(["@echo off\r", cmd . "\r"], batchfile)
-      let cmd = s:shellesc(expand(batchfile))
+      let [batchfile, cmd] = s:batchfile(cmd)
     endif
     let g:_plug_bang = (s:is_win && has('gui_running') ? 'silent ' : '').'!'.escape(cmd, '#!%')
     execute "normal! :execute g:_plug_bang\<cr>\<cr>"
@@ -1202,15 +1217,10 @@ endfunction
 
 function! s:spawn(name, cmd, opts)
   let job = { 'name': a:name, 'running': 1, 'error': 0, 'lines': [''],
-            \ 'batchfile': (s:is_win && (s:nvim || s:vim8)) ? tempname().'.bat' : '',
             \ 'new': get(a:opts, 'new', 0) }
   let s:jobs[a:name] = job
-  let cmd = has_key(a:opts, 'dir') ? s:with_cd(a:cmd, a:opts.dir) : a:cmd
-  if !empty(job.batchfile)
-    call writefile(["@echo off\r", cmd . "\r"], job.batchfile)
-    let cmd = s:shellesc(expand(job.batchfile))
-  endif
-  let argv = add(s:is_win ? ['cmd', '/c'] : ['sh', '-c'], cmd)
+  let cmd = has_key(a:opts, 'dir') ? s:with_cd(a:cmd, a:opts.dir, 0) : a:cmd
+  let argv = s:is_win ? ['cmd', '/s', '/c', '"'.cmd.'"'] : ['sh', '-c', cmd]
 
   if s:nvim
     call extend(job, {
@@ -1260,9 +1270,6 @@ function! s:reap(name)
   call s:log(bullet, a:name, empty(result) ? 'OK' : result)
   call s:bar()
 
-  if has_key(job, 'batchfile') && !empty(job.batchfile)
-    call delete(job.batchfile)
-  endif
   call remove(s:jobs, a:name)
 endfunction
 
@@ -1352,8 +1359,8 @@ while 1 " Without TCO, Vim stack is bound to explode
           \ printf('git clone %s %s %s %s 2>&1',
           \ has_tag ? '' : s:clone_opt,
           \ prog,
-          \ s:shellesc(spec.uri),
-          \ s:shellesc(s:trim(spec.dir))), { 'new': 1 })
+          \ s:shellesc(spec.uri, {'script': 0}),
+          \ s:shellesc(s:trim(spec.dir), {'script': 0})), { 'new': 1 })
   endif
 
   if !s:jobs[name].running
@@ -1980,17 +1987,24 @@ function! s:update_ruby()
 EOF
 endfunction
 
-function! s:shellesc_cmd(arg)
-  let escaped = substitute(a:arg, '[&|<>()@^]', '^&', 'g')
-  let escaped = substitute(escaped, '%', '%%', 'g')
-  let escaped = substitute(escaped, '"', '\\^&', 'g')
-  let escaped = substitute(escaped, '\(\\\+\)\(\\^\)', '\1\1\2', 'g')
-  return '^"'.substitute(escaped, '\(\\\+\)$', '\1\1', '').'^"'
+function! s:shellesc_cmd(arg, script)
+  let escaped = substitute(a:arg, '%', (a:script ? '%' : '^') . '&', 'g')
+  return substitute('"'.escaped.'"', '[&|<>()@^!"]', '^&', 'g')
 endfunction
 
-function! s:shellesc(arg)
-  if &shell =~# 'cmd.exe$'
-    return s:shellesc_cmd(a:arg)
+function! s:shellesc_ps1(arg)
+  return "'".substitute(escape(a:arg, '\"'), "'", "''", 'g')."'"
+endfunction
+
+function! s:shellesc(arg, ...)
+  let opts = get(a:000, 0, {})
+  let shell = get(opts, 'shell', s:is_win ? 'cmd.exe' : 'sh')
+  let script = get(opts, 'script', 1)
+  if shell =~# 'cmd\.exe$'
+    return s:shellesc_cmd(a:arg, script)
+  endif
+  if shell =~# 'powershell\.exe$'
+    return s:shellesc_ps1(a:arg)
   endif
   return shellescape(a:arg)
 endfunction
@@ -2024,8 +2038,9 @@ function! s:format_message(bullet, name, message)
   endif
 endfunction
 
-function! s:with_cd(cmd, dir)
-  return printf('cd%s %s && %s', s:is_win ? ' /d' : '', s:shellesc(a:dir), a:cmd)
+function! s:with_cd(cmd, dir, ...)
+  let script = get(a:000, 0, 1)
+  return printf('cd%s %s && %s', s:is_win ? ' /d' : '', s:shellesc(a:dir, {'script': script}), a:cmd)
 endfunction
 
 function! s:system(cmd, ...)
@@ -2033,9 +2048,7 @@ function! s:system(cmd, ...)
     let [sh, shellcmdflag, shrd] = s:chsh(1)
     let cmd = a:0 > 0 ? s:with_cd(a:cmd, a:1) : a:cmd
     if s:is_win
-      let batchfile = tempname().'.bat'
-      call writefile(["@echo off\r", cmd . "\r"], batchfile)
-      let cmd = s:shellesc(expand(batchfile))
+      let [batchfile, cmd] = s:batchfile(cmd)
     endif
     return system(cmd)
   finally
@@ -2367,9 +2380,7 @@ function! s:preview_commit()
     let [sh, shellcmdflag, shrd] = s:chsh(1)
     let cmd = 'cd '.s:shellesc(g:plugs[name].dir).' && git show --no-color --pretty=medium '.sha
     if s:is_win
-      let batchfile = tempname().'.bat'
-      call writefile(["@echo off\r", cmd . "\r"], batchfile)
-      let cmd = expand(batchfile)
+      let [batchfile, cmd] = s:batchfile(cmd)
     endif
     execute 'silent %!' cmd
   finally
