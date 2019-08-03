@@ -202,7 +202,7 @@ if has('modify_fname')
         let &shellxquote= '"'
         set shellxescape=
       else
-        let &shellcmdflag = '/c/'
+        let &shellcmdflag = '/c'
 
         if v:version >= 704
           let &shellxquote = '('
