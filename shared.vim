@@ -333,10 +333,6 @@ if has('insert_expand')
   if v:version >= 800
     set completeopt+=noinsert,noselect
   endif
-
-  inoremap <silent> <expr> <TAB>   pumvisible() ? "\<C-n>" : "\<TAB>"
-  inoremap <silent> <expr> <S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
-  inoremap <silent> <expr> <CR>    <C-R>=(pumvisible() ? "\<C-y>" : '')<CR><CR>
 endif
 
 if has('mksession')
@@ -544,6 +540,13 @@ if has('autocmd')
     endif
     if has('syntax')
       call s:set_color()
+    endif
+
+    if has('insert_expand') &&
+    \  (get(g:, 'asyncomplete_loaded', 0) || get(g:, 'did_coc_loaded', 0))
+      inoremap <silent> <expr> <TAB>   pumvisible() ? "\<C-n>" : "\<TAB>"
+      inoremap <silent> <expr> <S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+      inoremap <silent> <expr> <CR>    pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
     endif
   endfunction
   augroup vimrc
