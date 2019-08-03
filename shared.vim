@@ -195,7 +195,7 @@ if has('modify_fname')
       if has('quickfix')
         let &shellpipe = &shellredir
       endif
-      set shellquote=
+      set shellquote= noshellslash
 
       if has('nvim')
         let &shellcmdflag = '/s /c'
@@ -212,7 +212,7 @@ if has('modify_fname')
     elseif shell =~# '^powershell' && v:version >= 704
       let &shell = a:shell
       let &shellcmdflag = '-NoProfile -NoLogo -ExecutionPolicy RemoteSigned -Command'
-      set shellxescape=
+      set shellxescape= noshellslash
       let &shellredir = '>'
       if has('quickfix')
         let &shellpipe = '|'
@@ -233,11 +233,11 @@ if has('modify_fname')
         let &shellpipe = '2>&1 | tee'
       endif
       let &shellxquote = '"'
-      set shellxescape= shellquote=
+      set shellxescape= shellquote= shellslash
     elseif shell =~# '^sh' || shell =~# '^bash'
       let &shell = a:shell
       let &shellcmdflag = '-c'
-      set shellquote=
+      set shellquote= shellslash
       let &shellredir = '>%s 2>&1'
       if has('quickfix')
         let &shellpipe = '2>&1 | tee'
