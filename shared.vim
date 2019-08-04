@@ -213,7 +213,7 @@ if has('modify_fname')
       let &shell = a:shell
       let &shellcmdflag = '-NoProfile -NoLogo -ExecutionPolicy RemoteSigned -Command'
       set shellxescape= noshellslash
-      let &shellredir = '>'
+      let &shellredir = '| Out-File -Encoding ASCII'
       if has('quickfix')
         let &shellpipe = '|'
       endif
