@@ -651,10 +651,10 @@ if has('autocmd')
     Plug 'Shougo/neco-vim'
     " Primary
     let s:base_cond = has('nvim-0.4.0') &&
-    \ executable('node') && executable('npm') && executable('yarn') &&
+    \ executable('node') && executable('npm') &&
     \ executable('curl') && executable('mv') && executable('tar')
     call plug#('neoclide/coc-neco', s:base_cond ? {} : s:plug_disable)
-    let s:base_config = {'tag': 'v0.0.70'}
+    let s:base_config = {'tag': 'v0.0.73'}
     function! s:base_config.do(info) dict
       if a:info.status !=# 'installed' && !a:info.force
         return
