@@ -1,5 +1,6 @@
 {
   "coc.preferences.extensionUpdateCheck": "never",
+  "coc.preferences.rootPatterns": [".git", ".hg"],
   "coc.source.tag.filetypes": ["c", "cpp"],
   "html.filetypes": ["html"],
   "json.schemas": [
@@ -12,7 +13,9 @@
     "dockerfile": {
       "command": "docker-langserver",
       "filetypes": ["dockerfile"],
-      "args": ["--stdio"]
+      "args": ["--stdio"],
+      "rootPatterns": [".dockerignore"],
+      "requireRootPattern": true
     }
   },
   "less.validate": false,
