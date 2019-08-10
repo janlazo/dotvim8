@@ -17,8 +17,12 @@ set cpoptions&vim
 
 if !exists('*s:help')
   function! s:help()
-    if !executable('powershell')
-      echomsg 'powershell is unavailable in PATH'
+    let newshell = (has('win32') || has('win32unix'))
+    \ ? 'powershell.exe'
+    \ : 'pwsh'
+    let pager = has('win32') ? 'more' : 'less'
+    if !executable(newshell)
+      echomsg newshell 'is not in PATH'
       return
     elseif !executable(&shell)
       echomsg '''shell'' is not executable'
@@ -28,8 +32,8 @@ if !exists('*s:help')
     let shell = &shell
 
     try
-      SetShell powershell
-      let help_fmt = 'Get-Help %s | more'
+      execute 'SetShell' newshell
+      let help_fmt = 'Get-Help %s | ' . pager
       let cmd = printf(help_fmt, dotvim8#shellescape(expand('<cword>')))
       call dotvim8#bang(cmd)
     finally

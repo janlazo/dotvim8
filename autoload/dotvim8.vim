@@ -58,7 +58,7 @@ function! dotvim8#shellescape(arg, ...)
 
   if shell ==# 'cmd.exe'
     return s:shellesc_cmd(arg, script)
-  elseif shell =~# '^powershell'
+  elseif shell ==# 'powershell.exe' || shell ==# 'pwsh'
     return s:shellesc_ps1(arg)
   elseif has('win32') || has('win32unix')
     let shellslash = &shellslash
@@ -113,8 +113,10 @@ function! dotvim8#bang(cmd)
       let cmd = (has('unix') && executable('x-terminal-emulator')) ?
                 \ 'x-terminal-emulator -e ' . shellescape(a:cmd) : a:cmd
     else
-      let cls = &shell =~# 'cmd.exe$' || &shell =~# 'powershell.exe$' ?
-                \ 'cls' : 'clear'
+      let cls = &shell =~# 'cmd.exe$'
+                \ || &shell =~# 'powershell.exe$'
+                \ || &shell =~# 'pwsh$'
+                \ ? 'cls' : 'clear'
       let cmd = cls . ' && ' . a:cmd
     endif
 

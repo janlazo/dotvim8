@@ -209,7 +209,7 @@ if has('modify_fname')
           let &shellxescape = '"&|<>()@^'
         endif
       endif
-    elseif shell =~# '^powershell' && v:version >= 704
+    elseif v:version >= 704 && (shell ==# 'powershell.exe' || shell ==# 'pwsh')
       let &shell = a:shell
       let &shellcmdflag = '-NoProfile -NoLogo -ExecutionPolicy RemoteSigned -Command'
       set shellxescape= noshellslash
@@ -225,7 +225,7 @@ if has('modify_fname')
         let &shellxquote = has('win32') ? '"' : ''
         set shellquote=
       endif
-    elseif shell =~# '^wsl' && v:version >= 800
+    elseif v:version >= 800 && shell =~# '^wsl'
       let &shell = a:shell
       let &shellcmdflag = 'bash --login -c'
       let &shellredir = '>%s 2>&1'
