@@ -682,6 +682,7 @@ if has('autocmd')
       \ 'coc-tag', 'coc-vimtex',
       \ 'coc-json', 'coc-svg', 'coc-yaml',
       \ 'coc-css', 'coc-html', 'coc-tsserver', 'coc-vetur',
+      \ 'coc-powershell',
       \ ]
       if executable('python3')
         call add(g:coc_global_extensions, 'coc-python')

@@ -27,6 +27,9 @@
     }
   },
   "less.validate": false,
+  "powershell.debugging.createTemporaryIntegratedConsole": false,
+  "powershell.integratedConsole.showOnStartup": false,
+  "powershell.integratedConsole.focusConsoleOnExecute": false,
   "wxss.validate": false,
   "yaml.schemas": {
   }
