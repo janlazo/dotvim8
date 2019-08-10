@@ -13,17 +13,6 @@
       "command": "docker-langserver",
       "filetypes": ["dockerfile"],
       "args": ["--stdio"]
-    },
-    "phan": {
-      "command": "php",
-      "filetypes": ["php"],
-      "args": [
-        "vendor/phan/phan/phan",
-        "--allow-polyfill-parser",
-        "--language-server-on-stdin",
-        "--quick",
-        "--require-config-exists"
-      ]
     }
   },
   "less.validate": false,
