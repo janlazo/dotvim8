@@ -680,10 +680,12 @@ if has('autocmd')
     if s:base_cond
       let g:coc_global_extensions = [
       \ 'coc-tag', 'coc-vimtex',
-      \ 'coc-json', 'coc-svg', 'coc-yaml',
-      \ 'coc-css', 'coc-html', 'coc-tsserver', 'coc-vetur',
-      \ 'coc-powershell',
+      \ 'coc-css', 'coc-html', 'coc-json', 'coc-svg', 'coc-yaml',
+      \ 'coc-tsserver', 'coc-vetur',
       \ ]
+      if executable('powershell') || executable('pwsh')
+        call add(g:coc_global_extensions, 'coc-powershell')
+      endif
       if executable('python3')
         call add(g:coc_global_extensions, 'coc-python')
       endif
