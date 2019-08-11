@@ -6,8 +6,6 @@ if command -v shellcheck > /dev/null 2>&1; then
   shellcheck -e SC2046 $(git ls-files '*.sh')
 fi
 
-vimlparser vimrc gvimrc $(git ls-files '*.vim' | grep -v plug.vim) > /dev/null
-
 VIM_ARGS="-V2 -Es --cmd 'set rtp=$PWD,\$VIMRUNTIME,$PWD/after'"
 if command -v vim.tiny > /dev/null 2>&1; then
   vim.tiny --version

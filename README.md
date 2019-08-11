@@ -8,7 +8,6 @@ Vim 8+ / Neovim 0.2+ config folder for Windows support and async jobs.
     - backward compatibility up to Vim 7.2 (tiny) and Neovim 0.1.6
     - self-contained vimrc, independent of the entire repo
     - [vim-plug] as package manager for bundles in Github
-- [go-vimlparser] for linting Vimscript
 - `autoload/dotvim8.vim` resolves idiosyncrasies in Vim and Neovim, based on fzf's Vim plugin
     - `dotvim8#shellescape` is based on `fzf#shellescape`
     - `dotvim8#bang` is based on the fzf's `s:execute` functions
@@ -48,7 +47,6 @@ Apache License Version 2.0 (ALv2)
 [Travis]: https://travis-ci.org/janlazo/dotvim8
 [Travis-Status]: https://travis-ci.org/janlazo/dotvim8.svg?branch=master
 [vim-plug]: https://github.com/junegunn/vim-plug
-[go-vimlparser]: https://github.com/haya14busa/go-vimlparser
 [neovim-qt]: https://github.com/equalsraf/neovim-qt
 [janlazo/dotvim]: https://github.com/janlazo/dotvim
 [fzf]: https://github.com/junegunn/fzf
