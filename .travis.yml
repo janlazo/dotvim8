@@ -4,6 +4,9 @@ addons:
   apt:
     packages:
       - neovim
+      - python3-pip
+      - python3-setuptools
+      - python3-wheel
       - shellcheck
       - vim-nox
     sources:
@@ -12,9 +15,11 @@ addons:
     update: true
     packages:
       - neovim
+      - python@3
       - shellcheck
 
 matrix:
+  fast_finish: true
   include:
     - os: linux
       dist: bionic

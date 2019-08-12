@@ -1,15 +1,16 @@
 #!/bin/sh
-# Install language providers for Neovim 0.3+
+# Install language providers for Neovim 0.3+.
+# Install LSP servers for coc.nvim.
+set -eu
 
 # Python (https://github.com/neovim/python-client)
-if command -v python3 > /dev/null 2>&1; then
-  python3 -m pip install --user --disable-pip-version-check \
-    pynvim
-fi
-if command -v python2 > /dev/null 2>&1; then
-  python2 -m pip install --user --disable-pip-version-check \
-    pynvim
-fi
+for py in python3 python; do
+  if command -v $py >/dev/null 2>&1; then
+    $py -m pip install --user --disable-pip-version-check \
+      pynvim
+    break
+  fi
+done
 
 # Ruby (https://github.com/neovim/neovim-ruby)
 # Need 0.6.2+ on Windows
