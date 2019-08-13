@@ -28,6 +28,8 @@ matrix:
       dist: bionic
     - os: linux
       dist: xenial
+    - os: linux
+      dist: trusty
     - os: osx
       osx_image: xcode11
       rvm: system
