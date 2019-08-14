@@ -21,6 +21,10 @@ addons:
       - python@3
       - shellcheck
 
+env:
+  global:
+    - PIP_DISABLE_PIP_VERSION_CHECK=1
+
 matrix:
   fast_finish: true
   include:
@@ -28,6 +32,8 @@ matrix:
       dist: bionic
     - os: linux
       dist: xenial
+    - os: linux
+      dist: trusty
     - os: osx
       osx_image: xcode11
       rvm: system
