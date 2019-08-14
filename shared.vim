@@ -345,7 +345,7 @@ endif
 
 if has('syntax')
    " optimize for minified files
-  set synmaxcol=500
+  set synmaxcol=320
 
   if v:version >= 703
     set colorcolumn=
