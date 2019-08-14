@@ -397,17 +397,16 @@ if has('syntax')
       set background=light
       let colors = ['gruvbox8_soft', 'morning']
     else
-      let colors = ['torte']
-      if &t_Co == 256
-        call insert(colors, 'jellybeans')
+      set background=dark
+      let colors = ['gruvbox8_hard', 'torte']
+    endif
+    if has('patch-7.4.0660')
+      execute 'silent! colorscheme' colors[0]
+      if get(g:, 'colors_name', 'default') ==# colors[0]
+        return
       endif
     endif
-    for color in colors
-      execute 'silent! colorscheme' color
-      if get(g:, 'colors_name', 'default') ==# color
-        break
-      endif
-    endfor
+    execute 'colorscheme' colors[-1]
   endfunction
 
   function! s:synname()
@@ -630,12 +629,8 @@ if has('autocmd')
     \ 'tag': 'v2.5'
     \ })
 
-    Plug 'nanotech/jellybeans.vim'
-      " Windows' default terminal doesn't use ANSI in 8-16 color terminals
-      let g:jellybeans_use_lowcolor_black = 0
-      let g:jellybeans_use_term_italics = 0
-      let g:jellybeans_use_gui_italics = 0
-    call plug#('lifepillar/vim-gruvbox8', v:version >= 800 ? {} : s:plug_disable)
+    let s:base_cond = has('nvim') ? has('nvim-0.3.1') : has('patch-8.0.0616')
+    call plug#('lifepillar/vim-gruvbox8', s:base_cond ? {} : s:plug_disable)
 
     let s:base_cond = v:version >= 800
     call plug#('editorconfig/editorconfig-vim', s:base_cond ? {} : s:plug_disable)
