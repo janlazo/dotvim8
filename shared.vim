@@ -388,9 +388,7 @@ if has('syntax')
     \   has('nvim-0.1.6') :
     \   (!has('win32') || !has('patch-8.0.1531') || has('vcon')))
       let &termguicolors = &t_Co == 256 && empty($TMUX) && !has('osx') &&
-      \ (has('nvim') ?
-      \  has('nvim-0.2.1') :
-      \  (has('patch-8.0.142') && has('patch-8.0.146')))
+      \ (has('nvim') ? has('nvim-0.2.1') : has('patch-8.0.0146'))
     endif
 
     if s:is_gui
@@ -400,7 +398,7 @@ if has('syntax')
       set background=dark
       let colors = ['gruvbox8_hard', 'torte']
     endif
-    if has('patch-7.4.0660')
+    if has('patch-7.4.1036')
       execute 'silent! colorscheme' colors[0]
       if get(g:, 'colors_name', 'default') ==# colors[0]
         return
