@@ -2,11 +2,12 @@
 set -eu
 cd "$(dirname "$0")/.."
 
-NVM_DIR="$HOME/.nvm"
-test -f "$NVM_DIR/nvm.sh" && source "$NVM_DIR/nvm.sh" --no-use
-if command -v nvm >/dev/null 2>&1; then
-  nvm install lts/carbon
-  nvm use lts/carbon
-fi
+export NVM_DIR="$HOME/.nvm"
+rm -rf "$NVM_DIR"
+mkdir -p "$NVM_DIR"
+wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash
+source "$NVM_DIR/nvm.sh" --no-use
+nvm install lts/carbon
+nvm use lts/carbon
 
 ./bin/install_deps.sh
