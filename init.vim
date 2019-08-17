@@ -12,26 +12,20 @@
 " See the License for the specific language governing permissions and
 " limitations under the License.
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-if has('nvim-0.2')
-  set inccommand=nosplit
-else
-  let g:loaded_python_provider = 1
-  let g:loaded_python3_provider = 1
-endif
+set inccommand=nosplit
 
-if has('nvim-0.3')
-  if has('win32') && $TERM =~# 'cygwin' && executable('cygpath.exe')
-    let s:msys_root = get(split(system('cygpath.exe -w /'), "\n"), 0, '')
-    if isdirectory(s:msys_root)
-      let s:terminfo = s:msys_root.'usr\share\terminfo'
-      if empty($TERMINFO) && isdirectory(s:terminfo)
-        let $TERMINFO = s:terminfo
-      endif
-      unlet s:terminfo
+if !has('nvim-0.3.2') && has('win32') && $TERM =~# 'cygwin' && executable('cygpath.exe')
+  let s:msys_root = get(split(system('cygpath.exe -w /'), "\n"), 0, '')
+  if isdirectory(s:msys_root) && empty($TERMINFO)
+    let s:terminfo = s:msys_root.'usr\share\terminfo'
+    if isdirectory(s:terminfo)
+      let $TERMINFO = s:terminfo
     endif
-    unlet s:msys_root
+    unlet s:terminfo
   endif
-else
+  unlet s:msys_root
+endif
+if !has('nvim-0.3')
   let g:loaded_node_provider = 1
   let g:loaded_ruby_provider = 1
 

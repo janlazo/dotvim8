@@ -18,12 +18,9 @@ endif
 let g:loaded_autoload_dotvim8 = 1
 let s:cpoptions = &cpoptions
 set cpoptions&vim
-let s:has_term = has('nvim') ?
-                \ (has('nvim-0.2.1') || !has('win32')) :
-                \ (has('terminal') && has('patch-8.0.1108'))
-let s:has_job = has('nvim') ?
-                \ (has('nvim-0.2') || !has('win32')) :
-                \ (has('job') && has('channel') && has('patch-8.0.87'))
+let s:has_term = has('nvim') || (has('terminal') && has('patch-8.0.1108'))
+let s:has_job = has('nvim') || (has('job') && has('channel')
+                                \ && has('patch-8.0.87'))
 
 function! s:escape_ex(cmd)
   return escape(a:cmd, '%#!')

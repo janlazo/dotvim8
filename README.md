@@ -2,10 +2,10 @@
 
 [![Build Status][Travis-Status]][Travis]
 
-Vim 8+ / Neovim 0.2+ config folder for Windows support and async jobs.
+Vim 8+ / Neovim 0.2.2+ config folder for Windows support and async jobs.
 
 - `shared.vim` for shared code between Vim and Neovim
-    - backward compatibility up to Vim 7.2 (tiny) and Neovim 0.1.6
+    - backward compatibility up to Vim 7.4 (tiny) and Neovim 0.2.2
     - self-contained vimrc, independent of the entire repo
     - [vim-plug][gh-vim-plug] as package manager for bundles in Github
 - `autoload/dotvim8.vim` resolves idiosyncrasies in Vim and Neovim, based on [fzf][gh-fzf]'s Vim plugin
@@ -21,17 +21,17 @@ For performance, use GUIs when navigating or editing inside folds.
 
 ## Editor Support
 
-- Vim 7.3+ to be compatible with most plugins in Github
-- Neovim 0.2+ to use [fzf][gh-fzf] and async jobs in Windows
+- Vim 7.4+
+- Neovim 0.2.2+
 - gui: gvim, [nvim-qt][gh-nvim-qt]
 
 ## OS Support
 
 - Linux
-    - os: Ubuntu xenial, Debian stretch
+    - os: Ubuntu xenial, bionic
     - terminal: sakura, tilda
 - Windows
-    - os: 7, 8.1, 10
+    - see https://github.com/lukesampson/scoop#requirements
     - terminal: ConEmu for truecolor (Neovim only)
 
 ## LICENSE

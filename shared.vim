@@ -14,7 +14,7 @@
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Feature/Version checks group options, variables, functions, mappings.
 " Folds group these checks by version type (ie. tiny,normal,huge).
-" Vim 7.2 (tiny) and Neovim 0.1.6 are the mimimum supported versions.
+" Vim 7.4 (tiny) and Neovim 0.2.2 are the minimum supported versions.
 " See `:h version` for feature checks.
 " Check `v:version` for release + major version as an integer.
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -22,16 +22,28 @@
 set cpoptions-=C cpoptions-=<
 set nomodeline modelines=0
 set shortmess+=s shortmess+=I
+if has('patch-7.4.0314')
+  set shortmess+=c
+endif
+if has('patch-7.4.1570')
+  set shortmess+=F
+endif
 
 " Keys
-set backspace=2 whichwrap=<,>,b,s nrformats-=octal nojoinspaces
+set whichwrap=<,>,b,s nojoinspaces shiftround
 set notimeout ttimeout ttimeoutlen=100
 set keywordprg=:help
-set autoindent shiftround
+if has('patch-7.4.0868')
+  " 4-space Indent
+  set shiftwidth=4 smarttab expandtab
+endif
 
 " File
-set autoread fileformats=unix,dos suffixes=
+set fileformats=unix,dos suffixes=
 set noswapfile directory= updatecount=0 updatetime=1000
+if has('patch-7.4.0785')
+  set nofixendofline
+endif
 
 " Do not force a memory flush to speedup manual writes.
 if exists('+swapsync')
@@ -42,27 +54,15 @@ if exists('+fsync')
 endif
 
 " UI
-set number textwidth=72 formatoptions=ql
+set number textwidth=72 formatoptions=qlj
 set sidescroll=5 nostartofline
-set scrolloff=1 sidescrolloff=1 display=lastline
-set laststatus=2 cmdheight=2 noshowmode
+set scrolloff=1 sidescrolloff=1 cmdheight=2 noshowmode
+if has('patch-7.4.0977')
+  set list listchars=tab:>\ ,trail:-,nbsp:+
+endif
 
 if 1
   let s:is_gui = has('gui_running')
-
-  if v:version >= 704
-    set formatoptions+=j
-
-    " 4-space Indent
-    set shiftwidth=4 smarttab expandtab
-  endif
-
-  if v:version >= 800 || has('nvim-0.1.6')
-    set shortmess+=c shortmess+=F
-    set belloff=all
-    set nofixendofline
-    set list listchars=tab:>\ ,trail:-,nbsp:+
-  endif
 
   " Compare 2 version strings, both in semver format.
   " If a >  b, return 1.
@@ -168,21 +168,16 @@ endif
 if has('vertsplit')
   set splitright
 endif
-" }}}tiny
-" {{{small
-" Moved from normal to small version since 8.0.1129
-if has('cmdline_hist')
-  if &history < 1000
-    set history=1000
-  endif
-endif
-" }}}small
-" {{{normal
+
+" Moved from normal to tiny version since 8.1.1979
 if has('modify_fname')
   let s:base_dir = expand('<sfile>:p:h')
 
   function! s:set_shell(shell)
-    if !executable(a:shell)
+    if v:version < 704
+      echoerr a:shell 'is not supported for Vim ' v:version
+      return
+    elseif !executable(a:shell)
       echoerr a:shell 'is not executable'
       return
     endif
@@ -203,13 +198,10 @@ if has('modify_fname')
         set shellxescape=
       else
         let &shellcmdflag = '/c'
-
-        if v:version >= 704
-          let &shellxquote = '('
-          let &shellxescape = '"&|<>()@^'
-        endif
+        let &shellxquote = '('
+        let &shellxescape = '"&|<>()@^'
       endif
-    elseif v:version >= 704 && (shell ==# 'powershell.exe' || shell ==# 'pwsh')
+    elseif (shell ==# 'powershell.exe' || shell ==# 'pwsh')
       let &shell = a:shell
       let &shellcmdflag = '-NoProfile -NoLogo -ExecutionPolicy RemoteSigned -Command'
       set shellxescape= noshellslash
@@ -237,16 +229,13 @@ if has('modify_fname')
     elseif shell =~# '^sh' || shell =~# '^bash'
       let &shell = a:shell
       let &shellcmdflag = '-c'
-      set shellquote= shellslash
+      set shellquote= shellslash shellxescape=
       let &shellredir = '>%s 2>&1'
       if has('quickfix')
         let &shellpipe = '2>&1 | tee'
       endif
 
-      if v:version >= 704
-        set shellxescape=
-        let &shellxquote = (!has('nvim') && has('win32')) ? '"' : ''
-      endif
+      let &shellxquote = (!has('nvim') && has('win32')) ? '"' : ''
     else
       echoerr a:shell 'is not supported in Vim' v:version
     endif
@@ -256,9 +245,31 @@ if has('modify_fname')
     call s:set_shell(has('nvim') || empty($COMSPEC) ? 'cmd.exe' : $COMSPEC)
   elseif has('win32unix')
     call s:set_shell('sh')
+  elseif has('unix') && executable($SHELL)
+    call s:set_shell($SHELL)
   endif
 endif
 
+" Moved from normal to tiny version since 8.1.1901
+if has('insert_expand')
+  set complete-=i completeopt=menuone,preview
+  if has('patch-7.4.0784')
+    set completeopt+=noselect
+  endif
+  if has('patch-8.0.0043')
+    set completeopt+=noinsert
+  endif
+endif
+" }}}tiny
+" {{{small
+" Moved from normal to small version since 8.0.1129
+if has('cmdline_hist')
+  if &history < 1000
+    set history=1000
+  endif
+endif
+" }}}small
+" {{{normal
 if has('path_extra')
   set path=.,, define=
 endif
@@ -271,7 +282,7 @@ if has('linebreak')
   " 3-digit line number in 80 col terminals
   set numberwidth=4
 
-  if v:version >= 800 || has('nvim-0.1.6')
+  if has('patch-8.0.0380')
     set linebreak
   endif
 endif
@@ -317,22 +328,12 @@ if has('extra_search') && has('reltime')
   " highlight matches, quick-jump to nearest
   set hlsearch incsearch
 
-  if v:version >= 704
-    execute 'nnoremap Q :nohlsearch <Bar>' maparg('Q', 'n')
-  endif
+  execute 'nnoremap Q :nohlsearch <Bar>' maparg('Q', 'n')
 endif
 
 if has('wildmenu')
   " Display hints, complete with selection via tab
   set wildmenu wildmode=longest:full,full
-endif
-
-if has('insert_expand')
-  set complete-=i completeopt=menuone,preview
-
-  if v:version >= 800
-    set completeopt+=noinsert,noselect
-  endif
 endif
 
 if has('mksession')
@@ -347,13 +348,7 @@ if has('syntax')
    " optimize for minified files
   set synmaxcol=320
 
-  if v:version >= 703
-    set colorcolumn=
-  endif
-
-  if v:version >= 800 || has('nvim-0.1.6')
-    let &colorcolumn = &textwidth
-  endif
+  let &colorcolumn = has('patch-8.0.0675') ? &textwidth : ''
 
   function! s:toggle_spell() abort
     let &l:spell = !&l:spell
@@ -362,7 +357,7 @@ if has('syntax')
     endif
   endfunction
 
-  if exists('s:base_dir')
+  if has('modify_fname')
     let s:spelldir = expand(s:base_dir . '/spell')
 
     " spellfile#WritableSpellDir() requires that ~/.vim/spell exists.
@@ -370,10 +365,9 @@ if has('syntax')
       call mkdir(s:spelldir)
     endif
 
-    if has('win32') && has('nvim') && !has('nvim-0.2.1') && !has('patch-8.0.1378')
+    if has('win32') && has('nvim') && !has('nvim-0.3.2')
       " Neovim uses hardcoded XDG paths on Windows but XDG is for Linux.
       " Redefine spellfile#WritableSpellDir() to point here.
-      " Patch 8.0.1378 prevents autoloaded function definition.
       function! spellfile#WritableSpellDir()
         return s:spelldir
       endfunction
@@ -383,12 +377,17 @@ if has('syntax')
   endif
 
   function! s:set_color()
-    if has('termguicolors') &&
-    \  (has('nvim') ?
-    \   has('nvim-0.1.6') :
-    \   (!has('win32') || !has('patch-8.0.1531') || has('vcon')))
-      let &termguicolors = &t_Co == 256 && empty($TMUX) && !has('osx') &&
-      \ (has('nvim') ? has('nvim-0.2.1') : has('patch-8.0.0146'))
+    if has('termguicolors')
+    \ && (has('nvim')
+          \ || !has('win32')
+          \ || !has('patch-8.0.1531')
+          \ || has('vcon'))
+      let &termguicolors = &t_Co == 256 && empty($TMUX) && !has('osx')
+      \ && (has('nvim')
+            \ ? has('nvim-0.3.2')
+            \ : (has('win32')
+                \ ? (has('vcon') && has('patch-8.1.0839'))
+                \ : has('patch-8.0.0146')))
     endif
 
     if s:is_gui
@@ -413,7 +412,7 @@ if has('syntax')
 endif
 
 if has('persistent_undo')
-  if exists('s:base_dir')
+  if has('modify_fname')
     let &undodir = expand(s:base_dir . '/.undodir')
 
     if !isdirectory(&undodir)
@@ -436,7 +435,7 @@ endif
 if has('viminfo')
   set viminfo='100,<50,s10,h
 
-  if exists('+viminfofile') && exists('s:base_dir')
+  if has('modify_fname') && exists('+viminfofile')
     let &viminfofile = expand(s:base_dir . '/.viminfo')
   endif
 elseif exists('+shada')
@@ -447,20 +446,6 @@ if has('quickfix')
   if has('win32')
     " FIXME - findstr requires prepending /c: to the regex
     let &grepprg = executable('findstr.exe') ? 'findstr /s /r /p /n $* nul' : ''
-  endif
-endif
-
-if has('user_commands')
-  command! SpaceToTab setlocal noexpandtab | retab!
-  command! TabToSpace setlocal expandtab | retab
-
-  if has('modify_fname')
-    command! -nargs=1 SetShell call s:set_shell(<f-args>)
-  endif
-
-  if has('syntax')
-    command! SynName echo s:synname()
-    command! ToggleSpell call <SID>toggle_spell()
   endif
 endif
 " }}}normal
@@ -478,8 +463,23 @@ if has('signs') && has('patch-7.4.2201')
 endif
 " }}}big
 
+" Moved from normal to tiny version since 8.1.1210
+if has('user_commands')
+  command! SpaceToTab setlocal noexpandtab | retab!
+  command! TabToSpace setlocal expandtab | retab
+
+  if has('modify_fname')
+    command! -nargs=1 SetShell call s:set_shell(<f-args>)
+  endif
+
+  if has('syntax')
+    command! SynName echo s:synname()
+    command! ToggleSpell call <SID>toggle_spell()
+  endif
+endif
+
 " Moved from normal to tiny version since 8.0.1564
-if has('autocmd')
+if has('autocmd') && has('modify_fname')
   " Vim
   let g:vimsyn_embed = ''
   let g:vim_indent_cont = 0
@@ -488,9 +488,7 @@ if has('autocmd')
   let g:loaded_getscriptPlugin = 1
   let g:loaded_logiPat = 1
   let g:loaded_vimballPlugin = 1
-  if exists('s:base_dir')
-    let g:netrw_home = s:base_dir
-  endif
+  let g:netrw_home = s:base_dir
   let g:netrw_dirhistmax = 0
   let g:netrw_banner = 0
 
@@ -515,6 +513,7 @@ if has('autocmd')
     if s:is_gui
       set mouse=a
 
+      let $TERM = ''
       if $ConEmuANSI ==# 'ON'
         let $ConEmuANSI = 'OFF'
       endif
@@ -759,8 +758,6 @@ if has('autocmd')
   " }}}vim-plug
 endif
 
-if 1
-  if exists('s:base_dir')
-    unlet s:base_dir
-  endif
+if has('modify_fname')
+  unlet s:base_dir
 endif
