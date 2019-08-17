@@ -627,9 +627,6 @@ if has('autocmd')
     \ 'tag': 'v2.5'
     \ })
 
-    let s:base_cond = has('nvim') ? has('nvim-0.3.1') : has('patch-8.0.0616')
-    call plug#('lifepillar/vim-gruvbox8', s:base_cond ? {} : s:plug_disable)
-
     let s:base_cond = v:version >= 800
     call plug#('editorconfig/editorconfig-vim', s:base_cond ? {} : s:plug_disable)
     if s:base_cond
@@ -638,6 +635,12 @@ if has('autocmd')
       let g:EditorConfig_exclude_patterns = ['scp://.*', 'fugitive://.*']
     endif
     " }}}plug-core
+
+    " {{{plug-color
+    Plug 'lifepillar/vim8-colorschemes'
+    let s:base_cond = has('nvim') ? has('nvim-0.3.1') : has('patch-8.0.0616')
+    call plug#('lifepillar/vim-gruvbox8', s:base_cond ? {} : s:plug_disable)
+    " }}}plug-color
 
     " {{{plug-autocomplete
     " Shared sources
