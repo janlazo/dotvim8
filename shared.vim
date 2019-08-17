@@ -734,7 +734,7 @@ if has('autocmd')
       let g:no_vue_maps = 1
 
     " Database
-    Plug 'exu/pgsql.vim'
+    Plug 'lifepillar/pgsql.vim'
       let g:sql_type_default = 'pgsql'
 
     " Data
