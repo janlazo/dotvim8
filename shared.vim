@@ -581,7 +581,7 @@ if has('autocmd') && has('modify_fname')
       " Required for html, pandoc
       function! s:update_commentstring()
         let syntax_name = s:synname()
-        if syntax_name =~# '^css'
+        if syntax_name =~# '^[s]\?css'
           let b:commentary_format = '/* %s */'
         elseif syntax_name =~# '^javascript' || syntax_name =~# '^php'
           let b:commentary_format = '// %s'
@@ -593,6 +593,7 @@ if has('autocmd') && has('modify_fname')
           unlet b:commentary_format
         endif
       endfunction
+      autocmd vimrc CursorHold * call s:update_commentstring()
       autocmd vimrc CursorMoved * call s:update_commentstring()
     endif
     Plug 'tpope/vim-endwise'
