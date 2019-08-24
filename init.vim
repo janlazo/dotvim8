@@ -34,4 +34,8 @@ if !has('nvim-0.3')
   endif
 endif
 
+if has('nvim-0.4')
+  set pumblend=30
+endif
+
 runtime shared.vim
