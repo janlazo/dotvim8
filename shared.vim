@@ -538,8 +538,7 @@ if has('autocmd') && has('modify_fname')
       call s:set_color()
     endif
 
-    if has('insert_expand') &&
-    \  (get(g:, 'asyncomplete_loaded', 0) || get(g:, 'did_coc_loaded', 0))
+    if has('insert_expand') && get(g:, 'did_coc_loaded', 0)
       inoremap <silent> <expr> <TAB>   pumvisible() ? "\<C-n>" : "\<TAB>"
       inoremap <silent> <expr> <S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
       inoremap <silent> <expr> <CR>    pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
@@ -643,65 +642,28 @@ if has('autocmd') && has('modify_fname')
     " }}}plug-color
 
     " {{{plug-autocomplete
-    " Shared sources
-    Plug 'Shougo/neco-vim'
-    " Primary
-    let s:base_cond = has('nvim-0.4.0') &&
-    \ executable('node') && executable('npm') &&
-    \ executable('curl') && executable('mv') && executable('tar')
-    call plug#('neoclide/coc-neco', s:base_cond ? {} : s:plug_disable)
-    let s:base_config = {'tag': 'v0.0.73'}
-    function! s:base_config.do(info) dict
-      if a:info.status !=# 'installed' && !a:info.force
-        return
-      endif
-      " coc#util#install() does more than downloading the binary.
-      " It does not work on Windows.
-      " It opens a browser if there are no extensions.
-      let file = 'coc.tar.gz'
-      call system(['curl', '-LO', 'https://github.com/neoclide/coc.nvim/releases/download/' . self.tag . '/' . file])
-      if v:shell_error
-        echoerr 'Failed to download coc.nvim compiled script'
-        return
-      endif
-      if isdirectory('build')
-        call delete('build', 'rf')
-      endif
-      call system(['tar', '-xzf', file])
-      call mkdir('build')
-      call system(['mv', 'index.js', 'build'])
-      call coc#rpc#restart()
-    endfunction
+    " Sources
+    Plug 'lervag/vimtex'
+
+    " coc.nvim
+    let s:base_cond = (has('nvim')
+    \ ? has('nvim-0.4.0')
+    \ : has('patch-8.1.1522') && has('textprop'))
+    \ && executable('node') && executable('npm')
+    let s:base_config = {'tag': 'v0.0.74', 'branch': 'release'}
     call plug#('neoclide/coc.nvim', s:base_cond ? s:base_config : s:plug_disable)
     if s:base_cond
       let g:coc_global_extensions = [
       \ 'coc-tag', 'coc-vimtex',
       \ 'coc-css', 'coc-html', 'coc-json', 'coc-svg', 'coc-yaml',
-      \ 'coc-tsserver', 'coc-vetur',
+      \ 'coc-tsserver', 'coc-vetur', 'coc-vimlsp',
       \ ]
-      if executable('powershell') || executable('pwsh')
-        call add(g:coc_global_extensions, 'coc-powershell')
-      endif
       if executable('python3')
         call add(g:coc_global_extensions, 'coc-python')
       endif
       if executable('ruby') && executable('solargraph')
         call add(g:coc_global_extensions, 'coc-solargraph')
       endif
-    endif
-    " Fallback
-    let s:base_cond = !s:base_cond && has('timers') && v:version >= 800
-    call plug#('prabirshrestha/asyncomplete.vim', s:base_cond ? {} : s:plug_disable)
-    call plug#('prabirshrestha/asyncomplete-necovim.vim', s:base_cond ? {} : s:plug_disable)
-    if s:base_cond
-      let g:asyncomplete_auto_completeopt = 0
-      let g:asyncomplete_smart_completion = 0
-      autocmd vimrc User asyncomplete_setup
-      \ call asyncomplete#register_source(asyncomplete#sources#necovim#get_source_options({
-      \ 'name': 'necovim',
-      \ 'whitelist': ['vim'],
-      \ 'completor': function('asyncomplete#sources#necovim#completor')
-      \ }))
     endif
     " }}}plug-autocomplete
 
@@ -715,7 +677,6 @@ if has('autocmd') && has('modify_fname')
 
     " Document
     Plug 'tpope/vim-markdown'
-    Plug 'lervag/vimtex'
     Plug 'vim-pandoc/vim-pandoc-syntax'
     Plug 'aklt/plantuml-syntax'
 
