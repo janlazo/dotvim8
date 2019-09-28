@@ -390,6 +390,7 @@ if has('syntax')
                 \ : has('patch-8.0.0146')))
     endif
 
+    " Last color should always work
     if s:is_gui
       set background=light
       let colors = ['gruvbox8_soft', 'morning']
@@ -398,12 +399,15 @@ if has('syntax')
       let colors = ['gruvbox8_hard', 'torte']
     endif
     if has('patch-7.4.1036')
-      execute 'silent! colorscheme' colors[0]
-      if get(g:, 'colors_name', 'default') ==# colors[0]
-        return
-      endif
+      for color in colors
+        execute 'silent! colorscheme' color
+        if get(g:, 'colors_name', 'default') ==# color
+          return
+        endif
+      endfor
+    else
+      execute 'colorscheme' colors[-1]
     endif
-    execute 'colorscheme' colors[-1]
   endfunction
 
   function! s:synname()
