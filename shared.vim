@@ -204,7 +204,7 @@ if has('modify_fname')
     elseif (shell ==# 'powershell.exe' || shell ==# 'pwsh')
       let &shell = a:shell
       let &shellcmdflag = '-NoProfile -NoLogo -ExecutionPolicy RemoteSigned -Command'
-      set shellxescape= noshellslash
+      set shellxescape= shellquote= noshellslash
       let &shellredir = '| Out-File -Encoding UTF8'
       if has('quickfix')
         let &shellpipe = '|'
@@ -212,10 +212,8 @@ if has('modify_fname')
 
       if has('nvim')
         set shellxquote=
-        let &shellquote = '('
       else
         let &shellxquote = has('win32') ? '"' : ''
-        set shellquote=
       endif
     elseif v:version >= 800 && shell =~# '^wsl'
       let &shell = a:shell
