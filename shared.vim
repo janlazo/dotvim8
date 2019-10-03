@@ -240,11 +240,9 @@ if has('modify_fname')
   endfunction
 
   if has('win32')
-    call s:set_shell(has('nvim') || empty($COMSPEC) ? 'cmd.exe' : $COMSPEC)
-  elseif has('win32unix')
-    call s:set_shell('sh')
-  elseif has('unix') && executable($SHELL)
-    call s:set_shell($SHELL)
+    call s:set_shell(has('nvim') || !executable($COMSPEC) ? 'cmd.exe' : $COMSPEC)
+  elseif has('unix')
+    call s:set_shell(filter([$SHELL, 'sh'], 'executable(v:val)')[0])
   endif
 endif
 
