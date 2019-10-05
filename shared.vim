@@ -213,14 +213,6 @@ if has('modify_fname')
       else
         let &shellxquote = has('win32') ? '"' : ''
       endif
-    elseif v:version >= 800 && shell =~# '^wsl'
-      let &shellcmdflag = 'bash --login -c'
-      let &shellredir = '>%s 2>&1'
-      if has('quickfix')
-        let &shellpipe = '2>&1 | tee'
-      endif
-      let &shellxquote = '"'
-      set shellxescape= shellquote= shellslash
     elseif shell =~# '^sh' || shell =~# '^bash'
       let &shellcmdflag = '-c'
       set shellquote= shellslash shellxescape=
