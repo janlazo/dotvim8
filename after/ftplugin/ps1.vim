@@ -24,12 +24,13 @@ if !exists('*s:help')
     if !executable(newshell)
       echomsg newshell 'is not in PATH'
       return
-    elseif !executable(&shell)
-      echomsg '''shell'' is not executable'
-      return
     endif
 
     let shell = &shell
+    " de-quote
+    if shell[0] ==# '"'
+      let shell = shell[1:-2]
+    endif
 
     try
       execute 'SetShell' newshell

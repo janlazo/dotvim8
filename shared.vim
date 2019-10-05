@@ -182,9 +182,13 @@ if has('modify_fname')
       return
     endif
 
-    let shell = fnamemodify(a:shell, ':t')
+    let shell = a:shell
+    " de-quote
+    if shell[0] ==# '"'
+      let shell = shell[1:-2]
+    endif
 
-    if shell ==# 'cmd.exe'
+    if shell =~# 'cmd\.exe'
       let &shellredir = '>%s 2>&1'
       if has('quickfix')
         let &shellpipe = &shellredir
@@ -200,7 +204,7 @@ if has('modify_fname')
         let &shellxquote = '('
         let &shellxescape = '"&|<>()@^'
       endif
-    elseif (shell ==# 'powershell.exe' || shell ==# 'pwsh')
+    elseif shell =~# 'powershell\.exe' || shell =~# 'pwsh'
       let &shellcmdflag = '-NoProfile -NoLogo -ExecutionPolicy RemoteSigned -Command'
       set shellxescape= shellquote= noshellslash
       let &shellredir = '| Out-File -Encoding UTF8'
@@ -213,7 +217,7 @@ if has('modify_fname')
       else
         let &shellxquote = has('win32') ? '"' : ''
       endif
-    elseif shell =~# '^sh' || shell =~# '^bash'
+    elseif shell =~# 'sh' || shell =~# 'bash'
       let &shellcmdflag = '-c'
       set shellquote= shellslash shellxescape=
       let &shellredir = '>%s 2>&1'
@@ -226,7 +230,7 @@ if has('modify_fname')
       echoerr a:shell 'is not supported in Vim' v:version
       return
     endif
-    let &shell = '"' . a:shell . '"'
+    let &shell = match(shell, ' ') == -1 ? shell : '"' . shell . '"'
   endfunction
 
   if has('win32')

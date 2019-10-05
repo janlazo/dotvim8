@@ -49,13 +49,17 @@ function! dotvim8#shellescape(arg, ...)
 
   let opts = get(a:000, 0, {})
   let shell = fnamemodify(get(opts, 'shell', &shell), ':t')
+  " de-quote
+  if shell[0] ==# '"'
+    let shell = shell[1:-2]
+  endif
   let script = get(opts, 'script', 0)
   let arg = get(opts, 'escape_argv', 1) && (has('win32') || has('win32unix')) ?
             \ escape(a:arg, '"\') : a:arg
 
-  if shell ==# 'cmd.exe'
+  if shell =~# 'cmd\.exe'
     return s:shellesc_cmd(arg, script)
-  elseif shell ==# 'powershell.exe' || shell ==# 'pwsh'
+  elseif shell =~# 'powershell\.exe' || shell =~# 'pwsh'
     return s:shellesc_ps1(arg)
   elseif has('win32') || has('win32unix')
     let shellslash = &shellslash
@@ -76,9 +80,11 @@ function! dotvim8#bang(cmd)
   if empty(a:cmd)
     echomsg 'Command is empty string'
     return
-  elseif !executable(&shell)
-    echomsg '''shell'' is not executable'
-    return
+  endif
+  let shell = &shell
+  " de-quote
+  if shell[0] ==# '"'
+    let shell = shell[1:-2]
   endif
 
   if s:has_term
@@ -87,10 +93,10 @@ function! dotvim8#bang(cmd)
       call termopen(a:cmd)
       startinsert
     else
-      if &shell =~# 'cmd.exe$'
+      if shell =~# 'cmd\.exe'
         let cmd = ['cmd', '/s', '/c', '"' . a:cmd . '"']
       else
-        let cmd = [&shell, &shellcmdflag, a:cmd]
+        let cmd = [shell, &shellcmdflag, a:cmd]
       endif
 
       " Vim escapes the double quotes with backslashes
@@ -103,16 +109,16 @@ function! dotvim8#bang(cmd)
 
       call term_start(cmd)
     endif
-  elseif has('nvim') && s:has_job && &shell =~# 'cmd.exe$'
+  elseif has('nvim') && s:has_job && shell =~# 'cmd\.exe'
     call jobstart('start /wait cmd /s /c "' . a:cmd . '"')
   else
     if has('gui_running')
       let cmd = (has('unix') && executable('x-terminal-emulator')) ?
                 \ 'x-terminal-emulator -e ' . shellescape(a:cmd) : a:cmd
     else
-      let cls = &shell =~# 'cmd.exe$'
-                \ || &shell =~# 'powershell.exe$'
-                \ || &shell =~# 'pwsh$'
+      let cls = shell =~# 'cmd\.exe'
+                \ || shell =~# 'powershell\.exe'
+                \ || shell =~# 'pwsh'
                 \ ? 'cls' : 'clear'
       let cmd = cls . ' && ' . a:cmd
     endif
