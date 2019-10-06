@@ -328,6 +328,7 @@ endif
 
 if has('mksession')
   set sessionoptions=buffers,curdir,tabpages,winsize
+  set viewoptions-=options
 endif
 
 if has('mouse')
