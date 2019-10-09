@@ -389,7 +389,7 @@ if has('syntax')
       set background=dark
       let colors = ['gruvbox8_hard', 'torte']
     endif
-    if has('patch-7.4.1036')
+    if has('patch-7.4.1036') && (s:is_gui || has('nvim') || !has('win32'))
       for color in colors
         execute 'silent! colorscheme' color
         if get(g:, 'colors_name', 'default') ==# color
