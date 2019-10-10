@@ -12,6 +12,8 @@
 " See the License for the specific language governing permissions and
 " limitations under the License.
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+setlocal suffixesadd+=.js suffixesadd+=.json
+
 if has('patch-8.0.60')
   setlocal keywordprg=:BrowseMDN
 endif

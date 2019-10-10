@@ -13,6 +13,9 @@
 " limitations under the License.
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 setlocal commentstring=<!--%s-->
+setlocal suffixesadd+=.html suffixesadd+=.js
+setlocal suffixesadd+=.css suffixesadd+=.sass suffixesadd+=.scss
+setlocal suffixesadd+=.jpg suffixesadd+=.png
 
 if has('patch-8.0.60')
   setlocal keywordprg=:BrowseMDN
