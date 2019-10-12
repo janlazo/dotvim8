@@ -384,7 +384,7 @@ if has('syntax')
     " Last color should always work
     if s:is_gui
       set background=light
-      let colors = ['gruvbox8_soft', 'snow', 'morning']
+      let colors = ['gruvbox8_soft', 'morning']
     else
       set background=dark
       let colors = ['gruvbox8_hard', 'torte']
@@ -632,8 +632,10 @@ if has('autocmd') && has('modify_fname')
 
     " {{{plug-color
     Plug 'lifepillar/vim8-colorschemes'
-    Plug 'nightsense/snow'
-    let s:base_cond = has('nvim') ? has('nvim-0.3.1') : has('patch-8.0.0616')
+    let s:base_cond = has('nvim')
+    \ ? has('nvim-0.3.1')
+    \ : has('patch-8.0.0616') || (has('gui_running') && has('patch-7.4.1689'))
+    call plug#('arzg/vim-substrata', s:base_cond ? {} : s:plug_disable)
     call plug#('lifepillar/vim-gruvbox8', s:base_cond ? {} : s:plug_disable)
     " }}}plug-color
 
