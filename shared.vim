@@ -528,6 +528,8 @@ if has('autocmd') && has('modify_fname')
         nnoremap <silent> <C-ScrollWheelUp>   :call <SID>update_fontsize(1)<CR>
         nnoremap <silent> <C-ScrollWheelDown> :call <SID>update_fontsize(-1)<CR>
       endif
+    else
+      let g:gruvbox_transp_bg = 1
     endif
     if has('syntax')
       call s:set_color()
