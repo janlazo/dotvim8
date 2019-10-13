@@ -357,12 +357,12 @@ if s:is_win
     return map([
       \ '@echo off',
       \ 'setlocal enabledelayedexpansion']
-    \ + use_chcp ? [
+    \ + (use_chcp ? [
       \ 'for /f "usebackq" %%a in (`chcp | sed "s/[^0-9]//gp"`) do set origchcp=%%a',
-      \ 'chcp 65001 > nul'] : []
+      \ 'chcp 65001 > nul'] : [])
     \ + (type(a:cmds) == type([]) ? a:cmds : [a:cmds])
-    \ + use_chcp ? ['chcp !origchcp! > nul'] : []
-    \ + ['endlocal']
+    \ + (use_chcp ? ['chcp !origchcp! > nul'] : [])
+    \ + ['endlocal'],
     \ 'v:val."\r"')
   endfunction
 
