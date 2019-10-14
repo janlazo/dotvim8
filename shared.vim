@@ -688,9 +688,8 @@ if has('autocmd') && has('modify_fname')
     Plug 'othree/yajs.vim'
     Plug 'othree/es.next.syntax.vim'
     Plug 'kchmck/vim-coffee-script'
-    Plug 'leafgarland/typescript-vim'
-    Plug 'mxw/vim-jsx'
-      let g:jsx_ext_required = 1
+    Plug 'HerringtonDarkholme/yats.vim'
+    Plug 'MaxMEllon/vim-jsx-pretty'
     let s:base_cond = has('patch-7.4.2071')
     call plug#('posva/vim-vue', s:base_cond ? {} : s:plug_disable)
       let g:vue_pre_processors = ['scss']
