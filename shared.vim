@@ -250,6 +250,11 @@ if has('insert_expand')
     set completeopt+=noinsert
   endif
 endif
+
+" Moved from normal to tiny since 8.1.2096
+if has('comments')
+  set comments=
+endif
 " }}}tiny
 " {{{small
 " Moved from normal to small version since 8.0.1129
@@ -416,10 +421,6 @@ if has('persistent_undo')
   else
     set noundofile undodir=
   endif
-endif
-
-if has('comments')
-  set comments=
 endif
 
 if has('folding')
