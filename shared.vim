@@ -174,21 +174,14 @@ if has('modify_fname')
   let s:base_dir = expand('<sfile>:p:h')
 
   function! s:set_shell(shell)
-    if v:version < 704
-      echoerr a:shell 'is not supported for Vim ' v:version
-      return
-    elseif !executable(a:shell)
-      echoerr a:shell 'is not executable'
-      return
-    endif
-
     let shell = a:shell
     " de-quote
     if shell[0] ==# '"'
       let shell = shell[1:-2]
     endif
+    let tail = fnamemodify(shell, ':t')
 
-    if shell =~# 'cmd\.exe'
+    if tail =~# '^cmd\.exe'
       let &shellredir = '>%s 2>&1'
       if has('quickfix')
         let &shellpipe = &shellredir
@@ -204,7 +197,7 @@ if has('modify_fname')
         let &shellxquote = '('
         let &shellxescape = '"&|<>()@^'
       endif
-    elseif shell =~# 'powershell\.exe' || shell =~# 'pwsh'
+    elseif tail =~# '^powershell\.exe' || tail =~# '^pwsh'
       let &shellcmdflag = '-NoProfile -NoLogo -ExecutionPolicy RemoteSigned -Command'
       set shellxescape= shellquote= noshellslash
       let &shellredir = '| Out-File -Encoding UTF8'
@@ -217,7 +210,8 @@ if has('modify_fname')
       else
         let &shellxquote = has('win32') ? '"' : ''
       endif
-    elseif shell =~# 'sh' || shell =~# 'bash'
+    elseif (tail =~# '^sh' || tail =~# '^bash')
+    \ && (!has('win32') || tail =~# '\.exe$')
       let &shellcmdflag = '-c'
       set shellquote= shellslash shellxescape=
       let &shellredir = '>%s 2>&1'
