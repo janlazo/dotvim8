@@ -174,10 +174,18 @@ if has('modify_fname')
   let s:base_dir = expand('<sfile>:p:h')
 
   function! s:set_shell(shell)
+    if type(a:shell) != type('')
+      echoerr 's:set_shell accepts strings only'
+      return
+    endif
     let shell = a:shell
     " de-quote
     if shell[0] ==# '"'
       let shell = shell[1:-2]
+    endif
+    if empty(shell)
+      echoerr shell 'is invalid shell'
+      return
     endif
     let tail = fnamemodify(shell, ':t')
 
@@ -211,7 +219,7 @@ if has('modify_fname')
         let &shellxquote = has('win32') ? '"' : ''
       endif
     elseif (tail =~# '^sh' || tail =~# '^bash')
-    \ && (!has('win32') || tail =~# '\.exe$')
+    \ && (!has('win32') || !has('win32unix') || tail =~# '\.exe$')
       let &shellcmdflag = '-c'
       set shellquote= shellslash shellxescape=
       let &shellredir = '>%s 2>&1'
@@ -229,8 +237,10 @@ if has('modify_fname')
 
   if has('win32')
     call s:set_shell(has('nvim') || !executable($COMSPEC) ? 'cmd.exe' : $COMSPEC)
+  elseif has('win32unix')
+    call s:set_shell(exepath('sh.exe'))
   elseif has('unix')
-    call s:set_shell(filter([$SHELL, 'sh'], 'executable(v:val)')[0])
+    call s:set_shell(executable($SHELL) ? $SHELL : exepath('sh'))
   endif
 endif
 
