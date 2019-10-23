@@ -124,6 +124,12 @@ function! plug#begin(...)
   if fnamemodify(home, ':t') ==# 'plugin' && fnamemodify(home, ':h') ==# s:first_rtp
     return s:err('Invalid plug home. '.home.' is a standard Vim runtime path and is not allowed.')
   endif
+  if has('win32unix')
+  \ && executable('cygpath')
+  \ && executable('git')
+  \ && split(system('git --version'))[2] =~# 'windows'
+    let home = split(system('cygpath -m ' . home), "\n")[0]
+  endif
 
   let g:plug_home = home
   let g:plugs = {}
