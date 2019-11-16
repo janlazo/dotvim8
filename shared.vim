@@ -605,10 +605,15 @@ if has('autocmd') && has('modify_fname')
       \ '.git/', '.hg/'
       \ ]
 
-    call plug#('junegunn/fzf', executable('bash') ? {
+    let s:base_config = {
     \ 'dir': expand('~/.fzf'),
     \ 'do': 'bash ./install --bin'
-    \ } : s:plug_disable)
+    \ }
+    if isdirectory(s:base_config.dir)
+      call plug#(s:base_config.dir)
+    else
+      call plug#('junegunn/fzf', executable('bash') ? s:base_config : s:plug_disable)
+    endif
     if has('unix') && executable('x-terminal-emulator')
       let g:fzf_launcher = 'x-terminal-emulator -e bash -ic %s'
     endif
