@@ -572,7 +572,7 @@ if has('autocmd') && has('modify_fname')
       " Required for html, pandoc
       function! s:update_commentstring()
         let syntax_name = s:synname()
-        if syntax_name =~# '^[s]\?css'
+        if syntax_name =~# '^\(sa\|sc\|c\)ss'
           let b:commentary_format = '/* %s */'
         elseif syntax_name =~# '^javascript' || syntax_name =~# '^php'
           let b:commentary_format = '// %s'
