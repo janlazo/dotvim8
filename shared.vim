@@ -673,18 +673,22 @@ if has('autocmd') && has('modify_fname')
 
     " Shell
     Plug 'ericpruitt/tmux.vim', {'rtp': 'vim'}
-    Plug 'PProvost/vim-ps1'
 
     " Document
     Plug 'tpope/vim-markdown'
     Plug 'vim-pandoc/vim-pandoc-syntax'
     Plug 'aklt/plantuml-syntax'
-
-    " Web
     Plug 'othree/html5.vim'
-    Plug 'ap/vim-css-color'
     Plug 'JulesWang/css.vim'
     Plug 'othree/csscomplete.vim'
+
+    " Data
+    Plug 'cespare/vim-toml'
+    Plug 'elzr/vim-json'
+      let g:vim_json_syntax_conceal = 0
+
+    " Programming
+    Plug 'PProvost/vim-ps1'
     Plug 'othree/yajs.vim'
     Plug 'othree/es.next.syntax.vim'
     Plug 'kchmck/vim-coffee-script'
@@ -695,17 +699,8 @@ if has('autocmd') && has('modify_fname')
       let g:vue_pre_processors = ['scss']
       let g:no_plugin_maps = 1
       let g:no_vue_maps = 1
-
-    " Database
     Plug 'lifepillar/pgsql.vim'
       let g:sql_type_default = 'pgsql'
-
-    " Data
-    Plug 'cespare/vim-toml'
-    Plug 'elzr/vim-json'
-      let g:vim_json_syntax_conceal = 0
-
-    " System
     Plug 'StanAngeloff/php.vim'
     Plug 'OrangeT/vim-csharp'
     Plug 'bumaociyuan/vim-swift'
