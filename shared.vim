@@ -83,11 +83,6 @@ if 1
     return 0
   endfunction
 
-  " Q defaults to Ex mode but I don't use it.
-  " $VIMRUNTIME/defaults.vim remaps Q to gq but I don't format comments.
-  " Remap it to redraw the screen.
-  nnoremap <silent> Q :redraw!<CR>
-
   let s:font = {}
   let s:fontsize = {'min': 10, 'max': 72, 'cur': 12}
   if has('win32')
@@ -131,6 +126,12 @@ if 1
     else
       let &guifont = font
     endif
+  endfunction
+
+  " Use on mappings only.
+  function! s:check_back_space() abort
+    let col = col('.') - 1
+    return !col || getline('.')[col - 1]  =~# '\s'
   endfunction
 endif
 
@@ -317,7 +318,10 @@ if has('extra_search') && has('reltime')
   " highlight matches, quick-jump to nearest
   set hlsearch incsearch
 
-  execute 'nnoremap Q :nohlsearch <Bar>' maparg('Q', 'n')
+  " Q defaults to Ex mode but I don't use it.
+  " $VIMRUNTIME/defaults.vim remaps Q to gq but I don't format comments.
+  " Remap it to redraw the screen.
+  nnoremap <silent> Q :nohlsearch <Bar> redraw!<CR>
 endif
 
 if has('wildmenu')
@@ -530,10 +534,14 @@ if has('autocmd') && has('modify_fname')
       call s:set_color()
     endif
 
-    if has('insert_expand') && get(g:, 'did_coc_loaded', 0)
-      inoremap <silent> <expr> <TAB>   pumvisible() ? "\<C-n>" : "\<TAB>"
-      inoremap <silent> <expr> <S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-      inoremap <silent> <expr> <CR>    pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+    if get(g:, 'did_coc_loaded', 0)
+      imap <silent> <TAB>   <Plug>CocTab
+      imap <silent> <S-TAB> <Plug>CocShiftTab
+      execute 'imap <silent> <CR> <Plug>CocCR'.(
+      \ get(g:, 'loaded_endwise', 0) ? '<Plug>DiscretionaryEnd' : ''
+      \ )
+    elseif get(g:, 'loaded_endwise', 0)
+      imap <silent> <CR> <CR><Plug>DiscretionaryEnd
     endif
   endfunction
   augroup vimrc
@@ -587,7 +595,6 @@ if has('autocmd') && has('modify_fname')
       autocmd vimrc CursorHold * call s:update_commentstring()
       autocmd vimrc CursorMoved * call s:update_commentstring()
     endif
-    Plug 'tpope/vim-endwise'
     Plug 'tpope/tpope-vim-abolish'
     Plug 'tpope/vim-repeat'
     Plug 'justinmk/vim-dirvish'
@@ -632,41 +639,6 @@ if has('autocmd') && has('modify_fname')
     endif
     " }}}plug-core
 
-    " {{{plug-color
-    Plug 'lifepillar/vim8-colorschemes'
-    let s:base_cond = has('nvim')
-    \ ? has('nvim-0.3.1')
-    \ : has('patch-8.0.0616') || (has('gui_running') && has('patch-7.4.1689'))
-    call plug#('arzg/vim-substrata', s:base_cond ? {} : s:plug_disable)
-    call plug#('lifepillar/vim-gruvbox8', s:base_cond ? {} : s:plug_disable)
-    " }}}plug-color
-
-    " {{{plug-autocomplete
-    " Sources
-    Plug 'lervag/vimtex'
-
-    " coc.nvim
-    let s:base_cond = (has('nvim')
-    \ ? has('nvim-0.4.0')
-    \ : has('patch-8.1.1522') && has('textprop'))
-    \ && executable('node') && executable('npm')
-    let s:base_config = {'tag': 'v0.0.74', 'branch': 'release'}
-    call plug#('neoclide/coc.nvim', s:base_cond ? s:base_config : s:plug_disable)
-    if s:base_cond
-      let g:coc_global_extensions = [
-      \ 'coc-tag', 'coc-vimtex',
-      \ 'coc-css', 'coc-html', 'coc-json', 'coc-svg', 'coc-yaml',
-      \ 'coc-tsserver', 'coc-vetur', 'coc-vimlsp',
-      \ ]
-      if executable('python3')
-        call add(g:coc_global_extensions, 'coc-python')
-      endif
-      if executable('ruby') && executable('solargraph')
-        call add(g:coc_global_extensions, 'coc-solargraph')
-      endif
-    endif
-    " }}}plug-autocomplete
-
     " {{{plug-ft
     " Vim
     Plug 'junegunn/vader.vim'
@@ -675,6 +647,7 @@ if has('autocmd') && has('modify_fname')
     Plug 'ericpruitt/tmux.vim', {'rtp': 'vim'}
 
     " Document
+    Plug 'lervag/vimtex'
     Plug 'tpope/vim-markdown'
     Plug 'vim-pandoc/vim-pandoc-syntax'
     Plug 'aklt/plantuml-syntax'
@@ -696,9 +669,11 @@ if has('autocmd') && has('modify_fname')
     Plug 'MaxMEllon/vim-jsx-pretty'
     let s:base_cond = has('patch-7.4.2071')
     call plug#('posva/vim-vue', s:base_cond ? {} : s:plug_disable)
+    if s:base_cond
       let g:vue_pre_processors = ['scss']
       let g:no_plugin_maps = 1
       let g:no_vue_maps = 1
+    endif
     Plug 'lifepillar/pgsql.vim'
       let g:sql_type_default = 'pgsql'
     Plug 'StanAngeloff/php.vim'
@@ -707,6 +682,54 @@ if has('autocmd') && has('modify_fname')
     Plug 'rust-lang/rust.vim'
     Plug 'tbastos/vim-lua'
     " }}}plug-ft
+
+    " {{{plug-autocomplete
+    call plug#('tpope/vim-endwise', has('insert_expand') ? {} : s:plug_disable)
+    if has('insert_expand')
+      let g:endwise_no_mappings = 1
+    endif
+
+    " coc.nvim
+    let s:base_cond = (has('nvim')
+    \ ? has('nvim-0.4.0')
+    \ : has('patch-8.1.1522')
+    \   && has('insert_expand') && has('textprop')
+    \   && has('job') && has('channel') && has('terminal')
+    \ ) && executable('node') && executable('npm')
+    let s:base_config = {'tag': 'v0.0.74', 'branch': 'release'}
+    call plug#('neoclide/coc.nvim', s:base_cond ? s:base_config : s:plug_disable)
+    if s:base_cond
+      let g:coc_global_extensions = [
+      \ 'coc-tag', 'coc-vimtex',
+      \ 'coc-css', 'coc-html', 'coc-json', 'coc-svg', 'coc-yaml',
+      \ 'coc-tsserver', 'coc-vetur', 'coc-vimlsp',
+      \ ]
+      if executable('python3')
+        call add(g:coc_global_extensions, 'coc-python')
+      endif
+      if executable('ruby') && executable('solargraph')
+        call add(g:coc_global_extensions, 'coc-solargraph')
+      endif
+
+      inoremap <expr> <Plug>CocTab
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+      inoremap <expr> <Plug>CocShiftTab
+      \ pumvisible() ? "\<C-p>" : "\<C-h>"
+      inoremap <expr> <Plug>CocCR
+      \ pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+    endif
+    " }}}plug-autocomplete
+
+    " {{{plug-color
+    Plug 'lifepillar/vim8-colorschemes'
+    let s:base_cond = has('nvim')
+    \ ? has('nvim-0.3.1')
+    \ : has('patch-8.0.0616') || (has('gui_running') && has('patch-7.4.1689'))
+    call plug#('arzg/vim-substrata', s:base_cond ? {} : s:plug_disable)
+    call plug#('lifepillar/vim-gruvbox8', s:base_cond ? {} : s:plug_disable)
+    " }}}plug-color
 
     unlet s:plug_disable s:base_cond
     silent! call plug#end()
