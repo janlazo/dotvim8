@@ -4,10 +4,6 @@
   "coc.source.tag.filetypes": ["c", "cpp"],
   "html.filetypes": ["html"],
   "json.schemas": [
-    {
-      "fileMatch": ["*.geojson"],
-      "url": "http://json.schemastore.org/geojson"
-    }
   ],
   "languageserver": {
     "dockerfile": {
