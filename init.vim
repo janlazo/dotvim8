@@ -14,26 +14,6 @@
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set inccommand=nosplit
 
-if !has('nvim-0.3.2') && has('win32') && $TERM =~# 'cygwin' && executable('cygpath.exe')
-  let s:msys_root = get(split(system('cygpath.exe -w /'), "\n"), 0, '')
-  if isdirectory(s:msys_root) && empty($TERMINFO)
-    let s:terminfo = s:msys_root.'usr\share\terminfo'
-    if isdirectory(s:terminfo)
-      let $TERMINFO = s:terminfo
-    endif
-    unlet s:terminfo
-  endif
-  unlet s:msys_root
-endif
-if !has('nvim-0.3')
-  let g:loaded_node_provider = 1
-  let g:loaded_ruby_provider = 1
-
-  if has('win32')
-    set runtimepath&vim
-  endif
-endif
-
 if has('nvim-0.4')
   set pumblend=30
 endif

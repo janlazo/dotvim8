@@ -109,8 +109,6 @@ function! dotvim8#bang(cmd)
 
       call term_start(cmd)
     endif
-  elseif has('nvim') && s:has_job && shell =~# 'cmd\.exe'
-    call jobstart('start /wait cmd /s /c "' . a:cmd . '"')
   else
     if has('gui_running')
       let cmd = (has('unix') && executable('x-terminal-emulator')) ?

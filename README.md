@@ -2,7 +2,7 @@
 
 [![Build Status][Travis-Status]][Travis]
 
-Vim 8+ / Neovim 0.2.2+ config folder for Windows support and async jobs.
+Vim 8+ / Neovim 0.3.8+ config folder for Windows support and async jobs.
 
 - `shared.vim` for shared code between Vim and Neovim
     - backward compatibility up to Vim 7.4 (tiny) and Neovim 0.2.2

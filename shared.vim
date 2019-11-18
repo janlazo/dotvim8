@@ -14,7 +14,7 @@
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Feature/Version checks group options, variables, functions, mappings.
 " Folds group these checks by version type (ie. tiny,normal,huge).
-" Vim 7.4 (tiny) and Neovim 0.2.2 are the minimum supported versions.
+" Vim 7.4 (tiny) and Neovim 0.3.8 are the minimum supported versions.
 " See `:h version` for feature checks.
 " Check `v:version` for release + major version as an integer.
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -25,21 +25,18 @@ set shortmess+=s shortmess+=I
 if has('patch-7.4.0314')
   set shortmess+=c
 endif
-if has('patch-7.4.1570')
-  set shortmess+=F
-endif
 
 " Keys
 set whichwrap=<,>,b,s nojoinspaces shiftround
-set notimeout ttimeout ttimeoutlen=100
+set notimeout
 set keywordprg=:help
 if has('patch-7.4.0868')
   " 4-space Indent
-  set shiftwidth=4 smarttab expandtab
+  set shiftwidth=4 expandtab
 endif
 
 " File
-set fileformats=unix,dos suffixes=
+set fileformats=unix,dos
 set noswapfile directory= updatecount=0 updatetime=1000
 if has('patch-7.4.0785')
   set nofixendofline
@@ -148,10 +145,6 @@ if has('windows')
   set splitbelow
   set showtabline=2
 
-  if &tabpagemax < 50
-    set tabpagemax=50
-  endif
-
   " maktaba#buffer#Substitute()
   " https://github.com/google/vim-maktaba/blob/master/autoload/maktaba/buffer.vim
   function! s:remove_trailing_spaces()
@@ -237,7 +230,7 @@ endif
 
 " Moved from normal to tiny version since 8.1.1901
 if has('insert_expand')
-  set complete-=i completeopt=menuone,preview
+  set completeopt=menuone,preview
   if has('patch-7.4.0784')
     set completeopt+=noselect
   endif
@@ -251,21 +244,13 @@ if has('comments')
   set comments=
 endif
 " }}}tiny
-" {{{small
-" Moved from normal to small version since 8.0.1129
-if has('cmdline_hist')
-  if &history < 1000
-    set history=1000
-  endif
-endif
-" }}}small
 " {{{normal
 if has('path_extra')
-  set path=.,, define=
+  set path=.,,
 endif
 
 if has('find_in_path')
-  set include= includeexpr=
+  set define= include= includeexpr=
 endif
 
 if has('linebreak')
@@ -315,9 +300,6 @@ if has('statusline')
 endif
 
 if has('extra_search') && has('reltime')
-  " highlight matches, quick-jump to nearest
-  set hlsearch incsearch
-
   " Q defaults to Ex mode but I don't use it.
   " $VIMRUNTIME/defaults.vim remaps Q to gq but I don't format comments.
   " Remap it to redraw the screen.
@@ -325,17 +307,12 @@ if has('extra_search') && has('reltime')
 endif
 
 if has('wildmenu')
-  " Display hints, complete with selection via tab
-  set wildmenu wildmode=longest:full,full
+  set wildmode=longest:full,full
 endif
 
 if has('mksession')
   set sessionoptions=buffers,curdir,tabpages,winsize
   set viewoptions-=options
-endif
-
-if has('mouse')
-  set mouse=
 endif
 
 if has('syntax')
@@ -351,23 +328,13 @@ if has('syntax')
     endif
   endfunction
 
-  if has('modify_fname')
+  " spellfile#WritableSpellDir() requires that ~/.vim/spell exists.
+  if has('modify_fname') && !has('nvim-0.4')
     let s:spelldir = expand(s:base_dir . '/spell')
-
-    " spellfile#WritableSpellDir() requires that ~/.vim/spell exists.
     if !isdirectory(s:spelldir)
       call mkdir(s:spelldir)
     endif
-
-    if has('win32') && has('nvim') && !has('nvim-0.3.2')
-      " Neovim uses hardcoded XDG paths on Windows but XDG is for Linux.
-      " Redefine spellfile#WritableSpellDir() to point here.
-      function! spellfile#WritableSpellDir()
-        return s:spelldir
-      endfunction
-    else
-      unlet s:spelldir
-    endif
+    unlet s:spelldir
   endif
 
   function! s:set_color()
@@ -378,10 +345,9 @@ if has('syntax')
           \ || has('vcon'))
       let &termguicolors = &t_Co == 256 && empty($TMUX) && !has('osx')
       \ && (has('nvim')
-            \ ? has('nvim-0.3.2')
-            \ : (has('win32')
-                \ ? (has('vcon') && has('patch-8.1.0839'))
-                \ : has('patch-8.0.0146')))
+            \ || (has('win32')
+                  \ ? (has('vcon') && has('patch-8.1.0839'))
+                  \ : has('patch-8.0.0146')))
     endif
 
     " Last color should always work
@@ -444,14 +410,6 @@ if has('quickfix')
 endif
 " }}}normal
 " {{{big
-if has('langmap')
-  if exists('+langnoremap')
-    set langnoremap
-  elseif exists('+langremap')
-    set nolangremap
-  endif
-endif
-
 if has('signs') && has('patch-7.4.2201')
   set signcolumn=yes
 endif
@@ -528,6 +486,9 @@ if has('autocmd') && has('modify_fname')
         nnoremap <silent> <C-ScrollWheelDown> :call <SID>update_fontsize(-1)<CR>
       endif
     else
+      if has('mouse')
+        set mouse=
+      endif
       let g:gruvbox_transp_bg = 1
     endif
     if has('syntax')
@@ -562,7 +523,7 @@ if has('autocmd') && has('modify_fname')
     if s:base_cond
       let g:matchup_matchparen_status_offscreen = 0
       let g:matchup_matchparen_deferred =
-      \ has('nvim') ? has('nvim-0.3') : has('timers')
+      \ has('nvim') || has('timers')
       let g:matchup_matchpref_html_nolists = 1
     elseif has('syntax') && !has('nvim')
       if has('patch-7.4.1649')
@@ -725,8 +686,8 @@ if has('autocmd') && has('modify_fname')
     " {{{plug-color
     Plug 'lifepillar/vim8-colorschemes'
     let s:base_cond = has('nvim')
-    \ ? has('nvim-0.3.1')
-    \ : has('patch-8.0.0616') || (has('gui_running') && has('patch-7.4.1689'))
+    \ || has('patch-8.0.0616')
+    \ || (has('gui_running') && has('patch-7.4.1689'))
     call plug#('arzg/vim-substrata', s:base_cond ? {} : s:plug_disable)
     call plug#('lifepillar/vim-gruvbox8', s:base_cond ? {} : s:plug_disable)
     " }}}plug-color

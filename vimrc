@@ -13,9 +13,24 @@
 " limitations under the License.
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set nocompatible
+if has('multi_byte')
+  if has('win32') || (has('gui_running') && &encoding ==# 'latin1')
+    set encoding=utf-8
+  endif
+endif
+if has('patch-7.4.1570')
+  set shortmess+=F
+endif
+if has('patch-8.1.1270') && has('patch-8.1.1375')
+  set shortmess-=S
+endif
 
 " Keys
 set autoindent backspace=2 nrformats-=octal
+set ttimeout ttimeoutlen=50
+if has('patch-7.4.0868')
+  set smarttab
+endif
 
 " File
 set autoread
@@ -31,12 +46,6 @@ if has('patch-7.4.2111')
   let g:skip_defaults_vim = 1
 endif
 
-if has('multi_byte')
-  if has('win32') || (has('gui_running') && &encoding ==# 'latin1')
-    set encoding=utf-8
-  endif
-endif
-
 if has('win32')
   " Fix inconsistent slashes in each filepath
   let &runtimepath = tr(&runtimepath, '/', '\')
@@ -47,11 +56,49 @@ if has('gui_running')
   behave xterm
 endif
 
-runtime shared.vim
-
-if has('patch-8.1.1270') && has('patch-8.1.1375')
-  set shortmess-=S
+" {{{tiny
+" Moved from small to tiny version since 8.0.1118
+if has('windows')
+  set tabpagemax=50
 endif
+
+" Moved from normal to tiny version since 8.1.1901
+if has('insert_expand')
+  set complete-=i
+endif
+" }}}tiny
+" {{{small
+" Moved from normal to small version since 8.0.1129
+if has('cmdline_hist')
+  if has('patch-7.4.0336')
+    set history=10000
+  endif
+endif
+" }}}small
+"{{{normal
+if has('extra_search')
+  set hlsearch
+
+  if has('reltime')
+    set incsearch
+  endif
+endif
+
+if has('wildmenu')
+  set wildmenu
+endif
+"}}}normal
+" {{{big
+if has('langmap')
+  if exists('+langremap')
+    set nolangremap
+  elseif exists('+langnoremap')
+    set langnoremap
+  endif
+endif
+" }}}big
+
+runtime shared.vim
 
 if has('gui_running')
   let &columns = 81 + &numberwidth
