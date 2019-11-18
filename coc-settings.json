@@ -16,7 +16,6 @@
   },
   "less.validate": false,
   "python.jediEnabled": false,
-  "python.linting.enabled": false,
   "tsserver.formatOnType": false,
   "wxss.validate": false,
   "yaml.schemas": {

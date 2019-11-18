@@ -7,7 +7,7 @@ set -eu
 for py in python3 python; do
   if command -v $py >/dev/null 2>&1; then
     $py -m pip install --user \
-      pynvim
+      pynvim flake8
     break
   fi
 done
