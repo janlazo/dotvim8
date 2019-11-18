@@ -16,6 +16,7 @@
   },
   "less.validate": false,
   "python.jediEnabled": false,
+  "solargraph.checkGemVersion": false,
   "tsserver.formatOnType": false,
   "wxss.validate": false,
   "yaml.schemas": {
