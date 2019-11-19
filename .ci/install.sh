@@ -19,4 +19,5 @@ python3 -m pip --version
 ruby --version
 echo gem $(gem --version)
 
+python3 -m pip install setuptools
 ./bin/install_deps.sh
