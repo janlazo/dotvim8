@@ -87,6 +87,12 @@ endif
 if has('wildmenu')
   set wildmenu
 endif
+
+" Vim's X-11 clipboard is broken.
+" https://wiki.ubuntu.com/ClipboardPersistence#Broken_Applications
+if has('clipboard')
+  set clipboard=
+endif
 "}}}normal
 " {{{big
 if has('langmap')
