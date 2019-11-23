@@ -674,6 +674,9 @@ if has('autocmd') && has('modify_fname')
       endif
       if executable('java')
         call add(g:coc_global_extensions, 'coc-java')
+        if isdirectory($JAVA_HOME)
+          call add(g:coc_global_extensions, 'coc-xml')
+        endif
       endif
 
       inoremap <expr> <Plug>CocTab
