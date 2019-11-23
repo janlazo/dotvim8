@@ -40,6 +40,14 @@ matrix:
         <<: *addons-bionic
     - os: linux
       dist: trusty
+      addons:
+        apt:
+          <<: *apt
+          packages:
+            - *apt-packages
+            - python-pip
+            - python-setuptools
+            - python-wheel
     - os: osx
       osx_image: xcode11.2
       rvm: system
