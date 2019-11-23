@@ -4,12 +4,9 @@ git:
 language: minimal
 
 addons:
-  apt:
-    packages:
+  apt: &apt
+    packages: &apt-packages
       - neovim
-      - python3-pip
-      - python3-setuptools
-      - python3-wheel
       - shellcheck
       - vim-nox
     sources:
@@ -29,8 +26,20 @@ matrix:
   include:
     - os: linux
       dist: bionic
+      addons: &addons-bionic
+        apt:
+          <<: *apt
+          packages:
+            - *apt-packages
+            - python3-pip
+            - python3-setuptools
+            - python3-wheel
     - os: linux
       dist: xenial
+      addons:
+        <<: *addons-bionic
+    - os: linux
+      dist: trusty
     - os: osx
       osx_image: xcode11.2
       rvm: system
