@@ -13,8 +13,8 @@ Vim 8+ / Neovim 0.3.8+ config folder for Windows support and async jobs.
     - `dotvim8#bang` is based on the `s:execute` functions
 - `bin/install_deps.sh` to install external dependencies such as language providers for Neovim and [LSP](https://microsoft.github.io/language-server-protocol/) servers for coc.nvim
 - `bin/nvim-qt.cmd` is a batchfile shim to workaround issues with [nvim-qt.exe][gh-nvim-qt] on Windows
-    - HiDPI scaling (https://github.com/equalsraf/neovim-qt/commit/06967e0ce4da23ca0d973f8e313d3cb9149ff3f1)
-    - window size (https://github.com/equalsraf/neovim-qt/issues/251#issuecomment-378936575)
+    - HiDPI scaling (<https://github.com/equalsraf/neovim-qt/commit/06967e0ce4da23ca0d973f8e313d3cb9149ff3f1>)
+    - window size (<https://github.com/equalsraf/neovim-qt/issues/251#issuecomment-378936575>)
 
 Vimscript files in this repo use folds which slows down terminal Vim.
 For performance, use GUIs when navigating or editing inside folds.
@@ -31,7 +31,7 @@ For performance, use GUIs when navigating or editing inside folds.
     - os: Ubuntu xenial, bionic
     - terminal: sakura, tilda
 - Windows
-    - see https://github.com/lukesampson/scoop#requirements
+    - see <https://github.com/lukesampson/scoop#requirements>
     - terminal: ConEmu for truecolor (Neovim only)
 
 ## LICENSE
