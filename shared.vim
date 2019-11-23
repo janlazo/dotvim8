@@ -351,7 +351,8 @@ if has('syntax')
     endif
 
     " Last color should always work
-    if s:is_gui
+    let hour = exists('*strftime') ? strftime('%H', localtime()) : 9
+    if s:is_gui && hour >= 7 && hour <= 17
       set background=light
       let colors = ['gruvbox8_soft', 'morning']
     else
