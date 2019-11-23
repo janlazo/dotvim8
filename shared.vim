@@ -672,6 +672,9 @@ if has('autocmd') && has('modify_fname')
       if executable('ruby') && executable('solargraph')
         call add(g:coc_global_extensions, 'coc-solargraph')
       endif
+      if executable('java')
+        call add(g:coc_global_extensions, 'coc-java')
+      endif
 
       inoremap <expr> <Plug>CocTab
       \ pumvisible() ? "\<C-n>" :
