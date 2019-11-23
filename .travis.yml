@@ -19,7 +19,6 @@ addons:
     packages:
       - neovim
       - python@3
-      - shellcheck
 
 env:
   global:
@@ -33,13 +32,13 @@ matrix:
     - os: linux
       dist: xenial
     - os: osx
-      osx_image: xcode11
+      osx_image: xcode11.2
       rvm: system
     - os: osx
-      osx_image: xcode9.4
+      osx_image: xcode10.3
       rvm: system
     - os: osx
-      osx_image: xcode9.2
+      osx_image: xcode10.1
       rvm: system
 
 install: ./.ci/install.sh
