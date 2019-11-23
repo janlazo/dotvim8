@@ -5,7 +5,7 @@ set -eu
 
 # Python (https://github.com/neovim/python-client)
 for py in python3 python; do
-  if command -v $py >/dev/null 2>&1; then
+  if (command -v $py && $py -m pip --version) >/dev/null 2>&1; then
     $py -m pip install --user \
       pynvim flake8
     break
