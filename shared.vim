@@ -457,18 +457,11 @@ if has('autocmd') && has('modify_fname')
     endif
     if s:is_gui
       set mouse=a
+      set linespace=1
 
       let $TERM = ''
       if $ConEmuANSI ==# 'ON'
         let $ConEmuANSI = 'OFF'
-      endif
-
-      if has('nvim')
-        if exists(':GuiLinespace') == 2
-          GuiLinespace 1
-        endif
-      else
-        set linespace=1
       endif
 
       call s:update_fontsize(0)
