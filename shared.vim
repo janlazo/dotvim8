@@ -83,49 +83,38 @@ if 1
     return 0
   endfunction
 
-  let s:font = {}
-  let s:fontsize = {'min': 10, 'max': 72, 'cur': 12}
+  let s:font = {
+  \ 'type': [],
+  \ 'sep': ':',
+  \ 'size_prefix': 'h',
+  \ 'size_min': 10,
+  \ 'size_cur': 12,
+  \ 'size_max': 72,
+  \ }
   if has('win32')
-    let s:font = {
-    \ 'type': ['Consolas'],
-    \ 'size_prefix': 'h',
-    \ 'sep': ':'
-    \ }
+    call add(s:font.type, 'Consolas')
     if !has('nvim')
       call extend(s:font.type, ['cANSI', 'qANTIALIASED'])
     endif
   elseif has('unix') && !has('win32unix')
-    let s:font = {
-    \ 'type': ['Monospace'],
-    \ }
-    if has('nvim')
-      let s:font.size_prefix = 'h'
-      let s:font.sep = ':'
-    else
+    call add(s:font.type, 'DejaVu Sans Mono')
+    if !has('nvim')
       let s:font.size_prefix = ''
       let s:font.sep = ' '
     endif
   endif
   function! s:update_fontsize(increment)
-    if !s:is_gui || empty(s:font)
+    if !s:is_gui || empty(s:font.type)
       return
     endif
 
-    let s:fontsize.cur += a:increment
-    if s:fontsize.cur < s:fontsize.min
-      let s:fontsize.cur = s:fontsize.min
-    elseif s:fontsize.cur > s:fontsize.max
-      let s:fontsize.cur = s:fontsize.max
-    endif
+    let size = s:font.size_cur + a:increment
+    let s:font.size_cur =
+    \ size < s:font.size_min ? s:font.size_min :
+    \ size > s:font.size_max ? s:font.size_max :
+    \ size
 
-    let font = join(add(copy(s:font.type), s:font.size_prefix . s:fontsize.cur), s:font.sep)
-    if has('nvim')
-      if exists('*GuiFont')
-        call GuiFont(font, 1)
-      endif
-    else
-      let &guifont = font
-    endif
+    let &guifont = join(s:font.type + [s:font.size_prefix . s:font.size_cur], s:font.sep)
   endfunction
 
   " Use on mappings only.
