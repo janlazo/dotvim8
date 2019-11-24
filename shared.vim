@@ -41,7 +41,7 @@ set noswapfile directory= updatecount=0 updatetime=1000
 if has('patch-7.4.0785')
   set nofixendofline
 endif
-if has('patch-8.1.1334')
+if has('nvim-0.5') || has('patch-8.1.1334')
   set hidden
 endif
 
