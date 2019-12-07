@@ -343,14 +343,10 @@ if has('syntax')
     endif
 
     " Last color should always work
-    let hour = exists('*strftime') ? strftime('%H') : 9
-    if s:is_gui && hour >= 7 && hour < 17
-      set background=light
-      let colors = ['gruvbox8_soft', 'morning']
-    else
-      set background=dark
-      let colors = ['gruvbox8_hard', 'torte']
-    endif
+    let colors = &background ==# 'light'
+    \ ? ['gruvbox8_soft', 'morning']
+    \ : ['gruvbox8_hard', 'torte']
+    let g:gruvbox_transp_bg = !s:is_gui && &background ==# 'dark'
     if has('patch-7.4.1036') && (s:is_gui || has('nvim') || !has('win32'))
       for color in colors
         execute 'silent! colorscheme' color
@@ -418,6 +414,7 @@ if has('user_commands')
   endif
 
   if has('syntax')
+    command! SetColor call s:set_color()
     command! SynName echo s:synname()
     command! ToggleSpell call <SID>toggle_spell()
   endif
@@ -475,9 +472,13 @@ if has('autocmd') && has('modify_fname')
       if has('mouse')
         set mouse=
       endif
-      let g:gruvbox_transp_bg = 1
     endif
     if has('syntax')
+      let s:hour = exists('*strftime') ? strftime('%H') : 9
+      let &background = (s:is_gui && s:hour >= 7 && s:hour < 17)
+      \ ? 'light'
+      \ : 'dark'
+      unlet s:hour
       call s:set_color()
     endif
 
