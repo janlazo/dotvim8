@@ -485,11 +485,12 @@ if has('autocmd') && has('modify_fname')
     if get(g:, 'did_coc_loaded', 0)
       imap <silent> <TAB>   <Plug>CocTab
       imap <silent> <S-TAB> <Plug>CocShiftTab
-      execute 'imap <silent> <CR> <Plug>CocCR'.(
-      \ get(g:, 'loaded_endwise', 0) ? '<Plug>DiscretionaryEnd' : ''
-      \ )
-    elseif get(g:, 'loaded_endwise', 0)
-      imap <silent> <CR> <CR><Plug>DiscretionaryEnd
+      imap <silent> <CR>    <Plug>CocCR
+    endif
+    if get(g:, 'loaded_endwise', 0)
+      execute 'imap <silent> <CR> '.(
+      \ maparg('<CR>', 'i') !=# '' ? maparg('<CR>', 'i') : '<CR>'
+      \ ).'<Plug>DiscretionaryEnd'
     endif
   endfunction
   augroup vimrc
@@ -501,14 +502,20 @@ if has('autocmd') && has('modify_fname')
   let g:plug_window = 'tabnew'
   silent! call plug#begin(expand(s:base_dir . '/bundle'))
   if exists('g:loaded_plug')
-    let s:plug_disable = {'on': []}
+    let s:plug_disable = {'for': [], 'on': []}
     let s:base_cond = 1
 
     " {{{plug-core
     let s:base_cond = v:version >= 800 && has('syntax') && has('reltime')
     call plug#('andymass/vim-matchup', s:base_cond ? {} : s:plug_disable)
     if s:base_cond
-      let g:matchup_matchparen_status_offscreen = 0
+      let g:matchup_matchparen_offscreen = {
+      \ 'method': (has('nvim')
+        \ ? has('nvim-0.4')
+        \ : has('textprop') && has('patch-8.1.1410')
+        \ ) ? 'popup' : '',
+      \ 'scrolloff': 1
+      \ }
       let g:matchup_matchparen_deferred =
       \ has('nvim') || has('timers')
       let g:matchup_matchpref_html_nolists = 1
@@ -554,9 +561,9 @@ if has('autocmd') && has('modify_fname')
       let g:rooter_targets = '*'
       let g:rooter_change_directory_for_non_project_files = 'current'
       let g:rooter_patterns = [
-      \ 'package.json', 'composer.json', 'Gemfile',
+      \ 'package.json', 'composer.json', 'Gemfile', 'pyproject.toml',
       \ 'go.mod', 'Cargo.toml', 'Podfile', 'pom.xml', 'build.gradle',
-      \ 'Makefile', 'CMakeLists.txt',
+      \ 'CMakeLists.txt', 'Makefile',
       \ '.git/', '.hg/'
       \ ]
 
@@ -601,7 +608,7 @@ if has('autocmd') && has('modify_fname')
     Plug 'aklt/plantuml-syntax'
     Plug 'othree/html5.vim'
     Plug 'JulesWang/css.vim'
-    Plug 'othree/csscomplete.vim'
+    Plug 'tpope/vim-haml'
 
     " Data
     Plug 'cespare/vim-toml'
@@ -629,6 +636,7 @@ if has('autocmd') && has('modify_fname')
     Plug 'bumaociyuan/vim-swift'
     Plug 'rust-lang/rust.vim'
     Plug 'tbastos/vim-lua'
+    Plug 'vim-jp/vim-cpp'
     " }}}plug-ft
 
     " {{{plug-autocomplete
