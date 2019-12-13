@@ -277,14 +277,23 @@ if has('statusline')
 
   " TODO - support low-width screens (add max width, minimize space)
   function! Statusline()
-    let lhs = ['%8{"'.get(s:modes, mode(), 'MODE').'"}', '%t [%W%R%M]']
-    let rhs = [&fileformat, '%4l:%-4c']
-    if strlen(&fileencoding)
-      call insert(rhs, &fileencoding)
+    let lhs = ['%8.8{"'.get(s:modes, mode(), 'MODE').'"}']
+    let rhs = []
+    if &columns > 40
+      if strlen(&filetype)
+        call insert(rhs, &filetype)
+      endif
     endif
-    if strlen(&filetype)
-      call insert(rhs, &filetype)
+    if &columns > 60
+      call add(lhs, '%5.80t [%R%M]')
+      if strlen(&fileencoding)
+        call add(rhs, &fileencoding)
+      endif
+      call add(rhs, &fileformat)
+    else
+      call add(lhs, '%5.40t')
     endif
+    call add(rhs, '%3l:%-3c')
     return join(lhs, ' | ').'%='.join(rhs, ' | ')
   endfunction
 
