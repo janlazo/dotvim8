@@ -344,9 +344,8 @@ if has('syntax')
 
     " Last color should always work
     let colors = &background ==# 'light'
-    \ ? ['gruvbox8_soft', 'morning']
+    \ ? ['edge', 'gruvbox_soft', 'morning']
     \ : ['gruvbox8_hard', 'torte']
-    let g:gruvbox_transp_bg = !s:is_gui && &background ==# 'dark'
     if has('patch-7.4.1036') && (s:is_gui || has('nvim') || !has('win32'))
       for color in colors
         execute 'silent! colorscheme' color
@@ -691,6 +690,7 @@ if has('autocmd') && has('modify_fname')
     \ || has('patch-8.0.0616')
     \ || (has('gui_running') && has('patch-7.4.1689'))
     call plug#('arzg/vim-substrata', s:base_cond ? {} : s:plug_disable)
+    call plug#('sainnhe/edge', s:base_cond ? {} : s:plug_disable)
     call plug#('lifepillar/vim-gruvbox8', s:base_cond ? {} : s:plug_disable)
     " }}}plug-color
 
