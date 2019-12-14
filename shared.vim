@@ -589,16 +589,22 @@ if has('autocmd') && has('modify_fname')
     \ 'dir': expand('~/.fzf'),
     \ 'do': 'bash ./install --bin'
     \ }
+    let s:base_cond = isdirectory(s:base_config.dir) || executable('bash')
     if isdirectory(s:base_config.dir)
       call plug#(s:base_config.dir)
     else
-      call plug#('junegunn/fzf', executable('bash') ? s:base_config : s:plug_disable)
+      call plug#('junegunn/fzf', s:base_cond ? s:base_config : s:plug_disable)
     endif
-    if has('unix') && executable('x-terminal-emulator')
-      let g:fzf_launcher = 'x-terminal-emulator -e bash -ic %s'
+    if s:base_cond
+      if has('unix') && executable('x-terminal-emulator')
+        let g:fzf_launcher = 'x-terminal-emulator -e bash -ic %s'
+      endif
+      let g:fzf_history_dir = s:base_dir . '/.fzf_history'
     endif
-    Plug 'junegunn/fzf.vim'
+    call plug#('junegunn/fzf.vim', s:base_cond ? {} : s:plug_disable)
+    if s:base_cond
       let g:fzf_command_prefix = 'Fzf'
+    endif
     call plug#('tpope/vim-fugitive', {
     \ 'tag': 'v2.5'
     \ })
