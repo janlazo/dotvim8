@@ -366,6 +366,11 @@ if has('syntax')
       execute 'colorscheme' colors[-1]
     endif
   endfunction
+  function! s:set_color_post(color)
+    if has('win32') || has('win32unix')
+      unlet! g:fzf_colors
+    endif
+  endfunction
 
   function! s:synname()
     return synIDattr(synID(line('.'), col('.'), 1), 'name')
@@ -504,7 +509,7 @@ if has('autocmd') && has('modify_fname')
   augroup vimrc
     autocmd!
     autocmd VimEnter * call s:vim_enter()
-    autocmd Colorscheme edge unlet! g:fzf_colors
+    autocmd ColorScheme * call s:set_color_post(expand('<amatch>'))
   augroup END
 
   " {{{vim-plug
