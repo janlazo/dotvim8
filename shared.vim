@@ -353,7 +353,7 @@ if has('syntax')
 
     " Last color should always work
     let colors = &background ==# 'light'
-    \ ? ['edge', 'gruvbox_soft', 'morning']
+    \ ? ['edge', 'gruvbox8_soft', 'morning']
     \ : ['gruvbox8_hard', 'torte']
     if has('patch-7.4.1036') && (s:is_gui || has('nvim') || !has('win32'))
       for color in colors
@@ -504,6 +504,7 @@ if has('autocmd') && has('modify_fname')
   augroup vimrc
     autocmd!
     autocmd VimEnter * call s:vim_enter()
+    autocmd Colorscheme edge unlet! g:fzf_colors
   augroup END
 
   " {{{vim-plug
