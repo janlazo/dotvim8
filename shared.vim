@@ -460,6 +460,10 @@ if has('autocmd') && has('modify_fname')
   " C
   let g:c_syntax_for_h = 1
 
+  " Python
+  let g:python_recommended_style = 0
+  let g:pyindent_disable_parentheses_indenting = 1
+
   function! s:vim_enter()
     if has('nvim')
       " Detect nvim-qt
