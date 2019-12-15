@@ -3,6 +3,13 @@
 # Install LSP servers for coc.nvim.
 set -eu
 
+# Javascript (https://github.com/neovim/node-client)
+# Need 3.5.2+ on Windows
+if (command -v node && command -v npm) > /dev/null 2>&1; then
+  npm install -g \
+    neovim dockerfile-language-server-nodejs
+fi
+
 # Python (https://github.com/neovim/python-client)
 for py in python3 python; do
   if (command -v $py && $py -m pip --version) >/dev/null 2>&1; then
@@ -18,11 +25,4 @@ if (command -v ruby && command -v gem) > /dev/null 2>&1; then
   gem install \
     --user-install --conservative --minimal-deps --no-suggestions \
     neovim solargraph
-fi
-
-# Javascript (https://github.com/neovim/node-client)
-# Need 3.5.2+ on Windows
-if (command -v node && command -v npm) > /dev/null 2>&1; then
-  npm install -g \
-    neovim dockerfile-language-server-nodejs
 fi
