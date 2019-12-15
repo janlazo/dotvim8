@@ -512,7 +512,11 @@ if has('autocmd') && has('modify_fname')
   endfunction
   augroup vimrc
     autocmd!
-    autocmd VimEnter * call s:vim_enter()
+    if has('nvim') ? has('nvim-0.4') : has('patch-8.1.1113')
+      autocmd VimEnter * ++nested ++once call s:vim_enter()
+    else
+      autocmd VimEnter * nested call s:vim_enter()
+    endif
     autocmd ColorScheme * call s:set_color_post(expand('<amatch>'))
   augroup END
 
