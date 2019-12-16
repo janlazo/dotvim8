@@ -53,6 +53,9 @@ endif
 
 if has('gui_running')
   set guioptions=cMgRLv
+  if has('terminal') && has('patch-8.1.1514')
+    set guioptions+=!
+  endif
   behave xterm
 endif
 
