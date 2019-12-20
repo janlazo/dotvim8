@@ -526,6 +526,7 @@ if has('autocmd') && has('modify_fname')
   if exists('g:loaded_plug')
     let s:plug_disable = {'for': [], 'on': []}
     let s:base_cond = 1
+    let s:base_config = {}
 
     " {{{plug-core
     let s:base_cond = v:version >= 800 && has('syntax') && has('reltime')
@@ -726,7 +727,7 @@ if has('autocmd') && has('modify_fname')
     call plug#('lifepillar/vim-gruvbox8', s:base_cond ? {} : s:plug_disable)
     " }}}plug-color
 
-    unlet s:plug_disable s:base_cond
+    unlet s:plug_disable s:base_cond s:base_config
     silent! call plug#end()
   endif
   " }}}vim-plug
