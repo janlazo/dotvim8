@@ -355,7 +355,8 @@ if has('syntax')
     let colors = &background ==# 'light'
     \ ? ['edge', 'gruvbox8_soft', 'morning']
     \ : ['gruvbox8_hard', 'torte']
-    if has('patch-7.4.1036') && (s:is_gui || has('nvim') || !has('win32'))
+    if has('patch-7.4.1036')
+    \ && (s:is_gui || has('nvim') || !(has('win32') || has('win32unix')))
       for color in colors
         execute 'silent! colorscheme' color
         if get(g:, 'colors_name', 'default') ==# color
