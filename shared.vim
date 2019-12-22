@@ -722,7 +722,6 @@ if has('autocmd') && has('modify_fname')
     let s:base_cond = has('nvim')
     \ || has('patch-8.0.0616')
     \ || (has('gui_running') && has('patch-7.4.1689'))
-    call plug#('arzg/vim-substrata', s:base_cond ? {} : s:plug_disable)
     call plug#('lifepillar/vim-gruvbox8', s:base_cond ? {} : s:plug_disable)
     " }}}plug-color
 
