@@ -344,7 +344,7 @@ if has('syntax')
           \ || !has('win32')
           \ || !has('patch-8.0.1531')
           \ || has('vcon'))
-      let &termguicolors = &t_Co == 256 && empty($TMUX) && !has('osx')
+      let &termguicolors = &t_Co == 256 && empty($TMUX) && !has('mac')
       \ && (has('nvim')
             \ || (has('win32')
                   \ ? (has('vcon') && has('patch-8.1.0839'))
@@ -354,7 +354,7 @@ if has('syntax')
     " Last color should always work
     let colors = &background ==# 'light'
     \ ? ['gruvbox8_soft', 'morning']
-    \ : ['gruvbox8_hard', 'torte']
+    \ : ['gruvbox8_hard', 'iceberg', 'torte']
     if has('patch-7.4.1036')
     \ && (s:is_gui || has('nvim') || !(has('win32') || has('win32unix')))
       for color in colors
@@ -719,6 +719,7 @@ if has('autocmd') && has('modify_fname')
 
     " {{{plug-color
     Plug 'lifepillar/vim8-colorschemes'
+    Plug 'cocopon/iceberg.vim'
     let s:base_cond = has('nvim')
     \ || has('patch-8.0.0616')
     \ || (has('gui_running') && has('patch-7.4.1689'))
