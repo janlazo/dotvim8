@@ -353,7 +353,7 @@ if has('syntax')
 
     " Last color should always work
     let colors = &background ==# 'light'
-    \ ? ['edge', 'gruvbox8_soft', 'morning']
+    \ ? ['gruvbox8_soft', 'morning']
     \ : ['gruvbox8_hard', 'torte']
     if has('patch-7.4.1036')
     \ && (s:is_gui || has('nvim') || !(has('win32') || has('win32unix')))
@@ -611,9 +611,7 @@ if has('autocmd') && has('modify_fname')
     if s:base_cond
       let g:fzf_command_prefix = 'Fzf'
     endif
-    call plug#('tpope/vim-fugitive', {
-    \ 'tag': 'v2.5'
-    \ })
+    call plug#('tpope/vim-fugitive')
 
     let s:base_cond = v:version >= 800
     call plug#('editorconfig/editorconfig-vim', s:base_cond ? {} : s:plug_disable)
@@ -630,6 +628,7 @@ if has('autocmd') && has('modify_fname')
 
     " Shell
     Plug 'ericpruitt/tmux.vim', {'rtp': 'vim'}
+    Plug 'tpope/vim-git'
 
     " Document
     Plug 'lervag/vimtex'
@@ -682,7 +681,7 @@ if has('autocmd') && has('modify_fname')
     \   && has('insert_expand') && has('textprop')
     \   && has('job') && has('channel') && has('terminal')
     \ ) && executable('node') && executable('npm')
-    let s:base_config = {'tag': 'v0.0.74', 'branch': 'release'}
+    let s:base_config = {'branch': 'release'}
     call plug#('neoclide/coc.nvim', s:base_cond ? s:base_config : s:plug_disable)
     if s:base_cond
       let g:coc_global_extensions = [
@@ -724,7 +723,6 @@ if has('autocmd') && has('modify_fname')
     \ || has('patch-8.0.0616')
     \ || (has('gui_running') && has('patch-7.4.1689'))
     call plug#('arzg/vim-substrata', s:base_cond ? {} : s:plug_disable)
-    call plug#('sainnhe/edge', s:base_cond ? {} : s:plug_disable)
     call plug#('lifepillar/vim-gruvbox8', s:base_cond ? {} : s:plug_disable)
     " }}}plug-color
 
