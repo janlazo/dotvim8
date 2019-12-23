@@ -488,7 +488,7 @@ if has('autocmd') && has('modify_fname')
       endif
     else
       if has('mouse')
-        set mouse=
+        let &mouse = (has('win32') || &term =~# '^xterm') ? 'a' : 'nvi'
       endif
     endif
     if has('syntax')
