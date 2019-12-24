@@ -13,20 +13,17 @@
 " limitations under the License.
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 if has('autocmd')
-  let s:globs = {
-  \ 'bib': ['*.bibtex', '*.biblatex'],
+  for s:list in items({
+  \ 'bib': ['*.bib{la\|}tex'],
   \ 'coffee': ['*.cson'],
   \ 'csv': ['*.csv'],
   \ 'dosini': ['.npmrc'],
-  \ 'json': ['.babelrc', '.bowerrc', 'composer.lock'],
+  \ 'json': ['.{babel\|bower}rc', 'composer.lock'],
   \ 'ruby': ['Vagrantfile'],
   \ 'pandoc': ['*.pandoc'],
   \ 'perl': ['cpanfile'],
-  \ }
-
-  for s:list in items(s:globs)
-    execute 'autocmd filetypedetect BufNewFile,BufRead' join(s:list[1], ',') 'setfiletype' s:list[0]
+  \ })
+    execute 'autocmd BufNewFile,BufRead' join(s:list[1], ',') 'setfiletype' s:list[0]
   endfor
-
-  unlet s:globs s:list
+  unlet s:list
 endif
