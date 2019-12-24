@@ -666,6 +666,7 @@ if has('autocmd') && has('modify_fname')
     Plug 'rust-lang/rust.vim'
     Plug 'tbastos/vim-lua'
     Plug 'vim-jp/vim-cpp'
+    Plug 'udalov/kotlin-vim'
     " }}}plug-ft
 
     " {{{plug-autocomplete
