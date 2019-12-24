@@ -667,6 +667,29 @@ if has('autocmd') && has('modify_fname')
     Plug 'tbastos/vim-lua'
     Plug 'vim-jp/vim-cpp'
     Plug 'udalov/kotlin-vim'
+    Plug 'JuliaEditorSupport/julia-vim'
+      " Filetype mappings should be opt-in only.
+      let g:julia_blocks = 0
+      let g:julia_blocks_mappings = {
+      \ 'move_n' : '',
+      \ 'move_N' : '',
+      \ 'move_p' : '',
+      \ 'move_P' : '',
+      \ 'moveblock_n' : '',
+      \ 'moveblock_N' : '',
+      \ 'moveblock_p' : '',
+      \ 'moveblock_P' : '',
+      \ 'select_a' : '',
+      \ 'select_i' : '',
+      \ 'whereami' : '',
+      \ }
+      let g:latex_to_unicode_auto = 0
+      let g:latex_to_unicode_cmd_mapping = []
+      let g:latex_to_unicode_eager = 0
+      let g:latex_to_unicode_file_types = []
+      let g:latex_to_unicode_keymap = 0
+      let g:latex_to_unicode_suggestions = 0
+      let g:latex_to_unicode_tab = 0
     " }}}plug-ft
 
     " {{{plug-autocomplete
