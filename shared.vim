@@ -638,6 +638,8 @@ if has('autocmd') && has('modify_fname')
     Plug 'othree/html5.vim'
     Plug 'JulesWang/css.vim'
     Plug 'tpope/vim-haml'
+    Plug 'lumiliet/vim-twig'
+      let g:vim_twig_filetype_detected = 0
 
     " Data
     Plug 'cespare/vim-toml'
