@@ -12,6 +12,7 @@
 " See the License for the specific language governing permissions and
 " limitations under the License.
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set cpoptions-=_
 set inccommand=nosplit
 
 if has('nvim-0.4')
