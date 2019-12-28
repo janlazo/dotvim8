@@ -593,14 +593,15 @@ if has('autocmd') && has('modify_fname')
 
     let s:base_config = {
     \ 'dir': expand('~/.fzf'),
-    \ 'do': 'bash ./install --bin'
     \ }
-    let s:base_cond = isdirectory(s:base_config.dir) || executable('bash')
-    if isdirectory(s:base_config.dir)
-      call plug#(s:base_config.dir)
-    else
-      call plug#('junegunn/fzf', s:base_cond ? s:base_config : s:plug_disable)
+    let s:base_cond = isdirectory(s:base_config.dir) || executable('fzf') || executable('bash')
+    if executable('bash') && !has('win32')
+      let s:base_config.do = 'bash ./install --bin'
     endif
+    call plug#(
+    \ isdirectory(s:base_config.dir) ? s:base_config.dir : 'junegunn/fzf',
+    \ s:base_cond ? s:base_config : s:plug_disable
+    \ )
     if s:base_cond
       if has('unix') && executable('x-terminal-emulator')
         let g:fzf_launcher = 'x-terminal-emulator -e bash -ic %s'
