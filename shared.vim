@@ -424,7 +424,7 @@ if has('user_commands')
   command! TabToSpace setlocal expandtab | retab
 
   if has('modify_fname')
-    command! -nargs=1 SetShell call s:set_shell(<f-args>)
+    command! -nargs=1 -complete=shellcmd SetShell call s:set_shell(<f-args>)
   endif
 
   if has('syntax')
