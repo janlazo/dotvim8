@@ -633,14 +633,14 @@ if has('autocmd') && has('modify_fname')
     Plug 'ericpruitt/tmux.vim', {'rtp': 'vim'}
     Plug 'tpope/vim-git'
 
-    " Document
+    " Document/Template
     Plug 'lervag/vimtex'
     Plug 'tpope/vim-markdown'
     Plug 'vim-pandoc/vim-pandoc-syntax'
     Plug 'aklt/plantuml-syntax'
     Plug 'othree/html5.vim'
-    Plug 'JulesWang/css.vim'
     Plug 'tpope/vim-haml'
+    Plug 'digitaltoad/vim-pug'
 
     " Data
     Plug 'cespare/vim-toml'
@@ -649,6 +649,7 @@ if has('autocmd') && has('modify_fname')
 
     " Programming
     Plug 'PProvost/vim-ps1'
+    Plug 'JulesWang/css.vim'
     Plug 'othree/yajs.vim'
     Plug 'othree/es.next.syntax.vim'
     Plug 'kchmck/vim-coffee-script'
