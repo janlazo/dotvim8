@@ -522,6 +522,7 @@ if has('autocmd') && has('modify_fname')
   augroup END
 
   " {{{vim-plug
+  let g:plug_threads = 4
   let g:plug_window = 'tabnew'
   silent! call plug#begin(expand(s:base_dir . '/bundle'))
   if exists('g:loaded_plug')
