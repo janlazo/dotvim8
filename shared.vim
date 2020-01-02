@@ -727,7 +727,7 @@ if has('autocmd') && has('modify_fname')
     Plug 'cocopon/iceberg.vim'
     let s:base_cond = has('nvim')
     \ || has('patch-8.0.0616')
-    \ || (has('gui_running') && has('patch-7.4.1689'))
+    \ || has('gui_running')
     call plug#('lifepillar/vim-gruvbox8', s:base_cond ? {} : s:plug_disable)
     " }}}plug-color
 
