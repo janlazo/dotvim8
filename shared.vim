@@ -555,29 +555,10 @@ if has('autocmd') && has('modify_fname')
     Plug 'tpope/vim-scriptease'
     Plug 'tpope/vim-unimpaired'
     Plug 'tpope/vim-surround'
-    Plug 'tpope/vim-commentary'
-    if has('syntax')
-      " Change comment format based on syntax group
-      " Required for html, pandoc
-      function! s:update_commentstring()
-        let syntax_name = s:synname()
-        if syntax_name =~# '^\(sa\|sc\|c\)ss'
-          let b:commentary_format = '/* %s */'
-        elseif syntax_name =~# '^javascript' || syntax_name =~# '^php'
-          let b:commentary_format = '// %s'
-        elseif syntax_name =~# '^html'
-          let b:commentary_format = '<!-- %s -->'
-        elseif (syntax_name !=# 'yamlDocumentStart' && syntax_name =~? 'yaml')
-          let b:commentary_format = '# %s'
-        elseif exists('b:commentary_format')
-          unlet b:commentary_format
-        endif
-      endfunction
-      autocmd vimrc CursorHold * call s:update_commentstring()
-      autocmd vimrc CursorMoved * call s:update_commentstring()
-    endif
     Plug 'tpope/tpope-vim-abolish'
     Plug 'tpope/vim-repeat'
+    Plug 'tyru/caw.vim'
+    Plug 'Shougo/context_filetype.vim'
     Plug 'justinmk/vim-dirvish'
     Plug 'AndrewRadev/splitjoin.vim'
     Plug 'tommcdo/vim-lion'
