@@ -559,6 +559,13 @@ if has('autocmd') && has('modify_fname')
     Plug 'tpope/vim-repeat'
     Plug 'tyru/caw.vim'
     Plug 'Shougo/context_filetype.vim'
+      let g:context_filetype#filetypes = {
+      \ 'pandoc': [{
+      \    'start': '^\s*```\s*\(\h\w*\)',
+      \    'end': '^\s*```$',
+      \    'filetype' : '\1',
+      \   }],
+      \ }
     Plug 'justinmk/vim-dirvish'
     Plug 'AndrewRadev/splitjoin.vim'
     Plug 'tommcdo/vim-lion'
