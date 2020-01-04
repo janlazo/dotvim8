@@ -698,6 +698,9 @@ if has('autocmd') && has('modify_fname')
       if executable('dotnet')
         call add(g:coc_global_extensions, 'coc-omnisharp')
       endif
+      if executable('rustup')
+        call add(g:coc_global_extensions, 'coc-rls')
+      endif
 
       inoremap <expr> <Plug>CocTab
       \ pumvisible() ? "\<C-n>" :
