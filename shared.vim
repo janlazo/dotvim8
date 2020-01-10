@@ -139,15 +139,14 @@ if has('windows')
 
   " maktaba#buffer#Substitute()
   " https://github.com/google/vim-maktaba/blob/master/autoload/maktaba/buffer.vim
-  function! s:remove_trailing_spaces()
+  function! s:strip_whitespace(start, end)
     let cur_view = winsaveview()
     let [gdefault, ignorecase, smartcase] = [&gdefault, &ignorecase, &smartcase]
     set nogdefault noignorecase nosmartcase
-    %s/\s\+$//ge
+    execute 'keeppatterns' a:start.','.a:end.'substitute/\s\+$//ge'
     let [&gdefault, &ignorecase, &smartcase] = [gdefault, ignorecase, smartcase]
     call winrestview(cur_view)
   endfunction
-  nnoremap <silent> <Space>rs :call <SID>remove_trailing_spaces()<CR>
 endif
 
 " Moved from normal to tiny version since 8.0.1118
@@ -422,6 +421,11 @@ endif
 if has('user_commands')
   command! SpaceToTab setlocal noexpandtab | retab!
   command! TabToSpace setlocal expandtab | retab
+
+  " https://github.com/axelf4/vim-strip-trailing-whitespace/blob/master/plugin/strip_trailing_whitespace.vim
+  if has('windows') && has('patch-7.4-0155')
+    command! -bar -range=% StripWhitespace call s:strip_whitespace(<line1>, <line2>)
+  endif
 
   if has('modify_fname')
     command! -nargs=1 -complete=shellcmd SetShell call s:set_shell(<f-args>)
