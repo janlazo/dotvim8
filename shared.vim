@@ -143,7 +143,7 @@ if has('windows')
     let cur_view = winsaveview()
     let [gdefault, ignorecase, smartcase] = [&gdefault, &ignorecase, &smartcase]
     set nogdefault noignorecase nosmartcase
-    execute 'keeppatterns' a:start.','.a:end.'substitute/\s\+$//ge'
+    execute (has('patch-7.4-0155') ? 'keeppatterns' : '') a:start.','.a:end.'substitute/\s\+$//ge'
     let [&gdefault, &ignorecase, &smartcase] = [gdefault, ignorecase, smartcase]
     call winrestview(cur_view)
   endfunction
@@ -423,7 +423,7 @@ if has('user_commands')
   command! TabToSpace setlocal expandtab | retab
 
   " https://github.com/axelf4/vim-strip-trailing-whitespace/blob/master/plugin/strip_trailing_whitespace.vim
-  if has('windows') && has('patch-7.4-0155')
+  if has('windows')
     command! -bar -range=% StripWhitespace call s:strip_whitespace(<line1>, <line2>)
   endif
 
