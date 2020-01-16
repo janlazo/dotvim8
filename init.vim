@@ -15,6 +15,8 @@
 set cpoptions-=_
 set inccommand=nosplit
 
+let g:loaded_python_provider = 0
+
 if has('nvim-0.4')
   set pumblend=30
 endif
