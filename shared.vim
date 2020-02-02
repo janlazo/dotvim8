@@ -274,26 +274,27 @@ if has('statusline')
   \ 'r': 'PROMPT'
   \ }
 
-  " TODO - support low-width screens (add max width, minimize space)
   function! Statusline()
     let lhs = ['%8.8{"'.get(s:modes, mode(), 'MODE').'"}']
-    let rhs = []
+    if &buftype ==# 'terminal'
+      return join(add(lhs, '%5f'), ' | ')
+    endif
+    let rhs = ['%3l:%-3c']
     if &columns > 20
-      call add(lhs, '%5.'.(&columns / 4).'t')
+      call add(lhs, '%5.'.(&columns / 3).'f %r%m')
     endif
     if &columns > 40
       if strlen(&filetype)
-        call insert(rhs, &filetype)
+        call insert(rhs, &filetype, 0)
       endif
     endif
     if &columns > 60
       if strlen(&fileencoding)
-        call add(rhs, &fileencoding)
+        call insert(rhs, &fileencoding, -1)
       endif
-      call add(rhs, &fileformat)
+      call insert(rhs, &fileformat, -1)
     endif
-    call add(rhs, '%3l:%-3c')
-    return join(lhs, ' | ').' [%R%M]%='.join(rhs, ' | ')
+    return join(lhs, ' | ').'%='.join(rhs, ' | ')
   endfunction
 
   set statusline=%!Statusline()
