@@ -280,10 +280,8 @@ if has('statusline')
       return join(add(lhs, '%5f'), ' | ')
     endif
     let rhs = ['%3l:%-3c']
-    if &columns > 20
-      call add(lhs, '%5.'.(&columns / 3).'f %r%m')
-    endif
     if &columns > 40
+      call add(lhs, '%5.'.(&columns * 2 / 5).'f %r%m')
       if strlen(&filetype)
         call insert(rhs, &filetype, 0)
       endif
@@ -590,7 +588,7 @@ if has('autocmd') && has('modify_fname')
     \ 'dir': expand('~/.fzf'),
     \ }
     let s:base_cond = isdirectory(s:base_config.dir) || executable('fzf') || executable('bash')
-    if executable('bash') && !has('win32')
+    if executable('bash') && !executable('fzf') && !has('win32')
       let s:base_config.do = 'bash ./install --bin'
     endif
     call plug#(
