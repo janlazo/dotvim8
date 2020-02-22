@@ -6,7 +6,7 @@ if command -v shellcheck > /dev/null 2>&1; then
   shellcheck -e SC1090 -e SC2046 $(git ls-files '*.sh')
 fi
 
-VIM_ARGS="-V2 -Es --cmd 'version' --cmd 'set rtp=$PWD,\$VIMRUNTIME,$PWD/after'"
+VIM_ARGS="-V2 -i NONE -Es --cmd 'version' --cmd 'set rtp=$PWD,\$VIMRUNTIME,$PWD/after'"
 if command -v vim.tiny > /dev/null 2>&1; then
   eval "vim.tiny $VIM_ARGS -u vimrc -c q"
 fi

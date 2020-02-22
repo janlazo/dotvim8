@@ -469,7 +469,7 @@ if has('autocmd') && has('modify_fname')
   let g:pyindent_disable_parentheses_indenting = 1
 
   function! s:vim_enter()
-     if empty(glob(g:plug_home . '/*'))
+    if exists('g:loaded_plug') && empty(glob(g:plug_home . '/*'))
        PlugInstall --sync
        q
      endif
