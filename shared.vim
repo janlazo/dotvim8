@@ -353,7 +353,7 @@ if has('syntax')
     let colors = &background ==# 'light'
     \ ? ['gruvbox8_soft', 'morning']
     \ : ['gruvbox8_hard', 'iceberg', 'torte']
-    if has('patch-7.4.1036') && has('patch-7.4.1347')
+    if has('patch-7.4.1036')
     \ && (s:is_gui || has('nvim') || !(has('win32') || has('win32unix')))
       for color in colors
         execute 'silent! colorscheme' color
@@ -469,10 +469,12 @@ if has('autocmd') && has('modify_fname')
   let g:pyindent_disable_parentheses_indenting = 1
 
   function! s:vim_enter()
-    if exists('g:loaded_plug') && empty(glob(g:plug_home . '/*'))
-       PlugInstall --sync
-       q
-     endif
+    if exists('g:loaded_plug')
+    \ && has('patch-7.4.1347')
+    \ && empty(glob(g:plug_home . '/*'))
+      PlugInstall --sync
+      q
+    endif
     if has('nvim')
       " Detect nvim-qt
       let s:is_gui = s:is_gui || (exists('g:GuiLoaded') && has('nvim-0.3'))
