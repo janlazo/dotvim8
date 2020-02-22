@@ -469,6 +469,10 @@ if has('autocmd') && has('modify_fname')
   let g:pyindent_disable_parentheses_indenting = 1
 
   function! s:vim_enter()
+     if empty(glob(g:plug_home . '/*'))
+       PlugInstall --sync
+       q
+     endif
     if has('nvim')
       " Detect nvim-qt
       let s:is_gui = s:is_gui || (exists('g:GuiLoaded') && has('nvim-0.3'))
