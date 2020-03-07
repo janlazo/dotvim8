@@ -12,4 +12,4 @@
 " See the License for the specific language governing permissions and
 " limitations under the License.
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-setlocal foldmethod=syntax
+setlocal foldcolumn=1 foldmethod=syntax

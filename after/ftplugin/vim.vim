@@ -13,4 +13,4 @@
 " limitations under the License.
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 setlocal shiftwidth=2 expandtab
-setlocal foldenable foldmethod=marker
+setlocal foldenable foldcolumn=1 foldmethod=marker
