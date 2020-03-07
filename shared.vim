@@ -379,18 +379,6 @@ if has('syntax')
   endfunction
 endif
 
-if has('persistent_undo')
-  if has('modify_fname')
-    let &undodir = expand(s:base_dir . '/.undodir')
-
-    if !isdirectory(&undodir)
-      call mkdir(&undodir, 'p')
-    endif
-  else
-    set noundofile undodir=
-  endif
-endif
-
 if has('folding')
   set nofoldenable
   set commentstring=

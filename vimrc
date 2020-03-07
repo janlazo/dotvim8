@@ -60,6 +60,11 @@ if has('gui_running')
 endif
 
 " {{{tiny
+" Moved from normal to tiny version since 8.1.1979
+if has('modify_fname')
+  let s:base_dir = expand('<sfile>:p:h')
+endif
+
 " Moved from small to tiny version since 8.0.1118
 if has('windows')
   set tabpagemax=50
@@ -96,6 +101,18 @@ endif
 if has('clipboard')
   set clipboard=
 endif
+
+if has('persistent_undo')
+  if has('modify_fname')
+    let &undodir = expand(s:base_dir . '/.undodir')
+
+    if !isdirectory(&undodir)
+      call mkdir(&undodir, 'p')
+    endif
+  else
+    set undodir=
+  endif
+endif
 "}}}normal
 " {{{big
 if has('langmap')
@@ -111,4 +128,8 @@ runtime shared.vim
 
 if has('gui_running')
   let &columns = 81 + &numberwidth
+endif
+
+if has('modify_fname')
+  unlet s:base_dir
 endif
