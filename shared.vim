@@ -453,6 +453,8 @@ if has('autocmd') && has('modify_fname')
   let g:tex_flavor = 'latex'
 
   " C
+  let g:c_no_bsd = 1
+  let g:c_no_if0 = 1
   let g:c_syntax_for_h = 1
 
   " Python
