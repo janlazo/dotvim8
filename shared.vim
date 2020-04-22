@@ -683,7 +683,7 @@ if has('autocmd') && has('modify_fname')
       \ 'coc-vimlsp', 'coc-tag', 'coc-vimtex',
       \ 'coc-json', 'coc-yaml', 'coc-markdownlint',
       \ 'coc-css', 'coc-html', 'coc-svg',
-      \ 'coc-tsserver', 'coc-vetur',
+      \ 'coc-tsserver'
       \ ]
       if executable('python3')
         call add(g:coc_global_extensions, 'coc-python')
