@@ -129,6 +129,10 @@ if has('win32')
   " Default prompt is not user-friendly.
   " ConEmu's prompt is garbled in winpty.
   let $PROMPT = '$P$_$G$S'
+
+  " fzf default file walker does not work on directory symlinks and junctions
+  " https://github.com/junegunn/fzf/pull/1847#issuecomment-628960827
+  let $FZF_DEFAULT_COMMAND = 'for /r %P in (*) do @(set "_curfile=%P" & set "_curfile=!_curfile:%__CD__%=!" & echo !_curfile!)'
 endif
 
 " {{{tiny
