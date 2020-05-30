@@ -653,7 +653,7 @@ if has('autocmd') && has('modify_fname')
     let s:base_cond = has('patch-7.4.2071')
     call plug#('posva/vim-vue', s:base_cond ? {} : s:plug_disable)
     if s:base_cond
-      let g:vue_pre_processors = ['scss']
+      let g:vue_pre_processors = ['sass', 'scss']
       let g:no_plugin_maps = 1
       let g:no_vue_maps = 1
     endif
