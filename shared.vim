@@ -452,6 +452,7 @@ if has('autocmd') && has('modify_fname')
   " HTML
   let g:html_indent_script1 = 'auto'
   let g:html_indent_style1 = 'auto'
+  let g:html_no_rendering = 1
 
   " Tex
   let g:tex_flavor = 'latex'
