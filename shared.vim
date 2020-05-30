@@ -681,7 +681,10 @@ if has('autocmd') && has('modify_fname')
     \   && has('insert_expand') && has('textprop')
     \   && has('job') && has('channel') && has('terminal')
     \ ) && executable('node') && executable('npm')
-    let s:base_config = {'branch': 'release'}
+    let s:base_config = {
+    \ 'branch': 'release',
+    \ 'tag': 'v0.0.78',
+    \ }
     call plug#('neoclide/coc.nvim', s:base_cond ? s:base_config : s:plug_disable)
     if s:base_cond
       let g:coc_global_extensions = [
