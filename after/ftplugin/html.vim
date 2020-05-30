@@ -13,6 +13,7 @@
 " limitations under the License.
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 setlocal commentstring=<!--%s-->
+setlocal iskeyword+=-
 setlocal suffixesadd+=.html suffixesadd+=.js
 setlocal suffixesadd+=.css suffixesadd+=.sass suffixesadd+=.scss
 setlocal suffixesadd+=.jpg suffixesadd+=.png

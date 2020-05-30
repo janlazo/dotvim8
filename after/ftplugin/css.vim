@@ -12,6 +12,7 @@
 " See the License for the specific language governing permissions and
 " limitations under the License.
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+setlocal iskeyword+=-
 setlocal suffixesadd+=.css suffixesadd+=.sass suffixesadd+=.scss
 setlocal suffixesadd+=.jpg suffixesadd+=.png
 
