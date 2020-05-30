@@ -573,6 +573,9 @@ if has('autocmd') && has('modify_fname')
       \    'filetype' : '\1',
       \   }],
       \ }
+      let g:context_filetype#same_filetypes = {
+      \ 'postcss': 'css',
+      \ }
     Plug 'justinmk/vim-dirvish'
     Plug 'AndrewRadev/splitjoin.vim'
     Plug 'tommcdo/vim-lion'
