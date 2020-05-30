@@ -637,7 +637,6 @@ if has('autocmd') && has('modify_fname')
     Plug 'vim-pandoc/vim-pandoc-syntax'
     Plug 'aklt/plantuml-syntax'
     Plug 'othree/html5.vim'
-    Plug 'tpope/vim-haml'
     Plug 'digitaltoad/vim-pug'
 
     " Data
@@ -648,6 +647,8 @@ if has('autocmd') && has('modify_fname')
     " Programming
     Plug 'PProvost/vim-ps1'
     Plug 'JulesWang/css.vim'
+    Plug 'cakebaker/scss-syntax.vim'
+    Plug 'tpope/vim-haml'
     Plug 'othree/yajs.vim'
     Plug 'othree/es.next.syntax.vim'
     Plug 'kchmck/vim-coffee-script'
