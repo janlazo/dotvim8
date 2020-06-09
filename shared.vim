@@ -499,11 +499,10 @@ if has('autocmd') && has('modify_fname')
       endif
     endif
     if has('syntax')
-      let s:hour = exists('*strftime') ? strftime('%H') : 9
-      let &background = (s:is_gui && s:hour >= 7 && s:hour < 17)
+      let hour = exists('*strftime') ? strftime('%H') : 9
+      let &background = (s:is_gui && hour >= 7 && hour < 17)
       \ ? 'light'
       \ : 'dark'
-      unlet s:hour
       call s:set_color()
     endif
 
