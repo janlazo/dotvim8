@@ -610,6 +610,11 @@ if has('autocmd') && has('modify_fname')
     call plug#('junegunn/fzf.vim', s:base_cond ? {} : s:plug_disable)
     if s:base_cond
       let g:fzf_command_prefix = 'Fzf'
+      if has('nvim')
+      \ ? has('nvim-0.4.0')
+      \ : has('popupwin') && has('patch-8.2.0191')
+        let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.8 } }
+      endif
     endif
     call plug#('tpope/vim-fugitive')
 
