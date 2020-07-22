@@ -187,7 +187,10 @@ if has('modify_fname')
         let &shellxescape = '"&|<>()@^'
       endif
     elseif tail =~# '^powershell\.exe' || tail =~# '^pwsh'
-      let &shellcmdflag = ' -NoProfile -NoLogo -ExecutionPolicy RemoteSigned -Command'
+      let &shellcmdflag = '-NoProfile -NoLogo -ExecutionPolicy RemoteSigned -Command'
+      if has('win32') || has('win32unix')
+        let &shellcmdflag = ' ' . &shellcmdflag
+      endif
       set shellxescape= shellquote= noshellslash
       let &shellredir = '| Out-File -Encoding UTF8'
       if has('quickfix')
