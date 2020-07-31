@@ -7,7 +7,7 @@ set -eu
 # Need 3.5.2+ on Windows
 if (command -v node && command -v npm) > /dev/null 2>&1; then
   npm install -g \
-    neovim dockerfile-language-server-nodejs
+    neovim@4.5.0 dockerfile-language-server-nodejs
 fi
 
 # Python (https://github.com/neovim/python-client)
