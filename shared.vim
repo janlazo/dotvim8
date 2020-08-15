@@ -704,6 +704,9 @@ if has('autocmd') && has('modify_fname')
       \ 'coc-css', 'coc-html', 'coc-svg',
       \ 'coc-tsserver'
       \ ]
+      if executable('clangd')
+        call add(g:coc_global_extensions, 'coc-clangd')
+      endif
       if executable('python3')
         call add(g:coc_global_extensions, 'coc-python')
       endif
