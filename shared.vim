@@ -610,7 +610,9 @@ if has('autocmd') && has('modify_fname')
       endif
       let g:fzf_history_dir = s:base_dir . '/.fzf_history'
     endif
-    call plug#('junegunn/fzf.vim', s:base_cond ? {} : s:plug_disable)
+    call plug#('junegunn/fzf.vim', s:base_cond ? {
+    \ 'commit': '23dda8602f138a9d75dd03803a79733ee783e356'
+    \ } : s:plug_disable)
     if s:base_cond
       let g:fzf_command_prefix = 'Fzf'
       if has('nvim')
