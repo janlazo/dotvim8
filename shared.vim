@@ -473,6 +473,7 @@ if has('autocmd') && has('modify_fname')
     if exists('g:loaded_plug')
     \ && has('patch-7.4.1347')
     \ && empty(glob(g:plug_home . '/*'))
+    \ && empty($CI)
       PlugInstall --sync
       q
     endif
