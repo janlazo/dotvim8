@@ -317,8 +317,12 @@ if has('wildmenu')
 endif
 
 if has('mksession')
-  set sessionoptions=buffers,curdir,slash,tabpages,unix,winsize
-  set viewoptions=options,slash,unix
+  set sessionoptions=buffers,curdir,tabpages,winsize
+  set viewoptions=options
+  if !has('nvim-0.5')
+    set sessionoptions+=slash sessionoptions+=unix
+    set viewoptions+=slash viewoptions+=unix
+  endif
   if has('patch-8.0.1289')
     set viewoptions+=curdir
   endif
