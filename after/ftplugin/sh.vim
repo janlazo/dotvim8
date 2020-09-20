@@ -13,5 +13,9 @@
 " limitations under the License.
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 if has('unix') && !has('win32unix')
-  nnoremap <silent> <buffer> K :call dotvim8#bang('man ' . expand('<cword>'))<CR>
+  if has('nvim')
+    setlocal keywordprg=:Man
+  else
+    nnoremap <silent> <buffer> K :call dotvim8#bang('man ' . expand('<cword>'))<CR>
+  endif
 endif
