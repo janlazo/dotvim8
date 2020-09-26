@@ -10,10 +10,12 @@ Session.vim
 rplugin.vim
 
 # vim-plug
-autoload/plug.vim.old
+/autoload/plug.vim.old
 
 # user-defined
-.undodir/
-.viminfo
-bundle/
-spell/
+/.coc/
+/.fzf_history/
+/.undodir/
+/.viminfo
+/bundle/
+/spell/

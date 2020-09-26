@@ -705,9 +705,10 @@ if has('autocmd') && has('modify_fname')
     \ }
     call plug#('neoclide/coc.nvim', s:base_cond ? s:base_config : s:plug_disable)
     if s:base_cond
+      let g:coc_data_home = s:base_dir . '/.coc'
       let g:coc_global_extensions = [
       \ 'coc-vimlsp', 'coc-tag', 'coc-vimtex',
-      \ 'coc-json', 'coc-yaml', 'coc-markdownlint',
+      \ 'coc-json@1.2.6', 'coc-yaml', 'coc-markdownlint',
       \ 'coc-css', 'coc-html', 'coc-svg',
       \ 'coc-tsserver'
       \ ]
@@ -757,8 +758,4 @@ if has('autocmd') && has('modify_fname')
     silent! call plug#end()
   endif
   " }}}vim-plug
-endif
-
-if has('modify_fname')
-  unlet s:base_dir
 endif
