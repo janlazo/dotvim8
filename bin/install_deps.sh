@@ -20,9 +20,9 @@ for py in python3 python; do
 done
 
 # Ruby (https://github.com/neovim/neovim-ruby)
-# Need 0.6.2+ on Windows
+# Need 0.9.0+ for rubyeval()
 if (command -v ruby && command -v gem) > /dev/null 2>&1; then
-  gem install \
-    --user-install --conservative --minimal-deps --no-suggestions \
-    neovim solargraph
+  GEM_INSTALL="gem install --user-install --conservative --minimal-deps --no-document --no-suggestions"
+  eval "$GEM_INSTALL solargraph"
+  eval "$GEM_INSTALL --prerelease --version '> 0.8.1' neovim"
 fi
