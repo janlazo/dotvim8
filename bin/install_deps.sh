@@ -26,3 +26,9 @@ if (command -v ruby && command -v gem) > /dev/null 2>&1; then
   eval "$GEM_INSTALL solargraph"
   eval "$GEM_INSTALL --prerelease --version '> 0.8.1' neovim"
 fi
+
+# Perl (https://github.com/jacquesg/p5-Neovim-Ext)
+# Assume that perl uses local::lib.
+if (command -v perl && command -v cpanm) > /dev/null 2>&1; then
+  cpanm -n Neovim::Ext
+fi
