@@ -16,6 +16,8 @@ addons:
     packages:
       - neovim
       - python@3
+      - perl
+      - cpanminus
 
 env:
   global:
