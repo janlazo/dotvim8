@@ -31,8 +31,8 @@ set whichwrap=<,>,b,s nojoinspaces shiftround
 set notimeout
 set keywordprg=:help
 if has('patch-7.4.0868')
-  " 4-space Indent
-  set shiftwidth=4 expandtab
+  " 2-space Indent
+  set shiftwidth=2 expandtab
 endif
 
 " File

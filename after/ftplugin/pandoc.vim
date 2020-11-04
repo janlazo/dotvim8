@@ -15,6 +15,7 @@
 let s:cpoptions = &cpoptions
 set cpoptions&vim
 setlocal commentstring=<!--%s-->
+setlocal shiftwidth=4 expandtab
 
 if !exists('*s:version')
   " Return the version number in output of 'pandoc --version'
