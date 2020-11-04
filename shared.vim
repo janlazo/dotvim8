@@ -549,6 +549,7 @@ if has('autocmd') && has('modify_fname')
     let s:base_cond = v:version >= 800 && has('syntax') && has('reltime')
     call plug#('andymass/vim-matchup', s:base_cond ? {} : s:plug_disable)
     if s:base_cond
+      let g:loaded_matchit = 1
       let g:matchup_matchparen_offscreen = {
       \ 'method': (has('nvim')
         \ ? has('nvim-0.4')
