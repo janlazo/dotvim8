@@ -30,6 +30,8 @@ fi
 
 # Perl (https://github.com/jacquesg/p5-Neovim-Ext)
 # Assume that perl uses local::lib to avoid 'sudo'.
-if (command -v perl && command -v cpanm) > /dev/null 2>&1; then
+if (command -v perl &&
+    command -v cpanm &&
+    perl -e 'use v5.22') > /dev/null 2>&1; then
   cpanm -n Neovim::Ext
 fi
