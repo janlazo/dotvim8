@@ -13,7 +13,9 @@ fi
 # Python (https://github.com/neovim/python-client)
 # Assume that pyenv is installed to avoid 'sudo'.
 for py in python3 python; do
-  if (command -v $py && $py -m pip --version) >/dev/null 2>&1; then
+  if (command -v $py &&
+      $py -c 'import sys; assert sys.version_info[0] > 2' &&
+      $py -m pip --version) >/dev/null 2>&1; then
     $py -m pip install \
       pynvim flake8
     break
