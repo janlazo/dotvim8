@@ -21,24 +21,18 @@ if !exists('*s:help')
     \ ? 'powershell.exe'
     \ : 'pwsh'
     let pager = has('win32') ? 'more' : 'less'
-    if !executable(newshell)
-      echomsg newshell 'is not in PATH'
+    let shell = &shell
+    if !executable(newshell) || !SetShell(newshell)
+      echoerr newshell 'cannot be set'
       return
     endif
 
-    let shell = &shell
-    " de-quote
-    if shell[0] ==# '"'
-      let shell = shell[1:-2]
-    endif
-
     try
-      execute 'SetShell' newshell
       let help_fmt = 'Get-Help %s | ' . pager
       let cmd = printf(help_fmt, dotvim8#shellescape(expand('<cword>')))
       call dotvim8#bang(cmd)
     finally
-      execute 'SetShell' shell
+      call SetShell(shell)
     endtry
   endfunction
 endif

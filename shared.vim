@@ -162,12 +162,38 @@ endif
 if has('modify_fname')
   let s:base_dir = expand('<sfile>:p:h')
 
-  function! s:set_shell(shell)
-    let shell = a:shell
-    " de-quote
-    if shell[0] ==# '"'
-      let shell = shell[1:-2]
+  " Unescape 'shell' option in case that the user escaped it.
+  function! UnescapeShell(shell)
+    if (has('nvim') || has('win32')) && a:shell =~# '^".\+"$'
+      " de-quote
+      return a:shell[1:-2]
     endif
+    if !has('nvim') && has('unix') && a:shell =~# '\'
+      " strip backslashes
+      return substitute(a:shell, '\', '', 'g')
+    endif
+    return a:shell
+  endfunction
+
+  " Escape 'shell' option depending on the editor.
+  function! EscapeShell(shell)
+    if a:shell =~# ' '
+      if has('nvim') || (has('win32') && has('patch-8.1.2115'))
+        " quote
+        return '"' . a:shell . '"'
+      endif
+      " TODO: Investigate the patch that added support for escaped 'shell'.
+      if !has('nvim') && has('unix') && has('patch-8.0.1176')
+        " add backslashes
+        return escape(a:shell, ' ')
+      endif
+    endif
+    return a:shell
+  endfunction
+
+  " If shell is supported, return 1. Else, return 0.
+  function! SetShell(shell)
+    let shell = UnescapeShell(a:shell)
     let tail = fnamemodify(shell, ':t')
 
     if tail =~# '^cmd\.exe'
@@ -214,16 +240,19 @@ if has('modify_fname')
       let &shellxquote = (!has('nvim') && has('win32')) ? '"' : ''
     else
       echoerr a:shell 'is not supported in Vim' v:version
-      return
+      return 0
     endif
-    let &shell = match(shell, ' ') == -1 ? shell : '"' . shell . '"'
+    let &shell = EscapeShell(shell)
+    return 1
   endfunction
 
-  if has('win32')
-    call s:set_shell(has('nvim') || !executable($COMSPEC) ? 'cmd.exe' : $COMSPEC)
-  elseif has('unix')
-    call s:set_shell(filter([$SHELL, 'sh'], 'executable(v:val)')[0])
-  endif
+  let s:shells = filter(has('win32') ? [$COMSPEC, 'cmd.exe'] : [$SHELL, 'sh'], 'executable(v:val)')
+  for s:shell in s:shells
+    if SetShell(s:shell)
+      break
+    endif
+  endfor
+  unlet s:shell s:shells
 endif
 
 " Moved from normal to tiny version since 8.1.1901
@@ -429,7 +458,7 @@ if has('user_commands')
   endif
 
   if has('modify_fname')
-    command! -nargs=1 -complete=shellcmd SetShell call s:set_shell(<f-args>)
+    command! -nargs=1 -complete=shellcmd SetShell call SetShell(<f-args>)
   endif
 
   if has('syntax')

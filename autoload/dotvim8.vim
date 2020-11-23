@@ -48,11 +48,7 @@ function! dotvim8#shellescape(arg, ...)
   endif
 
   let opts = get(a:000, 0, {})
-  let shell = fnamemodify(get(opts, 'shell', &shell), ':t')
-  " de-quote
-  if shell[0] ==# '"'
-    let shell = shell[1:-2]
-  endif
+  let shell = fnamemodify(UnescapeShell(get(opts, 'shell', &shell)), ':t')
   let script = get(opts, 'script', 0)
   let arg = get(opts, 'escape_argv', 1) && (has('win32') || has('win32unix')) ?
             \ escape(a:arg, '"\') : a:arg
@@ -81,11 +77,7 @@ function! dotvim8#bang(cmd)
     echomsg 'Command is empty string'
     return
   endif
-  let shell = &shell
-  " de-quote
-  if shell[0] ==# '"'
-    let shell = shell[1:-2]
-  endif
+  let shell = UnescapeShell(&shell)
 
   if s:has_term
     if has('nvim')
