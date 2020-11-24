@@ -246,7 +246,10 @@ if has('modify_fname')
     return 1
   endfunction
 
-  let s:shells = filter(has('win32') ? [$COMSPEC, 'cmd.exe'] : [$SHELL, 'sh'], 'executable(v:val)')
+  let s:shells = filter(
+  \ has('win32') ? [escape($COMSPEC, '\'), 'cmd.exe'] :
+  \ [$SHELL, 'sh'],
+  \ 'executable(v:val)')
   for s:shell in s:shells
     if SetShell(s:shell)
       break
