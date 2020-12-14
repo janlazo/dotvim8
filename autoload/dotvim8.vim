@@ -41,6 +41,10 @@ function! s:shellesc_ps1(arg)
   return "'".substitute(escape(a:arg, '\"'), "'", "''", 'g')."'"
 endfunction
 
+function! s:shellesc_sh(arg)
+  return "'".substitute(a:arg, "'", "'\\\\''", 'g')."'"
+endfunction
+
 " Fix shellescape for external programs in Windows
 function! dotvim8#shellescape(arg, ...)
   if empty(a:arg)
@@ -50,24 +54,14 @@ function! dotvim8#shellescape(arg, ...)
   let opts = get(a:000, 0, {})
   let shell = fnamemodify(UnescapeShell(get(opts, 'shell', &shell)), ':t')
   let script = get(opts, 'script', 0)
-  let arg = get(opts, 'escape_argv', 1) && (has('win32') || has('win32unix')) ?
-            \ escape(a:arg, '"\') : a:arg
 
   if shell =~# 'cmd\.exe'
-    return s:shellesc_cmd(arg, script)
+    return s:shellesc_cmd(a:arg, script)
   elseif shell =~# 'powershell\.exe' || shell =~# 'pwsh'
-    return s:shellesc_ps1(arg)
-  elseif has('win32') || has('win32unix')
-    let shellslash = &shellslash
-    try
-      set shellslash
-      return shellescape(arg)
-    finally
-      let &shellslash = shellslash
-    endtry
+    return s:shellesc_ps1(a:arg)
   endif
 
-  return shellescape(a:arg)
+  return s:shellesc_sh(a:arg)
 endfunction
 
 " Vim without +terminal        - !
@@ -104,7 +98,7 @@ function! dotvim8#bang(cmd)
   else
     if has('gui_running')
       let cmd = (has('unix') && executable('x-terminal-emulator')) ?
-                \ 'x-terminal-emulator -e ' . shellescape(a:cmd) : a:cmd
+                \ 'x-terminal-emulator -e ' . dotvim8#shellescape(a:cmd) : a:cmd
     else
       let cls = shell =~# 'cmd\.exe'
                 \ || shell =~# 'powershell\.exe'
