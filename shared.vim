@@ -710,7 +710,7 @@ if has('autocmd') && has('modify_fname')
     endif
     Plug 'lifepillar/pgsql.vim'
       let g:sql_type_default = 'pgsql'
-    Plug 'StanAngeloff/php.vim'
+    Plug 'TysonAndre/php-vim-syntax'
     Plug 'OrangeT/vim-csharp'
     Plug 'bumaociyuan/vim-swift'
     Plug 'rust-lang/rust.vim'
