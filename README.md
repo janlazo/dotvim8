@@ -1,6 +1,6 @@
 # dotvim8
 
-[![Build Status][Travis-Status]][Travis]
+![CI](https://github.com/janlazo/dotvim8/workflows/CI/badge.svg)
 
 Vim 8+ / Neovim 0.3.8+ config folder for Windows support and async jobs.
 
@@ -41,5 +41,3 @@ Apache License Version 2.0 (ALv2)
 [gh-fzf]: https://github.com/junegunn/fzf
 [gh-nvim-qt]: https://github.com/equalsraf/neovim-qt
 [gh-vim-plug]: https://github.com/junegunn/vim-plug
-[Travis]: https://travis-ci.org/janlazo/dotvim8
-[Travis-Status]: https://travis-ci.org/janlazo/dotvim8.svg?branch=master
