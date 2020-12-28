@@ -31,4 +31,4 @@ jobs:
         with:
           path: bundle
           key: vim-plug
-      - run: sh ./ci/script.sh
+      - run: sh .ci/script.sh
