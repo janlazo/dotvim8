@@ -4,7 +4,7 @@ on:
     branches: '**'
 
 jobs:
-  test:
+  unix:
     name: ${{ matrix.os }} - ${{ matrix.runner }}
     strategy:
       fail-fast: false
@@ -20,6 +20,28 @@ jobs:
             runner: macos-10.15
           # - os: osx
           #   runner: macos-11.0
+    runs-on: ${{ matrix.runner }}
+    steps:
+      - uses: actions/checkout@v2
+      - if: matrix.runner == 'ubuntu-20.04'
+        run: |
+          sudo apt-get -q update
+          sudo apt-get install -q -y --no-install-recommends neovim
+          command -v nvim
+          nvim --version
+      - if: matrix.os == 'osx'
+        run: |
+          brew update >/dev/null
+          brew install neovim
+          command -v nvim
+          nvim --version
+      - run: sh .ci/script.sh
+  windows:
+    name: ${{ matrix.os }} - ${{ matrix.runner }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
           - os: windows
             runner: windows-2016
           - os: windows
@@ -27,4 +49,10 @@ jobs:
     runs-on: ${{ matrix.runner }}
     steps:
       - uses: actions/checkout@v2
-      - run: sh .ci/script.sh
+      - run: |
+          $env:SCOOP = "$PWD/.scoop"
+          iwr -useb get.scoop.sh | iex
+          scoop install neovim
+          where.exe nvim
+          nvim --version
+          sh .ci/script.sh
