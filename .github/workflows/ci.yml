@@ -27,9 +27,4 @@ jobs:
     runs-on: ${{ matrix.runner }}
     steps:
       - uses: actions/checkout@v2
-      - name: Cache vim-plug bundles
-        uses: actions/cache@v2
-        with:
-          path: bundle
-          key: vim-plug
       - run: sh .ci/script.sh
