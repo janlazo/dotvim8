@@ -474,6 +474,8 @@ endif
 " Moved from normal to tiny version since 8.0.1564
 if has('autocmd') && has('modify_fname')
   " Vim
+  let g:no_plugin_maps = 1
+  let g:no_vim_maps = 1
   let g:vimsyn_embed = ''
   let g:vim_indent_cont = 0
 
@@ -705,7 +707,6 @@ if has('autocmd') && has('modify_fname')
     call plug#('posva/vim-vue', s:base_cond ? {} : s:plug_disable)
     if s:base_cond
       let g:vue_pre_processors = ['sass', 'scss']
-      let g:no_plugin_maps = 1
       let g:no_vue_maps = 1
     endif
     Plug 'lifepillar/pgsql.vim'
