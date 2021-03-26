@@ -7,7 +7,7 @@ set -eu
 # Assume that nvm or nvs are installed to avoid 'sudo'.
 if (command -v node && command -v npm) > /dev/null 2>&1; then
   npm install -g \
-    neovim@4.5.0 dockerfile-language-server-nodejs
+    neovim dockerfile-language-server-nodejs
 fi
 
 # Python (https://github.com/neovim/python-client)

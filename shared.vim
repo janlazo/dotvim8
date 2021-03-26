@@ -650,9 +650,7 @@ if has('autocmd') && has('modify_fname')
       endif
       let g:fzf_history_dir = s:base_dir . '/.fzf_history'
     endif
-    call plug#('junegunn/fzf.vim', s:base_cond ? {
-    \ 'commit': '23dda8602f138a9d75dd03803a79733ee783e356'
-    \ } : s:plug_disable)
+    call plug#('junegunn/fzf.vim', s:base_cond ? {} : s:plug_disable)
     if s:base_cond
       let g:fzf_command_prefix = 'Fzf'
       if has('nvim')
@@ -735,14 +733,13 @@ if has('autocmd') && has('modify_fname')
     \ ) && executable('node') && executable('npm')
     let s:base_config = {
     \ 'branch': 'release',
-    \ 'tag': 'v0.0.78',
     \ }
     call plug#('neoclide/coc.nvim', s:base_cond ? s:base_config : s:plug_disable)
     if s:base_cond
       let g:coc_data_home = s:base_dir . '/.coc'
       let g:coc_global_extensions = [
       \ 'coc-vimlsp', 'coc-tag', 'coc-vimtex',
-      \ 'coc-json@1.2.6', 'coc-yaml', 'coc-markdownlint',
+      \ 'coc-json', 'coc-yaml', 'coc-markdownlint',
       \ 'coc-css', 'coc-html', 'coc-svg',
       \ 'coc-tsserver'
       \ ]
