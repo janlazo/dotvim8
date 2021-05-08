@@ -228,7 +228,7 @@ if has('modify_fname')
       else
         let &shellxquote = has('win32') ? '"' : ''
       endif
-    elseif (tail =~# '^sh' || tail =~# '^bash')
+    elseif (tail =~# '^sh' || tail =~# '^bash' || tail =~# '^dash')
     \ && (!has('win32') || tail =~# '\.exe$')
       let &shellcmdflag = '-c'
       set shellquote= shellslash shellxescape=
