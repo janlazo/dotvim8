@@ -442,6 +442,9 @@ if has('quickfix')
     " FIXME - findstr requires prepending /c: to the regex
     let &grepprg = executable('findstr.exe') ? 'findstr /s /r /p /n $* nul' : ''
   endif
+  if has('nvim-0.5') || has('patch-8.1.2315')
+    set switchbuf=uselast
+  endif
 endif
 " }}}normal
 " {{{big
