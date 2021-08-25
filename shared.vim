@@ -350,7 +350,7 @@ endif
 
 if has('mksession')
   set sessionoptions=buffers,curdir,tabpages,winsize
-  set viewoptions=options
+  set viewoptions=
   if !has('nvim-0.5')
     set sessionoptions+=slash sessionoptions+=unix
     set viewoptions+=slash viewoptions+=unix
