@@ -736,7 +736,7 @@ if has('autocmd') && has('modify_fname')
     \ ) && executable('node') && executable('npm')
     let s:base_config = {
     \ 'branch': 'release',
-    \ 'tag': 'v0.0.80',
+    \ 'commit': 'a72b0753e6e64cd426603333c5ffedf42e13b1bb'
     \ }
     call plug#('neoclide/coc.nvim', s:base_cond ? s:base_config : s:plug_disable)
     if s:base_cond
