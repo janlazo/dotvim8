@@ -215,7 +215,6 @@ if has('modify_fname')
     elseif tail =~# '^powershell\.exe' || tail =~# '^pwsh'
       let &shellcmdflag = '-NoLogo -NoProfile -ExecutionPolicy RemoteSigned -Command'
       set shellxescape= shellquote= noshellslash
-      let &shellredir = '2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode'
 
       if has('nvim')
         " Force UTF8 input,output because 'encoding' is always 'utf-8'.
