@@ -213,20 +213,25 @@ if has('modify_fname')
         let &shellxescape = '"&|<>()@^'
       endif
     elseif tail =~# '^powershell\.exe' || tail =~# '^pwsh'
-      let &shellcmdflag = '-NoLogo -NoProfile -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.Encoding]::UTF8;'
-      if has('win32') || has('win32unix')
-        let &shellcmdflag = ' ' . &shellcmdflag
-      endif
+      let &shellcmdflag = '-NoLogo -NoProfile -ExecutionPolicy RemoteSigned -Command'
       set shellxescape= shellquote= noshellslash
       let &shellredir = '2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode'
-      if has('quickfix')
-        let &shellpipe = &shellredir
-      endif
 
       if has('nvim')
+        " Force UTF8 input,output because 'encoding' is always 'utf-8'.
+        let &shellcmdflag .= ' [Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.Encoding]::UTF8;'
+        let &shellredir = '2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode'
         set shellxquote=
       else
+        " XXX: Prepend a space to skip tempname() hack for non-unix shells
+        if !has('patch-8.2.3079') && (has('win32') || has('win32unix'))
+          let &shellcmdflag = ' ' . &shellcmdflag
+        endif
+        let &shellredir = '2>&1 | Out-File -Encoding Default %s; exit $LastExitCode'
         let &shellxquote = has('win32') ? '"' : ''
+      endif
+      if has('quickfix')
+        let &shellpipe = &shellredir
       endif
     elseif (tail =~# '^sh' || tail =~# '^bash' || tail =~# '^dash')
     \ && (!has('win32') || tail =~# '\.exe$')
