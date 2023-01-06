@@ -588,7 +588,7 @@ if has('autocmd') && has('modify_fname')
 
     " {{{plug-core
     let s:base_cond = v:version >= 800 && has('syntax') && has('reltime')
-    call plug#('andymass/vim-matchup', s:base_cond ? {} : s:plug_disable)
+    call plug#('andymass/vim-matchup', s:base_cond ? {'tag': 'v0.7.4'} : s:plug_disable)
     if s:base_cond
       let g:loaded_matchit = 1
       let g:matchup_matchparen_offscreen = {
@@ -613,7 +613,8 @@ if has('autocmd') && has('modify_fname')
     Plug 'tpope/vim-surround'
     Plug 'tpope/tpope-vim-abolish'
     Plug 'tpope/vim-repeat'
-    Plug 'tyru/caw.vim'
+    let s:base_cond = v:version >= 800
+    call plug#('tyru/caw.vim', s:base_cond ? {} : s:plug_disable)
     Plug 'Shougo/context_filetype.vim'
       let g:context_filetype#filetypes = {
       \ 'pandoc': [{
@@ -686,7 +687,7 @@ if has('autocmd') && has('modify_fname')
     Plug 'tpope/vim-git'
 
     " Document/Template
-    Plug 'lervag/vimtex'
+    Plug 'lervag/vimtex', {'tag': 'v2.15'}
     Plug 'tpope/vim-markdown'
     Plug 'vim-pandoc/vim-pandoc-syntax'
     Plug 'aklt/plantuml-syntax'
@@ -700,7 +701,7 @@ if has('autocmd') && has('modify_fname')
 
     " Programming
     Plug 'PProvost/vim-ps1'
-    Plug 'JulesWang/css.vim'
+    Plug 'vim-language-dept/css-syntax.vim'
     Plug 'cakebaker/scss-syntax.vim'
     Plug 'tpope/vim-haml'
     Plug 'othree/yajs.vim'
@@ -718,9 +719,7 @@ if has('autocmd') && has('modify_fname')
       let g:sql_type_default = 'pgsql'
     Plug 'TysonAndre/php-vim-syntax'
     Plug 'OrangeT/vim-csharp'
-    Plug 'bumaociyuan/vim-swift'
     Plug 'rust-lang/rust.vim'
-    Plug 'tbastos/vim-lua'
     Plug 'vim-jp/vim-cpp'
     Plug 'udalov/kotlin-vim'
     " }}}plug-ft
@@ -747,27 +746,25 @@ if has('autocmd') && has('modify_fname')
       let g:coc_data_home = s:base_dir . '/.coc'
       let g:coc_global_extensions = [
       \ 'coc-vimlsp', 'coc-tag', 'coc-vimtex',
-      \ 'coc-json', 'coc-yaml', 'coc-markdownlint',
+      \ 'coc-json', 'coc-markdownlint',
       \ 'coc-css', 'coc-html', 'coc-svg',
-      \ 'coc-tsserver'
+      \ 'coc-yaml@1.9.0',
+      \ 'coc-tsserver@2.2.0',
       \ ]
       if executable('clangd')
         call add(g:coc_global_extensions, 'coc-clangd')
       endif
       if executable('python3')
-        call add(g:coc_global_extensions, 'coc-python')
+        call add(g:coc_global_extensions, '@yaegassy/coc-pylsp')
       endif
       if executable('ruby') && executable('solargraph')
         call add(g:coc_global_extensions, 'coc-solargraph')
       endif
       if executable('java')
-        call add(g:coc_global_extensions, 'coc-java')
+        call add(g:coc_global_extensions, 'coc-java@1.6.0')
         if isdirectory($JAVA_HOME)
-          call add(g:coc_global_extensions, 'coc-xml')
+          call add(g:coc_global_extensions, 'coc-xml@1.14.1')
         endif
-      endif
-      if executable('dotnet')
-        call add(g:coc_global_extensions, 'coc-omnisharp')
       endif
       if executable('rustup')
         call add(g:coc_global_extensions, 'coc-rls')

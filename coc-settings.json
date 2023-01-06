@@ -16,8 +16,6 @@
   },
   "less.validate": false,
   "markdownlint.onOpen": false,
-  "python.jediEnabled": false,
-  "python.linting.pylintEnabled": false,
   "solargraph.checkGemVersion": false,
   "tsserver.formatOnType": false,
   "wxss.validate": false,
