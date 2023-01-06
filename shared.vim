@@ -613,7 +613,8 @@ if has('autocmd') && has('modify_fname')
     Plug 'tpope/vim-surround'
     Plug 'tpope/tpope-vim-abolish'
     Plug 'tpope/vim-repeat'
-    Plug 'tyru/caw.vim'
+    let s:base_cond = v:version >= 800
+    call plug#('tyru/caw.vim', s:base_cond ? {} : s:plug_disable)
     Plug 'Shougo/context_filetype.vim'
       let g:context_filetype#filetypes = {
       \ 'pandoc': [{
