@@ -14,12 +14,12 @@
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Feature/Version checks group options, variables, functions, mappings.
 " Folds group these checks by version type (ie. tiny,normal,huge).
-" Vim 7.4 (tiny) and Neovim 0.3.8 are the minimum supported versions.
+" Vim 7.4 (tiny) and Neovim 0.4.4 are the minimum supported versions.
 " See `:h version` for feature checks.
 " Check `v:version` for release + major version as an integer.
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " General
-set cpoptions-=C cpoptions-=<
+set cpoptions-=C cpoptions-=< cpoptions+=n
 set nomodeline modelines=0
 set shortmess+=s shortmess+=I
 if has('patch-7.4.0314')
@@ -33,6 +33,9 @@ set keywordprg=:help
 if has('patch-7.4.0868')
   " 2-space Indent
   set shiftwidth=2 expandtab
+endif
+if has('nvim-0.11') || has('patch-9.1.537')
+  set nrformats+=blank
 endif
 
 " File
@@ -133,6 +136,10 @@ if has('win32')
   " fzf default file walker does not work on directory symlinks and junctions
   " https://github.com/junegunn/fzf/pull/1847#issuecomment-628960827
   let $FZF_DEFAULT_COMMAND = 'for /r %P in (*) do @(set "_curfile=%P" & set "_curfile=!_curfile:%__CD__%=!" & echo !_curfile!)'
+
+  if has('nvim-0.5') || has('patch-8.2.1747')
+    set completeslash=slash
+  endif
 endif
 
 " {{{tiny
@@ -182,8 +189,7 @@ if has('modify_fname')
         " quote
         return '"' . a:shell . '"'
       endif
-      " TODO: Investigate the patch that added support for escaped 'shell'.
-      if !has('nvim') && has('unix') && has('patch-8.0.1176')
+      if !has('nvim') && has('unix') && has('patch-8.0.1455')
         " add backslashes
         return escape(a:shell, ' ')
       endif
@@ -201,7 +207,10 @@ if has('modify_fname')
       if has('quickfix')
         let &shellpipe = &shellredir
       endif
-      set shellquote= noshellslash
+      set shellquote=
+      if exists('+shellslash')
+        set noshellslash
+      endif
 
       if has('nvim')
         let &shellcmdflag = '/s /c'
@@ -214,7 +223,10 @@ if has('modify_fname')
       endif
     elseif tail =~# '^powershell\.exe' || tail =~# '^pwsh'
       let &shellcmdflag = '-NoLogo -NoProfile -ExecutionPolicy RemoteSigned -Command'
-      set shellxescape= shellquote= noshellslash
+      set shellxescape= shellquote=
+      if exists('+shellslash')
+        set noshellslash
+      endif
 
       if has('nvim')
         " Force UTF8 input,output because 'encoding' is always 'utf-8'.
@@ -235,8 +247,11 @@ if has('modify_fname')
     elseif (tail =~# '^sh' || tail =~# '^bash' || tail =~# '^dash')
     \ && (!has('win32') || tail =~# '\.exe$')
       let &shellcmdflag = '-c'
-      set shellquote= shellslash shellxescape=
+      set shellquote= shellxescape=
       let &shellredir = '>%s 2>&1'
+      if exists('+shellslash')
+        set shellslash
+      endif
       if has('quickfix')
         let &shellpipe = '2>&1 | tee'
       endif
@@ -264,12 +279,20 @@ endif
 
 " Moved from normal to tiny version since 8.1.1901
 if has('insert_expand')
-  set completeopt=menuone,preview
+  set completeopt=menuone
   if has('patch-7.4.0784')
     set completeopt+=noselect
   endif
   if has('patch-8.0.0043')
     set completeopt+=noinsert
+  endif
+  if has('nvim-0.10') || (has('textprop') && has('patch-8.1.1880'))
+    set completeopt+=popup
+  else
+    set completeopt+=preview
+  endif
+  if has('nvim-0.11') || has('patch-9.1.1125')
+    set completeopt+=fuzzy
   endif
 endif
 
@@ -277,12 +300,30 @@ endif
 if has('comments')
   set comments=
 endif
-" }}}tiny
-" {{{normal
+
+" Moved from normal to tiny version since 9.0.270
 if has('path_extra')
   set path=.,,
 endif
 
+" Moved from normal to tiny version since 9.0.278
+if has('wildignore')
+  if has('nvim-0.9') || has('patch-8.2.4463')
+    set wildoptions+=fuzzy
+  endif
+endif
+
+" Moved from normal to tiny version since 9.0.279
+if has('wildmenu')
+  set wildmode=longest:full,full
+endif
+
+" Moved from normal to tiny version since 9.0.747
+if has('cmdline_info')
+  set noshowcmd noruler
+endif
+" }}}tiny
+" {{{normal
 if has('find_in_path')
   set define= include= includeexpr=
 endif
@@ -293,11 +334,8 @@ if has('linebreak')
 
   if has('patch-8.0.0380')
     set linebreak
+    let &showbreak = '↳ '
   endif
-endif
-
-if has('cmdline_info')
-  set noshowcmd noruler
 endif
 
 if has('statusline')
@@ -348,10 +386,6 @@ if has('extra_search') && has('reltime')
   nnoremap <silent> Q :nohlsearch <Bar> redraw!<CR>
 endif
 
-if has('wildmenu')
-  set wildmode=longest:full,full
-endif
-
 if has('mksession')
   set sessionoptions=buffers,curdir,tabpages,winsize
   set viewoptions=
@@ -375,10 +409,13 @@ if has('syntax')
     if has('insert_expand')
       execute 'setlocal complete'.(&l:spell ? '+' : '-').'=kspell'
     endif
+    if (has('nvim-0.5') || has('patch-8.2.953')) && &l:spell
+      setlocal spelloptions+=camel
+    endif
   endfunction
 
   " spellfile#WritableSpellDir() requires that ~/.vim/spell exists.
-  if has('modify_fname') && !has('nvim-0.4')
+  if has('modify_fname') && !has('nvim-0.12')
     let s:spelldir = expand(s:base_dir . '/spell')
     if !isdirectory(s:spelldir)
       call mkdir(s:spelldir)
@@ -401,8 +438,8 @@ if has('syntax')
 
     " Last color should always work
     let colors = &background ==# 'light'
-    \ ? ['gruvbox8_soft', 'morning']
-    \ : ['gruvbox8_hard', 'iceberg', 'torte']
+    \ ? ['gruvbox8_soft', has('nvim-0.10') ? 'default' : 'morning']
+    \ : ['gruvbox8_hard', has('nvim-0.10') ? 'default' : 'iceberg', 'torte']
     if has('patch-7.4.1036')
     \ && (s:is_gui || has('nvim') || !(has('win32') || has('win32unix')))
       for color in colors
@@ -450,12 +487,15 @@ if has('quickfix')
     set switchbuf=uselast
   endif
 endif
-" }}}normal
-" {{{big
-if has('signs') && has('patch-7.4.2201')
-  set signcolumn=yes
+
+if has('signs')
+  if has('patch-8.1.1712')
+    set signcolumn=number
+  elseif has('patch-7.4.2201')
+    set signcolumn=yes
+  endif
 endif
-" }}}big
+" }}}normal
 
 " Moved from normal to tiny version since 8.1.1210
 if has('user_commands')
@@ -478,7 +518,8 @@ if has('user_commands')
   endif
 endif
 
-" Moved from normal to tiny version since 8.0.1564
+" +autocmd Moved from normal to tiny version since 8.0.1564
+" +modify_fname  Moved from normal to tiny version since 8.1.1979
 if has('autocmd') && has('modify_fname')
   " Vim
   let g:no_plugin_maps = 1
@@ -524,7 +565,7 @@ if has('autocmd') && has('modify_fname')
     endif
     if has('nvim')
       " Detect nvim-qt
-      let s:is_gui = s:is_gui || (exists('g:GuiLoaded') && has('nvim-0.3'))
+      let s:is_gui = s:is_gui || exists('g:GuiLoaded')
     endif
     if s:is_gui
       set mouse=a
@@ -568,7 +609,7 @@ if has('autocmd') && has('modify_fname')
   endfunction
   augroup vimrc
     autocmd!
-    if has('nvim') ? has('nvim-0.4') : has('patch-8.1.1113')
+    if has('nvim') || has('patch-8.1.1113')
       autocmd VimEnter * ++nested ++once call s:vim_enter()
     else
       autocmd VimEnter * nested call s:vim_enter()
@@ -592,10 +633,7 @@ if has('autocmd') && has('modify_fname')
     if s:base_cond
       let g:loaded_matchit = 1
       let g:matchup_matchparen_offscreen = {
-      \ 'method': (has('nvim')
-        \ ? has('nvim-0.4')
-        \ : has('textprop') && has('patch-8.1.1410')
-        \ ) ? 'popup' : '',
+      \ 'method': (has('nvim') || (has('textprop') && has('patch-8.1.1410'))) ? 'popup' : '',
       \ 'scrolloff': 1
       \ }
       let g:matchup_matchparen_deferred =
@@ -661,15 +699,13 @@ if has('autocmd') && has('modify_fname')
     call plug#('junegunn/fzf.vim', s:base_cond ? {} : s:plug_disable)
     if s:base_cond
       let g:fzf_command_prefix = 'Fzf'
-      if has('nvim')
-      \ ? has('nvim-0.4.0')
-      \ : has('popupwin') && has('patch-8.2.0191')
+      if has('nvim') || (has('popupwin') && has('patch-8.2.0191'))
         let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.8 } }
       endif
     endif
     call plug#('tpope/vim-fugitive')
 
-    let s:base_cond = v:version >= 800
+    let s:base_cond = !has('nvim-0.9') && !has('patch-9.0.1799') && v:version >= 800
     call plug#('editorconfig/editorconfig-vim', s:base_cond ? {} : s:plug_disable)
     if s:base_cond
       let g:EditorConfig_preserve_formatoptions = 1
@@ -732,14 +768,13 @@ if has('autocmd') && has('modify_fname')
 
     " coc.nvim
     let s:base_cond = (has('nvim')
-    \ ? has('nvim-0.4.0')
-    \ : has('patch-8.1.1522')
+    \ || (has('patch-8.1.1719')
     \   && has('insert_expand') && has('textprop')
     \   && has('job') && has('channel') && has('terminal')
-    \ ) && executable('node') && executable('npm')
+    \ )) && executable('node') && executable('npm')
     let s:base_config = {
     \ 'branch': 'release',
-    \ 'commit': 'a72b0753e6e64cd426603333c5ffedf42e13b1bb'
+    \ 'commit': 'f0ce9ae23d6ce9d0cbabe73bdb738e45accc6f08'
     \ }
     call plug#('neoclide/coc.nvim', s:base_cond ? s:base_config : s:plug_disable)
     if s:base_cond
@@ -771,23 +806,25 @@ if has('autocmd') && has('modify_fname')
       endif
 
       inoremap <expr> <Plug>CocTab
-      \ pumvisible() ? "\<C-n>" :
+      \ coc#pum#visible() ? coc#pum#next(1) :
       \ <SID>check_back_space() ? "\<TAB>" :
       \ coc#refresh()
       inoremap <expr> <Plug>CocShiftTab
-      \ pumvisible() ? "\<C-p>" : "\<C-h>"
+      \ coc#pum#visible() ? coc#pum#prev(1) : "\<S-Tab>"
       inoremap <expr> <Plug>CocCR
-      \ pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+      \ coc#pum#visible() ? coc#pum#confirm() : "\<CR>"
     endif
     " }}}plug-autocomplete
 
     " {{{plug-color
-    Plug 'lifepillar/vim8-colorschemes'
     Plug 'cocopon/iceberg.vim'
     let s:base_cond = has('nvim')
     \ || has('patch-8.0.0616')
     \ || has('gui_running')
-    call plug#('lifepillar/vim-gruvbox8', s:base_cond ? {} : s:plug_disable)
+    call plug#('lifepillar/vim-gruvbox8', s:base_cond ? (has('nvim') ? {
+    \ 'branch': 'neovim',
+    \ 'dir': expand(g:plug_home . '/vim-gruvbox8_neovim')
+    \ } : {}) : s:plug_disable)
     " }}}plug-color
 
     unlet s:plug_disable s:base_cond s:base_config
