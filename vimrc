@@ -13,6 +13,7 @@
 " limitations under the License.
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set nocompatible
+" Moved from normal to tiny version since 8.1.882
 if has('multi_byte')
   if has('win32') || (has('gui_running') && &encoding ==# 'latin1')
     set encoding=utf-8
@@ -74,15 +75,26 @@ endif
 if has('insert_expand')
   set complete-=i
 endif
-" }}}tiny
-" {{{small
-" Moved from normal to small version since 8.0.1129
+
+" Moved from small to tiny version since 8.1.1823
 if has('cmdline_hist')
   if has('patch-7.4.0336')
     set history=10000
   endif
 endif
-" }}}small
+
+" Moved from normal to tiny version since 9.0.278
+if has('wildignore')
+  if has('patch-8.2.4325')
+    set wildoptions+=pum
+  endif
+endif
+
+" Moved from normal to tiny version since 9.0.279
+if has('wildmenu')
+  set wildmenu
+endif
+" }}}tiny
 "{{{normal
 if has('extra_search')
   set hlsearch
@@ -90,10 +102,6 @@ if has('extra_search')
   if has('reltime')
     set incsearch
   endif
-endif
-
-if has('wildmenu')
-  set wildmenu
 endif
 
 " Vim's X-11 clipboard is broken.
@@ -114,7 +122,7 @@ if has('persistent_undo')
   endif
 endif
 "}}}normal
-" {{{big
+" {{{huge
 if has('langmap')
   if exists('+langremap')
     set nolangremap
@@ -122,7 +130,7 @@ if has('langmap')
     set langnoremap
   endif
 endif
-" }}}big
+" }}}huge
 
 runtime shared.vim
 

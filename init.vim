@@ -14,11 +14,21 @@
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set cpoptions-=_
 set inccommand=nosplit
+set pumblend=30
 
-let g:loaded_python_provider = 0
+if has('nvim-0.7')
+  set laststatus=3
+endif
 
-if has('nvim-0.4')
-  set pumblend=30
+if has('nvim-0.10')
+  set complete+=f
 endif
 
 runtime shared.vim
+
+augroup init_vim
+  autocmd!
+  if has('nvim-0.5')
+    autocmd TextYankPost * silent! lua vim.highlight.on_yank {higroup="IncSearch", timeout=500, on_visual=true}
+  endif
+augroup END
