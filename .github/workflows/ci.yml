@@ -11,19 +11,19 @@ jobs:
       matrix:
         include:
           - os: linux
-            runner: ubuntu-16.04
+            runner: ubuntu-22.04
           - os: linux
-            runner: ubuntu-18.04
+            runner: ubuntu-24.04
           - os: linux
-            runner: ubuntu-20.04
+            runner: ubuntu-latest
           - os: osx
-            runner: macos-10.15
-          # - os: osx
-          #   runner: macos-11.0
+            runner: macos-15
+          - os: osx
+            runner: macos-latest
     runs-on: ${{ matrix.runner }}
     steps:
       - uses: actions/checkout@v2
-      - if: matrix.runner == 'ubuntu-20.04'
+      - if: matrix.os == 'linux'
         run: |
           sudo apt-get -q update
           sudo apt-get install -q -y --no-install-recommends neovim
@@ -43,9 +43,9 @@ jobs:
       matrix:
         include:
           - os: windows
-            runner: windows-2016
+            runner: windows-2025
           - os: windows
-            runner: windows-2019
+            runner: windows-latest
     runs-on: ${{ matrix.runner }}
     steps:
       - uses: actions/checkout@v2
