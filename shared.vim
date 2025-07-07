@@ -334,7 +334,9 @@ if has('linebreak')
 
   if has('patch-8.0.0380')
     set linebreak
+    scriptencoding utf-8
     let &showbreak = '↳ '
+    scriptencoding
   endif
 endif
 
