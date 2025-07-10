@@ -14,26 +14,21 @@
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Feature/Version checks group options, variables, functions, mappings.
 " Folds group these checks by version type (ie. tiny,normal,huge).
-" Vim 7.4 (tiny) and Neovim 0.4.4 are the minimum supported versions.
+" Vim 7.4.1689 (tiny) and Neovim 0.4.4 are the minimum supported versions.
 " See `:h version` for feature checks.
 " Check `v:version` for release + major version as an integer.
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " General
 set cpoptions-=C cpoptions-=< cpoptions+=n
 set nomodeline modelines=0
-set shortmess+=s shortmess+=I
-if has('patch-7.4.0314')
-  set shortmess+=c
-endif
+set shortmess+=s shortmess+=I shortmess+=c
 
 " Keys
 set whichwrap=<,>,b,s nojoinspaces shiftround
 set notimeout
 set keywordprg=:help
-if has('patch-7.4.0868')
-  " 2-space Indent
-  set shiftwidth=2 expandtab
-endif
+" 2-space Indent
+set shiftwidth=2 expandtab
 if has('nvim-0.11') || has('patch-9.1.537')
   set nrformats+=blank
 endif
@@ -41,9 +36,7 @@ endif
 " File
 set fileformats=unix,dos
 set noswapfile directory= updatecount=0 updatetime=1000
-if has('patch-7.4.0785')
-  set nofixendofline
-endif
+set nofixendofline
 if has('nvim-0.5') || has('patch-8.1.1334')
   set hidden
 endif
@@ -60,9 +53,7 @@ endif
 set number textwidth=72 formatoptions=qlj
 set sidescroll=5 nostartofline
 set scrolloff=1 sidescrolloff=1 cmdheight=2 noshowmode
-if has('patch-7.4.0977')
-  set list listchars=tab:>\ ,trail:-,nbsp:+
-endif
+set list listchars=tab:>\ ,trail:-,nbsp:+
 
 if 1
   let s:is_gui = has('gui_running')
@@ -154,7 +145,7 @@ if has('windows')
     let cur_view = winsaveview()
     let [gdefault, ignorecase, smartcase] = [&gdefault, &ignorecase, &smartcase]
     set nogdefault noignorecase nosmartcase
-    execute (has('patch-7.4-0155') ? 'keeppatterns' : '') a:start.','.a:end.'substitute/\s\+$//ge'
+    execute 'keeppatterns' a:start.','.a:end.'substitute/\s\+$//ge'
     let [&gdefault, &ignorecase, &smartcase] = [gdefault, ignorecase, smartcase]
     call winrestview(cur_view)
   endfunction
@@ -279,10 +270,7 @@ endif
 
 " Moved from normal to tiny version since 8.1.1901
 if has('insert_expand')
-  set completeopt=menuone
-  if has('patch-7.4.0784')
-    set completeopt+=noselect
-  endif
+  set completeopt=menuone,noselect
   if has('patch-8.0.0043')
     set completeopt+=noinsert
   endif
@@ -442,8 +430,7 @@ if has('syntax')
     let colors = &background ==# 'light'
     \ ? ['gruvbox8_soft', has('nvim-0.10') ? 'default' : 'morning']
     \ : ['gruvbox8_hard', has('nvim-0.10') ? 'default' : 'iceberg', 'torte']
-    if has('patch-7.4.1036')
-    \ && (s:is_gui || has('nvim') || !(has('win32') || has('win32unix')))
+    if s:is_gui || has('nvim') || !(has('win32') || has('win32unix'))
       for color in colors
         execute 'silent! colorscheme' color
         if get(g:, 'colors_name', 'default') ==# color
@@ -559,7 +546,6 @@ if has('autocmd') && has('modify_fname')
 
   function! s:vim_enter()
     if exists('g:loaded_plug')
-    \ && has('patch-7.4.1347')
     \ && empty(glob(g:plug_home . '/*'))
     \ && empty($CI)
       PlugInstall --sync
@@ -642,11 +628,7 @@ if has('autocmd') && has('modify_fname')
       \ has('nvim') || has('timers')
       let g:matchup_matchpref_html_nolists = 1
     elseif has('syntax') && !has('nvim')
-      if has('patch-7.4.1649')
-        packadd matchit
-      else
-        runtime macros/matchit.vim
-      endif
+      packadd matchit
     endif
     Plug 'tpope/vim-scriptease'
     Plug 'tpope/vim-unimpaired'
@@ -707,7 +689,13 @@ if has('autocmd') && has('modify_fname')
     endif
     call plug#('tpope/vim-fugitive')
 
-    let s:base_cond = !has('nvim-0.9') && !has('patch-9.0.1799') && v:version >= 800
+    let s:base_cond = v:version >= 800
+    if has('nvim')
+      let s:base_cond = s:base_cond && !has('nvim-0.9')
+    elseif has('patch-9.0.1799')
+      packadd editorconfig
+      let s:base_cond = v:false
+    endif
     call plug#('editorconfig/editorconfig-vim', s:base_cond ? {} : s:plug_disable)
     if s:base_cond
       let g:EditorConfig_preserve_formatoptions = 1

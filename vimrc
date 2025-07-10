@@ -19,9 +19,7 @@ if has('multi_byte')
     set encoding=utf-8
   endif
 endif
-if has('patch-7.4.1570')
-  set shortmess+=F
-endif
+set shortmess+=F
 if has('patch-8.1.1270') && has('patch-8.1.1375')
   set shortmess-=S
 endif
@@ -29,19 +27,14 @@ endif
 " Keys
 set autoindent backspace=2 nrformats-=octal
 set ttimeout ttimeoutlen=50
-if has('patch-7.4.0868')
-  set smarttab
-endif
+set smarttab
 
 " File
 set autoread
 
 " UI
 set display=lastline laststatus=2
-
-if has('patch-7.4.0793')
-  set belloff=all
-endif
+set belloff=all
 
 if has('patch-7.4.2111')
   let g:skip_defaults_vim = 1
@@ -78,9 +71,7 @@ endif
 
 " Moved from small to tiny version since 8.1.1823
 if has('cmdline_hist')
-  if has('patch-7.4.0336')
-    set history=10000
-  endif
+  set history=10000
 endif
 
 " Moved from normal to tiny version since 9.0.278
