@@ -689,12 +689,10 @@ if has('autocmd') && has('modify_fname')
     endif
     call plug#('tpope/vim-fugitive')
 
+    " XXX: Vim 9 did not ship with bugfix https://github.com/editorconfig/editorconfig-vim/commit/0d54ea863089fb13be423b4aed6cca35f3a5d778
     let s:base_cond = v:version >= 800
     if has('nvim')
       let s:base_cond = s:base_cond && !has('nvim-0.9')
-    elseif has('patch-9.0.1799')
-      packadd editorconfig
-      let s:base_cond = v:false
     endif
     call plug#('editorconfig/editorconfig-vim', s:base_cond ? {} : s:plug_disable)
     if s:base_cond
