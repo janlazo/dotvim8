@@ -17,7 +17,7 @@ if has('autocmd')
   \ 'bib': ['*.bib{la\|}tex'],
   \ 'coffee': ['*.cson'],
   \ 'csv': ['*.csv'],
-  \ 'dosini': ['.npmrc'],
+  \ 'dosini': ['.npmrc', '.perlcriticrc'],
   \ 'json': ['.{babel\|bower}rc', 'composer.lock'],
   \ 'ruby': ['Vagrantfile'],
   \ 'pandoc': ['*.pandoc'],
