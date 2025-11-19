@@ -620,6 +620,7 @@ if has('autocmd') && has('modify_fname')
     call plug#('andymass/vim-matchup', s:base_cond ? {'tag': 'v0.7.4'} : s:plug_disable)
     if s:base_cond
       let g:loaded_matchit = 1
+      let g:matchup_delim_stopline = 9999
       let g:matchup_matchparen_offscreen = {
       \ 'method': (has('nvim') || (has('textprop') && has('patch-8.1.1410'))) ? 'popup' : '',
       \ 'scrolloff': 1
