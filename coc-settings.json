@@ -16,6 +16,7 @@
   },
   "less.validate": false,
   "markdownlint.onOpen": false,
+  "perl.navigator.enable": true,
   "solargraph.checkGemVersion": false,
   "tsserver.formatOnType": false,
   "wxss.validate": false,
