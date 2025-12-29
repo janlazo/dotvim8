@@ -13,7 +13,6 @@
 " limitations under the License.
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set cpoptions-=_
-set inccommand=nosplit
 set pumblend=30
 
 if has('nvim-0.7')
@@ -28,7 +27,5 @@ runtime shared.vim
 
 augroup init_vim
   autocmd!
-  if has('nvim-0.5')
-    autocmd TextYankPost * silent! lua vim.highlight.on_yank {higroup="IncSearch", timeout=500, on_visual=true}
-  endif
+  autocmd TextYankPost * silent! lua vim.highlight.on_yank {higroup="IncSearch", timeout=500, on_visual=true}
 augroup END

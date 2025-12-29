@@ -2,10 +2,10 @@
 
 ![CI](https://github.com/janlazo/dotvim8/workflows/CI/badge.svg)
 
-Vim 8+ / Neovim 0.4.4+ config folder for Windows support and async jobs.
+Vim 8+ / Neovim 0.6.1+ config folder for Windows support and async jobs.
 
 - `shared.vim` for shared code between Vim and Neovim
-    - backward compatibility up to Vim 7.4.1689 (tiny) and Neovim 0.4.4
+    - backward compatibility up to Vim 7.4.1689 (tiny)
     - self-contained vimrc, independent of the entire repo
     - [vim-plug][gh-vim-plug] as package manager for bundles in Github
 - `autoload/dotvim8.vim` resolves idiosyncrasies in Vim and Neovim, based on [fzf][gh-fzf]'s Vim plugin
@@ -22,7 +22,7 @@ For performance, use GUIs when navigating or editing inside folds.
 ## Editor Support
 
 - Vim 7.4.1689+
-- Neovim 0.4.4+
+- Neovim 0.6.1+
 - gui: gvim, [nvim-qt][gh-nvim-qt]
 
 ## OS Support

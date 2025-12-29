@@ -37,9 +37,6 @@ endif
 set fileformats=unix,dos
 set noswapfile directory= updatecount=0 updatetime=1000
 set nofixendofline
-if has('nvim-0.5') || has('patch-8.1.1334')
-  set hidden
-endif
 
 " Do not force a memory flush to speedup manual writes.
 if exists('+swapsync')
@@ -471,9 +468,6 @@ if has('quickfix')
   if has('win32')
     " FIXME - findstr requires prepending /c: to the regex
     let &grepprg = executable('findstr.exe') ? 'findstr /s /r /p /n $* nul' : ''
-  endif
-  if has('nvim-0.5') || has('patch-8.1.2315')
-    set switchbuf=uselast
   endif
 endif
 

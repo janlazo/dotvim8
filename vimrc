@@ -31,6 +31,9 @@ set smarttab
 
 " File
 set autoread
+if has('patch-8.1.1334')
+  set hidden
+endif
 
 " UI
 set display=lastline laststatus=2
@@ -110,6 +113,12 @@ if has('persistent_undo')
     endif
   else
     set undodir=
+  endif
+endif
+
+if has('quickfix')
+  if has('patch-8.1.2315')
+    set switchbuf=uselast
   endif
 endif
 "}}}normal
