@@ -465,9 +465,13 @@ elseif exists('+shada')
 endif
 
 if has('quickfix')
-  if has('win32')
+  if executable('rg')
+    let &grepprg = 'rg --vimgrep '
+    let &grepformat = '%f:%l:%c:%m'
+  elseif has('win32')
     " FIXME - findstr requires prepending /c: to the regex
-    let &grepprg = executable('findstr.exe') ? 'findstr /s /r /p /n $* nul' : ''
+    let &grepprg = executable('grep') ? 'grep -Hn $* nul' : 'findstr /s /r /p /n $* nul'
+    let &grepformat = '%f:%l:%m'
   endif
 endif
 
