@@ -431,7 +431,7 @@ if has('syntax')
       for color in colors
         execute 'silent! colorscheme' color
         if get(g:, 'colors_name', 'default') ==# color
-          return
+          break
         endif
       endfor
     else
@@ -548,11 +548,32 @@ if has('autocmd') && has('modify_fname')
       PlugInstall --sync
       q
     endif
+
+    if get(g:, 'did_coc_loaded', 0)
+      imap <silent> <TAB>   <Plug>CocTab
+      imap <silent> <S-TAB> <Plug>CocShiftTab
+      imap <silent> <CR>    <Plug>CocCR
+    endif
+    if get(g:, 'loaded_endwise', 0)
+      execute 'imap <silent> <CR> '.(
+      \ maparg('<CR>', 'i') !=# '' ? maparg('<CR>', 'i') : '<CR>'
+      \ ).'<Plug>DiscretionaryEnd'
+    endif
+
+    if !has('nvim')
+      call s:ui_enter()
+    endif
+  endfunction
+  function! s:ui_enter(event = v:null)
     if has('nvim')
-      " Detect nvim-qt
-      let s:is_gui = s:is_gui || exists('g:GuiLoaded')
+      let conf = filter(nvim_list_uis(),{k,v-> v.chan==a:event.chan})[0]
+      let client = nvim_get_chan_info(conf.chan).client
+      let s:is_gui = get(client, 'name', '') !=# 'nvim-tui'
     endif
     if s:is_gui
+      if get(g:, 'loaded_transparent', 0)
+        TransparentDisable
+      endif
       set mouse=a
       set linespace=1
 
@@ -580,17 +601,6 @@ if has('autocmd') && has('modify_fname')
       \ : 'dark'
       call s:set_color()
     endif
-
-    if get(g:, 'did_coc_loaded', 0)
-      imap <silent> <TAB>   <Plug>CocTab
-      imap <silent> <S-TAB> <Plug>CocShiftTab
-      imap <silent> <CR>    <Plug>CocCR
-    endif
-    if get(g:, 'loaded_endwise', 0)
-      execute 'imap <silent> <CR> '.(
-      \ maparg('<CR>', 'i') !=# '' ? maparg('<CR>', 'i') : '<CR>'
-      \ ).'<Plug>DiscretionaryEnd'
-    endif
   endfunction
   augroup vimrc
     autocmd!
@@ -600,6 +610,9 @@ if has('autocmd') && has('modify_fname')
       autocmd VimEnter * nested call s:vim_enter()
     endif
     autocmd ColorScheme * call s:set_color_post(expand('<amatch>'))
+    if has('nvim')
+      autocmd UIEnter * call s:ui_enter(v:event)
+    endif
   augroup END
 
   " {{{vim-plug
@@ -727,16 +740,9 @@ if has('autocmd') && has('modify_fname')
     Plug 'cakebaker/scss-syntax.vim'
     Plug 'tpope/vim-haml'
     Plug 'othree/yajs.vim'
-    Plug 'othree/es.next.syntax.vim'
     Plug 'kchmck/vim-coffee-script'
     Plug 'HerringtonDarkholme/yats.vim'
     Plug 'MaxMEllon/vim-jsx-pretty'
-    let s:base_cond = has('patch-7.4.2071')
-    call plug#('posva/vim-vue', s:base_cond ? {} : s:plug_disable)
-    if s:base_cond
-      let g:vue_pre_processors = ['sass', 'scss']
-      let g:no_vue_maps = 1
-    endif
     Plug 'lifepillar/pgsql.vim'
       let g:sql_type_default = 'pgsql'
     Plug 'TysonAndre/php-vim-syntax'
@@ -812,6 +818,7 @@ if has('autocmd') && has('modify_fname')
     \ 'branch': 'neovim',
     \ 'dir': expand(g:plug_home . '/vim-gruvbox8_neovim')
     \ } : {}) : s:plug_disable)
+    call plug#('xiyaowong/transparent.nvim', has('nvim') ? {} : s:plug_disable)
     " }}}plug-color
 
     unlet s:plug_disable s:base_cond s:base_config
