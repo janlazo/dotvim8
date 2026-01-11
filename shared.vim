@@ -425,6 +425,10 @@ if has('syntax')
       let use_tgc = use_tgc || &termguicolors
     endif
 
+    if (s:is_gui || !use_tgc) && get(g:, 'loaded_transparent', 0)
+      TransparentDisable
+    endif
+
     " Last color should always work
     let colors = &background ==# 'light'
     \ ? ['gruvbox8_soft', has('nvim-0.10') ? 'default' : 'morning']
@@ -573,9 +577,6 @@ if has('autocmd') && has('modify_fname')
       let s:is_gui = get(client, 'name', '') !=# 'nvim-tui'
     endif
     if s:is_gui
-      if get(g:, 'loaded_transparent', 0)
-        TransparentDisable
-      endif
       set mouse=a
       set linespace=1
 
@@ -821,6 +822,7 @@ if has('autocmd') && has('modify_fname')
     \ 'branch': 'neovim',
     \ 'dir': expand(g:plug_home . '/vim-gruvbox8_neovim')
     \ } : {}) : s:plug_disable)
+    call plug#('tribela/vim-transparent', !has('nvim') ? {} : s:plug_disable)
     call plug#('xiyaowong/transparent.nvim', has('nvim') ? {} : s:plug_disable)
     " }}}plug-color
 
