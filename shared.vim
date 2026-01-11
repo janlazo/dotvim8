@@ -411,23 +411,25 @@ if has('syntax')
   endif
 
   function! s:set_color()
+    let use_tgc = s:is_gui || has('nvim') || (!has('win32') && !has('win32unix'))
     if has('termguicolors')
     \ && (has('nvim')
           \ || !has('win32')
-          \ || !has('patch-8.0.1531')
           \ || has('vcon'))
-      let &termguicolors = &t_Co == 256 && empty($TMUX) && !has('mac')
+      let &termguicolors = empty($TMUX) && !has('mac')
+      \ && (&t_Co == 256 || (has('win32') && !empty($WT_PROFILE_ID)))
       \ && (has('nvim')
             \ || (has('win32')
-                  \ ? (has('vcon') && has('patch-8.1.0839'))
+                  \ ? has('patch-8.1.0839')
                   \ : has('patch-8.0.0146')))
+      let use_tgc = use_tgc || &termguicolors
     endif
 
     " Last color should always work
     let colors = &background ==# 'light'
     \ ? ['gruvbox8_soft', has('nvim-0.10') ? 'default' : 'morning']
     \ : ['gruvbox8_hard', has('nvim-0.10') ? 'default' : 'iceberg', 'torte']
-    if s:is_gui || has('nvim') || !(has('win32') || has('win32unix'))
+    if use_tgc
       for color in colors
         execute 'silent! colorscheme' color
         if get(g:, 'colors_name', 'default') ==# color
@@ -577,9 +579,10 @@ if has('autocmd') && has('modify_fname')
       set mouse=a
       set linespace=1
 
-      let $TERM = ''
-      if $ConEmuANSI ==# 'ON'
-        let $ConEmuANSI = 'OFF'
+      unlet! $TERM
+      if has('win32')
+        unlet! $WT_PROFILE_ID
+        unlet! $WT_SESSION
       endif
 
       call s:update_fontsize(0)
