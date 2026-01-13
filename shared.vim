@@ -555,11 +555,33 @@ if has('autocmd') && has('modify_fname')
       q
     endif
 
+    if get(g:, 'loaded_caw', 0)
+      if has('nvim')
+        nunmap gc
+        xunmap gc
+        nunmap gcc
+      endif
+      nmap gc <Plug>(caw:prefix)
+      xmap gc <Plug>(caw:prefix)
+      nmap <Plug>(caw:prefix)c <Plug>(caw:hatpos:toggle)
+      xmap <Plug>(caw:prefix)c <Plug>(caw:hatpos:toggle)
+    endif
+
     if get(g:, 'did_coc_loaded', 0)
+      inoremap <expr> <Plug>CocTab
+      \ coc#pum#visible() ? coc#pum#next(1) :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+      inoremap <expr> <Plug>CocShiftTab
+      \ coc#pum#visible() ? coc#pum#prev(1) : "\<S-Tab>"
+      inoremap <expr> <Plug>CocCR
+      \ coc#pum#visible() ? coc#pum#confirm() : "\<CR>"
+
       imap <silent> <TAB>   <Plug>CocTab
       imap <silent> <S-TAB> <Plug>CocShiftTab
       imap <silent> <CR>    <Plug>CocCR
     endif
+
     if get(g:, 'loaded_endwise', 0)
       execute 'imap <silent> <CR> '.(
       \ maparg('<CR>', 'i') !=# '' ? maparg('<CR>', 'i') : '<CR>'
@@ -652,14 +674,8 @@ if has('autocmd') && has('modify_fname')
     Plug 'tpope/vim-repeat'
     let s:base_cond = v:version >= 800
     call plug#('tyru/caw.vim', s:base_cond ? {} : s:plug_disable)
+      let g:caw_no_default_keymappings = 1
     Plug 'Shougo/context_filetype.vim'
-      let g:context_filetype#filetypes = {
-      \ 'pandoc': [{
-      \    'start': '^\s*```\s*\(\h\w*\)',
-      \    'end': '^\s*```$',
-      \    'filetype' : '\1',
-      \   }],
-      \ }
       let g:context_filetype#same_filetypes = {
       \ 'postcss': 'css',
       \ }
@@ -801,15 +817,6 @@ if has('autocmd') && has('modify_fname')
       if executable('rustup')
         call add(g:coc_global_extensions, 'coc-rls')
       endif
-
-      inoremap <expr> <Plug>CocTab
-      \ coc#pum#visible() ? coc#pum#next(1) :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
-      inoremap <expr> <Plug>CocShiftTab
-      \ coc#pum#visible() ? coc#pum#prev(1) : "\<S-Tab>"
-      inoremap <expr> <Plug>CocCR
-      \ coc#pum#visible() ? coc#pum#confirm() : "\<CR>"
     endif
     " }}}plug-autocomplete
 
