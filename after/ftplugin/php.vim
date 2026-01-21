@@ -18,20 +18,3 @@ setlocal suffixesadd+=.php suffixesadd+=.json
 if has('patch-8.0.60')
   setlocal keywordprg=:BrowsePHP
 endif
-
-if get(g:, 'coc_enabled', 0) && filereadable('vendor/phan/phan/phan')
-  call coc#config('languageserver', {
-    \ 'phan': {
-      \ 'command': 'php',
-      \ 'args': [
-        \ 'vendor/phan/phan/phan',
-        \ '--allow-polyfill-parser',
-        \ '--require-config-exists',
-        \ '--language-server-on-stdin',
-        \ '--language-server-hide-category'
-      \ ],
-      \ 'cwd': getcwd(),
-      \ 'filetypes': ['php']
-    \ }
-  \ })
-endif
