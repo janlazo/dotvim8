@@ -16,8 +16,7 @@ py=python3
 if (command -v $py &&
     $py -c 'import sys; assert sys.version_info[0] > 2' &&
     $py -m pip --version) >/dev/null 2>&1; then
-  $py -m pip install \
-    'pynvim<0.5' flake8
+  $py -m pip install pynvim ruff
 fi
 
 # Ruby (https://github.com/neovim/neovim-ruby)

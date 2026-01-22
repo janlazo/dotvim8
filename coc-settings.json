@@ -1,6 +1,5 @@
 {
   "coc.preferences.extensionUpdateCheck": "never",
-  "coc.preferences.rootPatterns": [".git", ".hg"],
   "coc.source.tag.filetypes": ["c", "cpp"],
   "html.filetypes": ["html"],
   "json.schemas": [
@@ -16,10 +15,9 @@
   },
   "less.validate": false,
   "markdownlint.onOpen": false,
-  "perl.navigator.enable": true,
+  "perlnavigator.enable": true,
   "solargraph.checkGemVersion": false,
-  "tsserver.formatOnType": false,
-  "wxss.validate": false,
+  "workspace.rootPatterns": [".git", ".hg"],
   "yaml.schemas": {
   }
 }
