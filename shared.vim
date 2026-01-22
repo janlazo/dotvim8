@@ -803,7 +803,7 @@ if has('autocmd') && has('modify_fname')
         call add(g:coc_global_extensions, 'coc-clangd')
       endif
       if executable('python3')
-        call add(g:coc_global_extensions, '@yaegassy/coc-pylsp')
+        call add(g:coc_global_extensions, '@yaegassy/coc-ruff')
       endif
       if executable('ruby') && executable('solargraph')
         call add(g:coc_global_extensions, 'coc-solargraph')
