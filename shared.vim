@@ -795,6 +795,7 @@ if has('autocmd') && has('modify_fname')
       \ 'coc-tag', 'coc-vimtex',
       \ 'coc-json', 'coc-markdownlint',
       \ 'coc-css', 'coc-html', 'coc-svg',
+      \ 'coc-vetur',
       \ 'coc-perl@2.1.2',
       \ 'coc-yaml@1.9.0',
       \ 'coc-tsserver@2.2.0',
