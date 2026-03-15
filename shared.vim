@@ -792,7 +792,7 @@ if has('autocmd') && has('modify_fname')
     if s:base_cond
       let g:coc_data_home = s:base_dir . '/.coc'
       let g:coc_global_extensions = [
-      \ 'coc-vimlsp', 'coc-tag', 'coc-vimtex',
+      \ 'coc-tag', 'coc-vimtex',
       \ 'coc-json', 'coc-markdownlint',
       \ 'coc-css', 'coc-html', 'coc-svg',
       \ 'coc-perl@2.1.2',
