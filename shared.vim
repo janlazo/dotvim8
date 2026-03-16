@@ -425,10 +425,6 @@ if has('syntax')
       let use_tgc = use_tgc || &termguicolors
     endif
 
-    if (s:is_gui || !use_tgc) && get(g:, 'loaded_transparent', 0)
-      TransparentDisable
-    endif
-
     " Last color should always work
     let colors = &background ==# 'light'
     \ ? ['gruvbox8_soft', has('nvim-0.10') ? 'default' : 'morning']
@@ -830,8 +826,17 @@ if has('autocmd') && has('modify_fname')
     \ 'branch': 'neovim',
     \ 'dir': expand(g:plug_home . '/vim-gruvbox8_neovim')
     \ } : {}) : s:plug_disable)
-    call plug#('tribela/vim-transparent', !has('nvim') ? {} : s:plug_disable)
-    call plug#('xiyaowong/transparent.nvim', has('nvim') ? {} : s:plug_disable)
+    let s:base_cond = !has('nvim')
+    call plug#('tribela/vim-transparent', s:base_cond ? {} : s:plug_disable)
+    if s:base_cond
+      let g:clear_background = v:false
+    endif
+    let s:base_cond = has('nvim')
+    call plug#('xiyaowong/transparent.nvim', s:base_cond ? {} : s:plug_disable)
+    if s:base_cond
+      let g:transparent_groups = ['CocErrorFloat', 'CocWarningFloat', 'CocInfoFloat', 'CocHintFloat']
+      let g:transparent_enabled = v:false
+    endif
     " }}}plug-color
 
     unlet s:plug_disable s:base_cond s:base_config
