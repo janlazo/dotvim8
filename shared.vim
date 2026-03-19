@@ -747,16 +747,12 @@ if has('autocmd') && has('modify_fname')
 
     " Data
     Plug 'cespare/vim-toml'
-    Plug 'elzr/vim-json'
-      let g:vim_json_syntax_conceal = 0
 
     " Programming
     Plug 'PProvost/vim-ps1'
     Plug 'vim-language-dept/css-syntax.vim'
     Plug 'cakebaker/scss-syntax.vim'
-    Plug 'tpope/vim-haml'
     Plug 'othree/yajs.vim'
-    Plug 'kchmck/vim-coffee-script'
     Plug 'HerringtonDarkholme/yats.vim'
     Plug 'MaxMEllon/vim-jsx-pretty'
     Plug 'lifepillar/pgsql.vim'
