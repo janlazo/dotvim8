@@ -426,19 +426,22 @@ if has('syntax')
     endif
 
     " Last color should always work
-    let colors = &background ==# 'light'
-    \ ? ['gruvbox8_soft', has('nvim-0.10') ? 'default' : 'morning']
-    \ : ['gruvbox8_hard', has('nvim-0.10') ? 'default' : 'iceberg', 'torte']
     if use_tgc
-      for color in colors
-        execute 'silent! colorscheme' color
-        if get(g:, 'colors_name', 'default') ==# color
-          break
-        endif
-      endfor
+      let colors = &background ==# 'light'
+      \ ? ['gruvbox8_soft', has('nvim-0.10') ? 'default' : 'morning']
+      \ : ['gruvbox8_hard', has('nvim-0.10') ? 'default' : 'iceberg', 'torte']
     else
-      execute 'colorscheme' colors[-1]
+      let colors = [has('nvim-0.10') ? 'default' : &background ==# 'light' ? 'morning' : 'torte']
     endif
+    for color in colors
+      execute 'silent! colorscheme' color
+      if get(g:, 'colors_name', 'default') ==# color
+        if has('nvim')
+          call timer_start(1000, {-> execute('colorscheme ' . color, 'silent!')})
+        endif
+        break
+      endif
+    endfor
   endfunction
   function! s:set_color_post(color)
     if has('win32') || has('win32unix')
