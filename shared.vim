@@ -674,6 +674,9 @@ if has('autocmd') && has('modify_fname')
     let s:base_cond = v:version >= 800
     call plug#('tyru/caw.vim', s:base_cond ? {} : s:plug_disable)
       let g:caw_no_default_keymappings = 1
+      let g:caw_dollarpos_ignore_syngroup = 1
+      let g:caw_hatpos_ignore_syngroup = 1
+      let g:caw_wrap_ignore_syngroup = 1
     Plug 'Shougo/context_filetype.vim'
       let g:context_filetype#same_filetypes = {
       \ 'postcss': 'css',
