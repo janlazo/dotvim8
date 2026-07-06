@@ -23,6 +23,9 @@ set shortmess+=F
 if has('patch-8.1.1270') && has('patch-8.1.1375')
   set shortmess-=S
 endif
+if has('patch-9.1.1535')
+  set maxsearchcount=999
+endif
 
 " Keys
 set autoindent backspace=2 nrformats-=octal
