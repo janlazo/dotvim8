@@ -652,7 +652,7 @@ if has('autocmd') && has('modify_fname')
 
     " {{{plug-core
     let s:base_cond = v:version >= 800 && has('syntax') && has('reltime')
-    call plug#('andymass/vim-matchup', s:base_cond ? {'tag': 'v0.7.4'} : s:plug_disable)
+    call plug#('andymass/vim-matchup', s:base_cond ? {} : s:plug_disable)
     if s:base_cond
       let g:loaded_matchit = 1
       let g:matchup_delim_stopline = 9999
@@ -764,7 +764,6 @@ if has('autocmd') && has('modify_fname')
     Plug 'lifepillar/pgsql.vim'
       let g:sql_type_default = 'pgsql'
     Plug 'TysonAndre/php-vim-syntax'
-    Plug 'OrangeT/vim-csharp'
     Plug 'rust-lang/rust.vim'
     Plug 'vim-jp/vim-cpp'
     Plug 'udalov/kotlin-vim'
@@ -784,7 +783,7 @@ if has('autocmd') && has('modify_fname')
     \ )) && executable('node') && executable('npm')
     let s:base_config = {
     \ 'branch': 'release',
-    \ 'commit': 'f0ce9ae23d6ce9d0cbabe73bdb738e45accc6f08'
+    "\ 'commit': 'f0ce9ae23d6ce9d0cbabe73bdb738e45accc6f08'
     \ }
     call plug#('neoclide/coc.nvim', s:base_cond ? s:base_config : s:plug_disable)
     if s:base_cond
